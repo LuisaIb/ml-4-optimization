@@ -1,0 +1,114 @@
+---
+title: "Machine Learning Project"
+author: "Hammerer, Ibele, Janez, Romer, Steinwender"
+date: "2023-07-29"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Machine Learning Project
+
+Goal of the project is to find a model that learns two or three of the BBOB Ground-Truth-Functions and compare the model function and the Ground-Truth-Function regarding the optimization.
+
+## requirements
+
+```{r}
+require(smoof)
+require(ggplot2)
+```
+
+## loading the functions
+
+```{r}
+set.seed(1)
+plotf <- function(f,lower,upper,vectorized=FALSE){
+  x <- seq(from=lower[1],to=upper[1],length.out=100)
+  y <- seq(from=lower[2],to=upper[2],length.out=100)
+  df <-  expand.grid(x = x, y = y)
+  if(vectorized)
+    z <- f(df)
+  else
+    z <- apply(df,1,f)
+  #z <- log10(z-min(z)+1)
+  df$z <- z
+  p <- ggplot(df, aes(x, y, z=z))
+  p <- p + geom_contour_filled()
+  #p <- p + geom_raster(aes(fill=z))
+  #p <- p + scale_fill_gradientn(values=c(min(z), median(z), max(z)), colours=c("red","white","blue"))
+  p
+}
+
+loadFunction <- function(num) {
+  f <- makeBBOBFunction(2,num,1)
+  return(f)
+}
+
+plotFunction <- function(f){
+  plotf(f,getLowerBoxConstraints(f),getUpperBoxConstraints(f))
+}
+
+
+f1 <- loadFunction(1)
+f2 <- loadFunction(3)
+f3 <- loadFunction(23)
+f4 <- loadFunction(24)
+
+
+
+plotFunction(f1)
+plotFunction(f2)
+plotFunction(f3)
+plotFunction(f4)
+
+```
+
+## generating the data
+
+It is not clear how many data points are needed. There must be enough data points to generate a model that is able to fit the data good enough but not too many data points to slow down the algorithm.
+The data can be generated randomly or with the help of a model.
+
+
+```{r}
+generateDataPointsX <- function(n = 50, lower = c(-5, -5), upper = c(5, 5)){
+  x <- cbind(runif(n,lower[1],upper[1]),runif(n,lower[2],upper[2]))
+  return(x)
+}
+
+generateDataPointsY <- function(x, f){
+  y <- f(x)
+  return(y)
+}
+
+plotDataPoints <- function(x, y){
+  df <- data.frame(x=x1,y=y1)
+  ggplot(data=df,aes(x=x.1,y=x.2,colour=y)) +
+    geom_point()
+}
+
+x1 <- generateDataPointsX(lower = getLowerBoxConstraints(f1), upper = getUpperBoxConstraints(f1))
+y1 <- generateDataPointsY(x1, f1)
+
+plotDataPoints(x1, y1)
+
+
+```
+
+
+## creating the model
+
+
+
+```{r}
+
+```
+
+
+
+## optimization
+
+```{r}
+
+```
