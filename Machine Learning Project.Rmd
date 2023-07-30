@@ -2,7 +2,9 @@
 title: "Machine Learning Project"
 author: "Hammerer, Ibele, Janez, Romer, Steinwender"
 date: "2023-07-29"
-output: pdf_document
+output:
+  ioslides_presentation: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -18,13 +20,14 @@ Goal of the project is to find a model that learns two or three of the BBOB Grou
 ```{r}
 require(smoof)
 require(ggplot2)
+require(keras)
 ```
 
 ## loading the functions
 
 ```{r}
 set.seed(1)
-plotf <- function(f,lower,upper,vectorized=FALSE){
+plotFunction <- function(f,lower,upper,vectorized=FALSE){
   x <- seq(from=lower[1],to=upper[1],length.out=100)
   y <- seq(from=lower[2],to=upper[2],length.out=100)
   df <-  expand.grid(x = x, y = y)
@@ -41,35 +44,29 @@ plotf <- function(f,lower,upper,vectorized=FALSE){
   p
 }
 
-loadFunction <- function(num) {
-  f <- makeBBOBFunction(2,num,1)
+loadFunction <- function(num, dim=2) {
+  f <- makeBBOBFunction(dim,num,1)
   return(f)
 }
 
-plotFunction <- function(f){
-  plotf(f,getLowerBoxConstraints(f),getUpperBoxConstraints(f))
-}
 
-
-f1 <- loadFunction(1)
-f2 <- loadFunction(3)
-f3 <- loadFunction(23)
-f4 <- loadFunction(24)
+f1 <- loadFunction(num=1)
+f2 <- loadFunction(num=3)
+f3 <- loadFunction(num=23)
+f4 <- loadFunction(num=24)
 
 
 
-plotFunction(f1)
-plotFunction(f2)
-plotFunction(f3)
-plotFunction(f4)
+plotFunction(f1,getLowerBoxConstraints(f1),getUpperBoxConstraints(f1))
+plotFunction(f2,getLowerBoxConstraints(f2),getUpperBoxConstraints(f2))
+plotFunction(f3,getLowerBoxConstraints(f3),getUpperBoxConstraints(f3))
+plotFunction(f4,getLowerBoxConstraints(f4),getUpperBoxConstraints(f4))
 
 ```
 
 ## generating the data
 
-It is not clear how many data points are needed. There must be enough data points to generate a model that is able to fit the data good enough but not too many data points to slow down the algorithm.
-The data can be generated randomly or with the help of a model.
-
+It is not clear how many data points are needed. There must be enough data points to generate a model that is able to fit the data good enough but not too many data points to slow down the algorithm. The data can be generated randomly or with the help of a model.
 
 ```{r}
 generateDataPointsX <- function(n = 50, lower = c(-5, -5), upper = c(5, 5)){
@@ -96,16 +93,11 @@ plotDataPoints(x1, y1)
 
 ```
 
-
 ## creating the model
-
-
 
 ```{r}
 
 ```
-
-
 
 ## optimization
 
