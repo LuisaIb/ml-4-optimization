@@ -87,10 +87,12 @@ plotDataPoints <- function(df){
     scale_colour_gradientn(colours=rainbow(4))
 }
 
-dfF1 <- generateDataPoints(n = 100, f = f1)
-dfF2 <- generateDataPoints(n = 50, f = f1)
+dfF1 <- generateDataPoints(n = 1000, f = f1)
+dfF2 <- generateDataPoints(n = 100, f = f1)
 
 plotDataPoints(dfF1)
+
+plotDataPoints(dfF2)
 
 
 ```
@@ -109,18 +111,20 @@ if (tensorflow::tf$executing_eagerly())
 ```{r}
 
 # Parameters
-batch_size <- 100L
+batch_size <- 64L  #64
 input_dim <- 3L  # Dimension of the input data
-latent_dim <- 2L
-intermediate_dim <- 256L
-epochs <- 50L
+latent_dim <- 5L
+intermediate_dim <- 1024L
+epochs <- 100L
 epsilon_std <- 1.0
 
 # Model definition
 x <- layer_input(shape = c(input_dim))
 h <- layer_dense(x, intermediate_dim, activation = "relu")
-z_mean <- layer_dense(h, latent_dim)
-z_log_var <- layer_dense(h, latent_dim)
+i <- layer_dense(h, intermediate_dim, activation = "relu")
+#j <- layer_dense(i, intermediate_dim, activation = "relu")
+z_mean <- layer_dense(i, latent_dim)
+z_log_var <- layer_dense(i, latent_dim)
 
 sampling <- function(arg) {
   z_mean <- arg[, 1:(latent_dim)]
@@ -159,8 +163,8 @@ generator <- keras_model(decoder_input, x_decoded_mean_2)
 
 vae_loss <- function(x, x_decoded_mean) {
   mse_loss <- loss_mean_squared_error(x, x_decoded_mean)  # Use Mean Absolute Error for regression
-  kl_loss <- -0.5 * k_mean(1 + z_log_var - k_square(z_mean) - k_exp(z_log_var), axis = -1L)
-  mse_loss + kl_loss
+  #kl_loss <- -0.5 * k_mean(1 + z_log_var - k_square(z_mean) - k_exp(z_log_var), axis = -1L)
+  mse_loss #+ kl_loss
 }
 
 vae %>% compile(optimizer = "adam", loss = vae_loss)
@@ -169,8 +173,6 @@ vae %>% compile(optimizer = "adam", loss = vae_loss)
 # Assuming you have your custom data (x_data, y_data, z_data) and target values (target_values)
 
 # Combine the x, y, z data to form the complete input data
-dfF1 <- dfF1
-dfF2 <- dfF1
 input_data <- cbind(dfF1$x, dfF1$y, dfF1$z)
 test_data <- cbind(dfF2$x, dfF2$y, dfF2$z)
 
@@ -189,58 +191,57 @@ vae %>% fit(
   validation_data = list(test_data, test_data)
 )
 
+
+```
+
+
+```{r}
+
 # Visualizations (Optional, for 2D latent space visualization)
 # You may need to modify this part according to your specific regression task.
 
 # Plot the 2D latent space
 x_test_encoded <- predict(encoder, input_data, batch_size = batch_size)
+x_test_decoded <- predict(generator, x_test_encoded, batch_size = batch_size)
 
+
+x_test_encoded
 
 library(ggplot2)
 library(dplyr)
 
-x_test_encoded %>%
-  as_data_frame() %>% 
-  ggplot(aes(x = V1, y = V2)) + geom_point()
+#x_test_encoded %>%
+#  as_data_frame() %>% 
+#  ggplot(aes(x = V1, y = V2)) + geom_point()
 
 
 # Access the training and test losses from the history object
-train_loss <- history$metrics$loss
-test_loss <- history$metrics$val_loss
+#train_loss <- history$metrics$loss
+#test_loss <- history$metrics$val_loss
 
 # Print the training and test losses for each epoch
-for (epoch in 1:epochs) {
-  print(paste("Epoch:", epoch, "Training Loss:", train_loss[[epoch]], "Test Loss:", test_loss[[epoch]]))
-}
+#for (epoch in 1:epochs) {
+#  print(paste("Epoch:", epoch, "Training Loss:", train_loss[[epoch]], "Test Loss:", #test_loss[[epoch]]))
+#}
 
 
 # Display a 2D manifold of the reconstructed data
-n <- 15  # figure with 15x15 data points
-x_range <- range(input_data[, "x"])
-y_range <- range(input_data[, "y"])
-z_range <- range(input_data[, "z"])
-
-# Generate grid points for latent space
-grid_x <- seq(x_range[1], x_range[2], length.out = n)
-grid_y <- seq(y_range[1], y_range[2], length.out = n)
-grid_z <- seq(z_range[1], z_range[2], length.out = n)
-
-rows <- NULL
-for (i in 1:length(grid_x)) {
-  column <- NULL
-  for (j in 1:length(grid_y)) {
-    for (k in 1:length(grid_z)) {
-      z_sample <- matrix(c(grid_x[i], grid_y[j], grid_z[k]), ncol = 3)
-      column <- rbind(column, predict(generator, z_sample) %>% matrix(ncol = input_dim))
-    }
-  }
-  rows <- cbind(rows, column)
-}
-rows %>% as.data.frame() %>% plot()
-
+#rows <- NULL
+#for (i in 1:length(grid_x)) {
+#  column <- NULL
+#  for (j in 1:length(grid_y)) {
+#    for (k in 1:length(grid_z)) {
+#      z_sample <- matrix(c(grid_x[i], grid_y[j], grid_z[k]), ncol = 3)
+#      column <- rbind(column, predict(generator, z_sample) %>% matrix(ncol = input_dim))
+#    }
+#  }
+#  rows <- cbind(rows, column)
+#}
+#rows %>% as.data.frame() %>% plot()
 
 
 ```
+
 
 
 ## optimization

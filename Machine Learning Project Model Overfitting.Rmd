@@ -87,10 +87,12 @@ plotDataPoints <- function(df){
     scale_colour_gradientn(colours=rainbow(4))
 }
 
-dfF1 <- generateDataPoints(n = 100, f = f1)
-dfF2 <- generateDataPoints(n = 50, f = f1)
+dfF1 <- generateDataPoints(n = 500, f = f1)
+dfF2 <- generateDataPoints(n = 100, f = f1)
 
 plotDataPoints(dfF1)
+
+plotDataPoints(dfF2)
 
 
 ```
@@ -109,11 +111,11 @@ if (tensorflow::tf$executing_eagerly())
 ```{r}
 
 # Parameters
-batch_size <- 100L
+batch_size <- 512L
 input_dim <- 3L  # Dimension of the input data
 latent_dim <- 2L
-intermediate_dim <- 256L
-epochs <- 50L
+intermediate_dim <- 1024L
+epochs <- 1000L
 epsilon_std <- 1.0
 
 # Model definition
@@ -159,8 +161,8 @@ generator <- keras_model(decoder_input, x_decoded_mean_2)
 
 vae_loss <- function(x, x_decoded_mean) {
   mse_loss <- loss_mean_squared_error(x, x_decoded_mean)  # Use Mean Absolute Error for regression
-  kl_loss <- -0.5 * k_mean(1 + z_log_var - k_square(z_mean) - k_exp(z_log_var), axis = -1L)
-  mse_loss + kl_loss
+  #kl_loss <- -0.5 * k_mean(1 + z_log_var - k_square(z_mean) - k_exp(z_log_var), axis = -1L)
+  mse_loss #+ kl_loss
 }
 
 vae %>% compile(optimizer = "adam", loss = vae_loss)
@@ -169,8 +171,6 @@ vae %>% compile(optimizer = "adam", loss = vae_loss)
 # Assuming you have your custom data (x_data, y_data, z_data) and target values (target_values)
 
 # Combine the x, y, z data to form the complete input data
-dfF1 <- dfF1
-dfF2 <- dfF1
 input_data <- cbind(dfF1$x, dfF1$y, dfF1$z)
 test_data <- cbind(dfF2$x, dfF2$y, dfF2$z)
 
