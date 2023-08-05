@@ -96,3 +96,64 @@ LHC: BILD
 ## Phase 2 Modellentwicklung und Modellauswahl
 
 ### Variational Autoencoder
+Modelldefinition:
+- Der VAE besteht aus einem Encoder-Netzwerk und einem Decoder-Netzwerk.
+- Das Encoder-Netzwerk enthält mehrere Dense-Layer, die die Eingabedaten schrittweise in eine niedrigdimensionale Latent-Space-Repräsentation transformieren.
+- Das Decoder-Netzwerk ist das Gegenteil des Encoders und nimmt die Latent-Space-Repräsentation und rekonstruiert die ursprünglichen Eingabedaten.
+- Der Latent-Space hat eine vorgegebene Dimension (latent_dim), die im Code auf 2 festgelegt ist.
+- Die Latent-Space-Repräsentation wird durch den Mean (z_mean) und den Logarithmus der Varianz (z_log_var) definiert.
+
+Encoder:
+- Der erste Dense-Layer (h) hat intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um die nicht-linearen Eigenschaften der Daten zu erfassen.
+- Der zweite Dense-Layer (i) hat ebenfalls intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um weitere nicht-lineare Transformationen durchzuführen.
+- Die letzten beiden Dense-Layer (z_mean und z_log_var) haben jeweils latent_dim Neuronen, wobei latent_dim die gewünschte Dimension des Latent-Space ist. Der z_mean repräsentiert den Mean (Mittelwert) der Latent-Space-Repräsentation, während z_log_var den Logarithmus der Varianz der Latent-Space-Repräsentation darstellt.
+
+Decoder:
+- Der erste Dense-Layer (decoder_h) hat intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um nicht-lineare Transformationen durchzuführen.
+- Der zweite Dense-Layer (decoder_mean) hat input_dim Neuronen, wobei input_dim die Dimension der ursprünglichen Eingabedaten ist. Hier wird die lineare Aktivierungsfunktion verwendet, da der Decoder die ursprünglichen Eingabedaten rekonstruieren soll.
+
+Sampling-Funktion:
+- Es wird eine Sampling-Funktion verwendet, um die Latent-Space-Punkte zu generieren.
+- Diese Funktion nimmt den Mean (z_mean) und den Logarithmus der Varianz (z_log_var) als Eingabe.
+- Die Sampling-Funktion verwendet die "Reparameterization Trick", um die Latent-Space-Punkte zu generieren, indem sie einen Normalverteilten Zufallsvektor mit einer kleinen Varianz (mit Hilfe von epsilon_std) multipliziert und zum Mean addiert.
+
+Kompilierung des Modells:
+- Das gesamte VAE-Modell wird durch Verketten der Encoder- und Decoder-Netzwerke erstellt.
+- Das Modell wird mit dem VAE-Loss (vae_loss) kompiliert, der aus der Kombination von Mean Squared Error (MSE) und Kullback-Leibler (KL) Divergenz besteht. Der MSE misst den Rekonstruktionsfehler zwischen den ursprünglichen Eingabedaten und den rekonstruierten Daten. Die KL-Divergenz misst die Ähnlichkeit der Latent-Space-Repräsentation mit einer Standardnormalverteilung.
+
+Training des Modells:
+- Das VAE-Modell wird mit den Trainingsdaten (input_data) trainiert, die in der Variablen dfF1 im Code enthalten sind.
+- Es wird das Adam-Optimizer mit einer Lernrate von 0.0001 verwendet.
+- Das Training wird für eine bestimmte Anzahl von Epochen (epochs) und in Batches (batch_size) durchgeführt.
+- Das Modell wird auch mit den Testdaten (test_data) validiert, um die Modellleistung zu überwachen.
+
+--------------------------------------------------
+
+#### Performance
+Bewertung:
+
+--------------------------------------------------
+
+#### Modellfehler
+MSE + KL Divergence
+Bewertung: BILD
+
+--------------------------------------------------
+
+#### Output Format
+Bewertung: BILD Punkte, Skalierung, Wertebereich
+
+--------------------------------------------------
+
+#### Erzeugte Funktion
+Bewertung: BILD (Funktionsvergleich mit f1/f4 und der VAE Funktion)
+
+--------------------------------------------------
+
+Modellbewertung
++/-
+
+
+### DNN mit Regression
+
+
