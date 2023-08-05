@@ -192,33 +192,44 @@ Modellbewertung
 +/-
 
 
-### Simulation
 
+## Phase 3.1 Optimierung
+### Optimierfunktion 1
 
-
-
-
-### Optimierung
+#### Ereichung des Optimums
+Bewertung: BILD Ground Truth
 
 --------------------------------------------------
 
 #### Performance
+Bewertung: 
+
+--------------------------------------------------
+
+
+### Optimierfunktion 2
+#### Ereichung des Optimums
+Bewertung: BILD Ground Truth
+
+--------------------------------------------------
+
+#### Performance
+Bewertung: 
+
+--------------------------------------------------
+
+Optimierungsfunktionsbewertung
++/-
+
+
+
+## Phase 3.1 Simulation
+
+### Simulationsvergleiche
 Bewertung:
 
 --------------------------------------------------
 
-#### Modellfehler
-Eigene Verlustfunktion
-Bewertung: BILD
+### Gegebnüberstellung y und Error hinsichtlich Anzahl der Evaluationen
+Bewertung:
 
---------------------------------------------------
-
-#### Output Format
-Bewertung: BILD Punkte, Skalierung, Wertebereich
-
---------------------------------------------------
-
-#### Erzeugte Funktion
-Bewertung: BILD (Funktionsvergleich mit f1/f4 und der DNN Funktion)
-
---------------------------------------------------
