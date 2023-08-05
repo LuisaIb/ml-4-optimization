@@ -155,5 +155,70 @@ Modellbewertung
 
 
 ### DNN mit Regression
+Modelldefinition:
+- Das DNN (model) besteht aus mehreren Dense-Layern, die in einer sequenziellen Reihenfolge definiert sind.
+- Die Dense-Layer haben unterschiedliche Anzahlen von Neuronen und verwenden die ReLU-Aktivierungsfunktion, um die nicht-linearen Eigenschaften der Daten zu erfassen.
+- Die letzte Dense-Layer hat 1 Neuron und eine lineare Aktivierungsfunktion, da es sich um ein Regressionsproblem handelt und der Zielwert kontinuierlich ist.
+
+Kompilierung und Training des Modells:
+- Das Modell wird mit der benutzerdefinierten Loss-Funktion (custom_loss) und dem Adam-Optimizer mit einer Lernrate von 0.001 kompiliert.
+- Das Modell wird auf den Trainingsdaten (X_train und y_train) für 100 Epochen trainiert.
+- Während des Trainings werden die Vorhersageleistung auf den Trainings- und Testdaten mit evaluate() ausgewertet.
+
+--------------------------------------------------
+
+#### Performance
+Bewertung:
+
+--------------------------------------------------
+
+#### Modellfehler
+Eigene Verlustfunktion
+Bewertung: BILD
+
+--------------------------------------------------
+
+#### Output Format
+Bewertung: BILD Punkte, Skalierung, Wertebereich
+
+--------------------------------------------------
+
+#### Erzeugte Funktion
+Bewertung: BILD (Funktionsvergleich mit f1/f4 und der DNN Funktion)
+
+--------------------------------------------------
+
+Modellbewertung
++/-
 
 
+### Simulation
+
+
+
+
+
+### Optimierung
+
+--------------------------------------------------
+
+#### Performance
+Bewertung:
+
+--------------------------------------------------
+
+#### Modellfehler
+Eigene Verlustfunktion
+Bewertung: BILD
+
+--------------------------------------------------
+
+#### Output Format
+Bewertung: BILD Punkte, Skalierung, Wertebereich
+
+--------------------------------------------------
+
+#### Erzeugte Funktion
+Bewertung: BILD (Funktionsvergleich mit f1/f4 und der DNN Funktion)
+
+--------------------------------------------------
