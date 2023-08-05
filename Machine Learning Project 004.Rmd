@@ -1,0 +1,297 @@
+---
+title: "Machine Learning Project"
+author: "Hammerer, Ibele, Janez, Romer, Steinwender"
+date: "2023-07-29"
+output:
+  ioslides_presentation: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Machine Learning Project
+
+Goal of the project is to find a model that learns two or three of the BBOB Ground-Truth-Functions and compare the model function and the Ground-Truth-Function regarding the optimization.
+
+## requirements
+
+```{r}
+require(smoof)
+require(ggplot2)
+require(keras)
+```
+
+## loading the functions
+
+```{r}
+set.seed(1)
+plotFunction <- function(f,lower,upper,vectorized=FALSE){
+  x <- seq(from=lower[1],to=upper[1],length.out=100)
+  y <- seq(from=lower[2],to=upper[2],length.out=100)
+  df <-  expand.grid(x = x, y = y)
+  if(vectorized)
+    z <- f(df)
+  else
+    z <- apply(df,1,f)
+  #z <- log10(z-min(z)+1)
+  df$z <- z
+  p <- ggplot(df, aes(x, y, z=z))
+  p <- p + geom_contour_filled()
+  #p <- p + geom_raster(aes(fill=z))
+  #p <- p + scale_fill_gradientn(values=c(min(z), median(z), max(z)), colours=c("red","white","blue"))
+  p
+}
+
+loadFunction <- function(num, dim=2) {
+  f <- makeBBOBFunction(dim,num,1)
+  return(f)
+}
+
+
+f1 <- loadFunction(num=1)
+f2 <- loadFunction(num=3)
+f3 <- loadFunction(num=23)
+f4 <- loadFunction(num=24)
+
+
+
+plotFunction(f1,getLowerBoxConstraints(f1),getUpperBoxConstraints(f1))
+plotFunction(f2,getLowerBoxConstraints(f2),getUpperBoxConstraints(f2))
+plotFunction(f3,getLowerBoxConstraints(f3),getUpperBoxConstraints(f3))
+plotFunction(f4,getLowerBoxConstraints(f4),getUpperBoxConstraints(f4))
+
+```
+
+## generating the data
+
+It is not clear how many data points are needed. There must be enough data points to generate a model that is able to fit the data good enough but not too many data points to slow down the algorithm. The data can be generated randomly or with the help of a model.
+
+```{r}
+generateDataPoints <- function(n = 50, f){
+  ftest <- f #selected instance for plotting / testing
+  lower <- getLowerBoxConstraints(ftest)
+  upper <- getUpperBoxConstraints(ftest)
+  x <- runif(n,lower[1],upper[1])
+  y <- runif(n,lower[2],upper[2])
+  df <-  data.frame(x = x, y = y)
+  df$z <- apply(df,1,ftest)
+  return(df)
+}
+
+
+plotDataPoints <- function(df){
+  ggplot(data=df,aes(x=x,y=y,colour=z)) +
+    geom_point() +
+    scale_colour_gradientn(colours=rainbow(4))
+}
+
+dfF1 <- generateDataPoints(n = 1000, f = f1)
+dfF2 <- generateDataPoints(n = 100, f = f1)
+
+plotDataPoints(dfF1)
+
+plotDataPoints(dfF2)
+
+
+```
+
+```{r}
+dfF1
+```
+
+
+## creating the model
+
+```{r}
+
+if (tensorflow::tf$executing_eagerly())
+  tensorflow::tf$compat$v1$disable_eager_execution()
+
+```
+
+
+```{r}
+
+# Parameters
+batch_size <- 64L  #64
+input_dim <- 3L  # Dimension of the input data
+latent_dim <- 2L
+intermediate_dim <- 1024L
+epochs <- 100L
+epsilon_std <- 1.0
+
+# Model definition
+# input layer; defining shape of input
+x <- layer_input(shape = c(input_dim))
+
+# dense layer, amount of neurons is the number of variable intermediate_dim, activation function is relu
+h <- layer_dense(x, intermediate_dim, activation = "relu")
+
+# dense layer, amount of neurons is the number of variable intermediate_dim, activation function is relu
+i <- layer_dense(h, intermediate_dim, activation = "relu")
+
+# dense layer, amount of neurons is the number of variable latent_dim
+z_mean <- layer_dense(i, latent_dim)
+
+# dense layer, amount of neurons is the number of variable latent_dim
+z_log_var <- layer_dense(i, latent_dim)
+
+
+# function that 
+sampling <- function(arg) {
+  # z_mean filled with all rows and columns 1 til 5 from input data arg
+  z_mean <- arg[, 1:(latent_dim)]
+  
+  # z_log_var filled with all rows and columns 6 bis 10 from input data arg
+  z_log_var <- arg[, (latent_dim + 1):(2 * latent_dim)]
+  
+  # epsilon filled with normalization function
+  epsilon <- k_random_normal(
+    shape = c(k_shape(z_mean)[[1]]), 
+    mean = 0.,
+    stddev = epsilon_std
+  )
+  
+  # return value
+  z_mean + k_exp(z_log_var/2) * epsilon
+}
+
+# note that "output_shape" isn't necessary with the TensorFlow backend
+# combining the layers z_mean and z_log_war
+# using sampling method in the lambda layer
+z <- layer_concatenate(list(z_mean, z_log_var)) %>% 
+  layer_lambda(sampling)
+
+# we instantiate these layers separately so as to reuse them later
+# dense layer, amount of neurons is the number of variable intermediate_dim, activation function is relu
+decoder_h <- layer_dense(units = intermediate_dim, activation = "relu")
+
+# Use 'linear' activation for regression
+decoder_mean <- layer_dense(units = input_dim, activation = "linear") 
+
+# layer decoder_h used on layer z
+h_decoded <- decoder_h(z)
+
+# layer decoder_mean used on layer h_decoded
+x_decoded_mean <- decoder_mean(h_decoded)
+
+
+# end-to-end autoencoder
+vae <- keras_model(x, x_decoded_mean)
+
+# encoder, from inputs to latent space
+encoder <- keras_model(x, z_mean)
+
+# generator, from latent space to reconstructed inputs
+# input layer with shape of latent_dim
+decoder_input <- layer_input(shape = latent_dim)
+
+# using layer decoder_input
+h_decoded_2 <- decoder_h(decoder_input)
+x_decoded_mean_2 <- decoder_mean(h_decoded_2)
+generator <- keras_model(decoder_input, x_decoded_mean_2)
+
+vae_loss <- function(x, x_decoded_mean) {
+  # Use Mean Squared Error for regression
+  mse_loss <- loss_mean_squared_error(x, x_decoded_mean)  
+  kl_loss <- -0.5 * k_mean(1 + z_log_var - k_square(z_mean) - k_exp(z_log_var), axis = -1L)
+  mse_loss + kl_loss
+}
+
+vae %>% compile(optimizer=optimizer_adam(lr = 0.0001), loss = vae_loss, )
+
+# Custom Data preparation
+# Assuming you have your custom data (x_data, y_data, z_data) and target values (target_values)
+
+# Combine the x, y, z data to form the complete input data
+input_data <- cbind(dfF1$x, dfF1$y, dfF1$z)
+test_data <- cbind(dfF2$x, dfF2$y, dfF2$z)
+
+#target_values <- dfF1$z
+
+
+# Normalize the input data (optional but recommended for better convergence)
+#input_data <- scale(input_data)
+
+#input_data <- scale(input_data, center = TRUE, scale = TRUE)
+
+
+# Model training
+vae %>% fit(
+  input_data, input_data,  # Use your custom input data and target values
+  shuffle = TRUE, 
+  epochs = epochs, 
+  batch_size = batch_size,
+  validation_data = list(test_data, test_data)
+)
+
+
+```
+
+
+```{r}
+
+# Visualizations (Optional, for 2D latent space visualization)
+# You may need to modify this part according to your specific regression task.
+
+# Plot the 2D latent space
+x_test_encoded <- predict(encoder, input_data, batch_size = batch_size)
+x_test_decoded <- predict(generator, x_test_encoded, batch_size = batch_size)
+
+x_test_decoded
+
+
+# Speichere die Mittelwerte und Standardabweichungen der Eingabedaten
+input_mean <- attr(input_data, "scaled:center")
+input_sd <- attr(input_data, "scaled:scale")
+
+# Wende die umgekehrte Normalisierung auf die dekodierten Daten an
+x_test_decoded_original <- x_test_decoded * input_sd + input_mean
+
+#x_test_decoded_original
+
+
+library(ggplot2)
+library(dplyr)
+
+#x_test_encoded %>%
+#  as_data_frame() %>% 
+#  ggplot(aes(x = V1, y = V2)) + geom_point()
+
+
+# Access the training and test losses from the history object
+#train_loss <- history$metrics$loss
+#test_loss <- history$metrics$val_loss
+
+# Print the training and test losses for each epoch
+#for (epoch in 1:epochs) {
+#  print(paste("Epoch:", epoch, "Training Loss:", train_loss[[epoch]], "Test Loss:", #test_loss[[epoch]]))
+#}
+
+
+# Display a 2D manifold of the reconstructed data
+#rows <- NULL
+#for (i in 1:length(grid_x)) {
+#  column <- NULL
+#  for (j in 1:length(grid_y)) {
+#    for (k in 1:length(grid_z)) {
+#      z_sample <- matrix(c(grid_x[i], grid_y[j], grid_z[k]), ncol = 3)
+#      column <- rbind(column, predict(generator, z_sample) %>% matrix(ncol = input_dim))
+#    }
+#  }
+#  rows <- cbind(rows, column)
+#}
+#rows %>% as.data.frame() %>% plot()
+
+
+```
+
+
+
+## optimization
+
+```{r}
+
+```

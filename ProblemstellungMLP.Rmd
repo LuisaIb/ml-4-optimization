@@ -1,0 +1,463 @@
+---
+title: "Aufgabenstellung zum Teilmodul: Machine Learning Project"
+author: "Martin Zaefferer"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Organisatorisches
+
+## Art der Prüfung
+- Projektarbeit in Gruppen (max. 6 Gruppen, je 4-5 Personen)
+- Projektbericht / Code
+- mit Präsentation
+
+## Details, Prüfungsumfang {.smaller}
+- Vollständige Dokumentation des Projektes
+    - Gedruckte Abgabe 
+        - Abgabe im Sekretariat Data Science
+        - Mit unterschriebener Selbstständigkeitserklärung aller Gruppenmitglieder
+        - Deckblatt mit den üblichen Informationen für wissenschaftliche Arbeiten
+        - 1 gedrucktes Exemplar reicht
+    - Digital als PDF 
+        - Via Moodle, Gruppenabgabe
+        - PDF bitte unverschlüsselt, maschinenlesbar
+    - Beigabe von ausführbarem Code (Digital: lauffähige Code-Dateien in einem Zip-File)
+    - Textumfang: 3.5 bis 4.5 Seiten **pro Person** (Titel, Code, Bilder, Tabellen, Literaturverzeichnis etc. zählen nicht dazu)
+- Kurzpräsentation Arbeitsstand
+    - Alle Gruppenmitglieder präsentieren
+    - ca. 1 Minute **pro Person**
+    - Keine Folien notwendig (aber möglich)
+- Finale Präsentation
+    - Alle Gruppenmitglieder präsentieren
+    - 4 bis 6.5 Minuten **pro Person**
+    - Abgabe der Folien (PDF) im Moodle, Markierung wer welche Folie vorträgt
+- Wichtig: Präsentationen sind Prüfungen (d.h., Attest o.ä. notwendig bei Abwesenheit)
+
+    
+## Zeitplan {.smaller}
+- Wahl der Gruppe im Moodle: Bis **Mo 24.07.23**
+- Kurzpräsentation des Arbeitsstands: **Do 10.08.23**
+- Abgabe der Präsentationsfolien für finale Präsentation: **Do 07.09.23**
+- Finale Präsentation: **Do 08.09.23**
+- Abgabe des Projektberichtes + Code (digital als PDF / Zip-Datei): **Mi 20.09.23**
+- Abgabe des Projektberichtes + Code (gedruckt): **Mo 25.09.23**
+
+## Bewertungskriterien {.smaller}
+
+- Dokumentation: (ca. 66%)
+    - Struktur, Erfassung des Themas (Strukturierung der Arbeit, Problemverständnis)
+    - Inhalt
+        - Plausibilität aus Sicht des Anwendungsproblems
+        - Korrekte Umsetzung, Auswertung / Bewertung / Darstellung der Ergebnisse
+        - Originalität / Eigene Ideen
+    - Formelle Aspekte (äußere Form, Rechtschreibung, prägnante Beschreibung, Lesbarkeit von Abbildungen, etc.)
+    - Wissenschaftlichkeit (insbes. richtiger Umgang mit Quellen / Referenzen / Material Dritter, verdeutlichen was eigene Ideen und was Ideen Dritter sind
+    - Ergänzendes Material / Code
+        - Reproduzierbarkeit von Ergebnissen
+        - Lesbarkeit (zumindest grundlegende Kommentierung)
+- Sinnvolle Präsentation eines Zwischenstands: (ca. 10%)
+    - +/- Entscheidung 
+    - Aktueller Stand, keine fertigen Ergebnisse. Auch offene Fragen / Probleme können vorgestellt werden. 
+- Güte der Präsentation der finalen Ergebnisse: (ca. 23%)
+    - Guter/freier Vortrag, formelle Qualität der Folien, inhaltliche Qualität 
+
+# Projekt
+
+## Motivation
+
+Bei der Entwicklung von Algorithmen benötigen wir **Tests**,
+um zu bewerten, wie gut ein Algorithmus funktioniert.
+Beim klassischen maschinellen Lernen implizieren diese **Tests** die Verwendung von **Testdaten**, 
+bzw. meist statische Datensätzen zur Bewertung der Modelle.
+Allerdings arbeiten nicht alle Algorithmen mit statischen Datensätzen.
+Stattdessen arbeiten einige Algorithmen mit **Funktionen** oder **Verteilungen**.
+
+Ein Beispiel hierfür sind Optimierungsalgorithmen. 
+Um zu testen, wie gut Optimierungsalgorithmen bei einem Problem abschneiden, 
+müssen wir die Algorithmen auf eine oder mehrere **Testfunktionen** anwenden 
+(d.h., eine Zielfunktion, die durch den Algorithmus gelöst werden soll).
+
+Diese **Testfunktion** sollte natürlich so nah wie möglich an der Realität sein, 
+d.h. einer vielleicht unbekannten **Ground-Truth-Funktion** entsprechen, 
+welche das in der Realität zu optimierende/lösende Problem darstellt.
+Das heißt, wenn sich ein Algorithmus auf eine bestimmten Weise für diese **Testfunktion** verhält, 
+sollte er sich bei der **Ground-Truth-Funktion** ähnlich verhalten.
+
+Es gibt natürlich auch weitere Anforderungen an **Testfunktionen**, wie zum Beispiel: 
+- Difficulty: Die **Testfunktionen** sollten weder zu leicht noch zu schwer zu lösen sein.
+- Costs: Niedrige Kosten für die Auswertung der Funktionen beschleunigen die Experimente.
+- Diversity: Wir sind in der Regel nicht an einer einzigen festgelegten Zielfunktion interessiert, 
+sondern an einer ganzen **Klasse** von unterschiedlichen Zielfunktionen.
+- Flexibility:  **Testfunktionen** sollten auch in der Lage sein, 
+verschiedene **Klassen** von Zielfunktionen zu reflektieren.
+- Transparency: Bekannte Lage/Werte globaler Optima und bekannte Funktionsmerkmale 
+(Modalität, Stochastizität usw.) sind hilfreich für die Analyse der Ergebnisse
+
+(Weitere Informationen und andere Kriterien, die relevant sein können, finden Sie in den bereitgestellten Dokumenten und in der Literatur).
+
+In der Praxis ist es oft schwierig, vernünftige **Testfunktionen** bereitzustellen, 
+die die **Ground-Truth-Funktionen** hinreichend genau nachbilden:
+
+- **Ground-Truth-Funktionen** sind (noch) nicht verfügbar (früh in der Entwicklungsphase eines Anwendungsproblems)
+- **Ground-Truth-Funktionen** sind teuer in der Auswertung (z. B. erfordern sie aufwändige Laborexperimente) und schränken somit die Experimentiermöglichkeiten ein
+- **Ground-Truth-Funktionen** sind vertraulich und dürfen der Forschungsgemeinschaft nicht zugänglich gemacht werden
+
+Eine Lösung für diese Probleme besteht darin, Daten aus einem realen Prozess zu sammeln
+und diese dann mit einem Machine Learning Algorithmus zu modellieren.
+Die Vorhersage des resultierenden Modells kann als **Testfunktion** verwendet werden.
+
+Dabei treten jedoch Probleme auf:
+- Klassische Fehlermaße neigen dazu, "glatte" Modelle zu bevorzugen.
+Dies führt zu einer Verzerrung der Leistungsbewertung zugunsten weniger komplexer Optimierungsalgorithmen,
+weil glatte Funktionen leichter zu lösen sind.
+- Für umfassende Tests kann es sinnvoll sein, zusätzliche **Instanzen** der
+der jeweiligen **Testfunktionen** erzeugen, um sicherzustellen, dass der Testprozess nicht auf eine einzige Funktionsinstanz spezialisiert ist. 
+Dies kann helfen, Algorithmen zu entwickeln, 
+die für eine **Klasse** (oder Menge) von Problemen geeignet sind und nicht nur für eine einzige Instanz eines Problems.
+Es ist aber nicht direkt offensichtlich, wie eine Modellvorhersage in verschiedene Instanzen zu teilen ist.
+
+
+## Aufgabenstellung
+- Versuchen Sie mit Algorithmen / Modellen der künstlichen Intelligenz bzw. Machine Learning
+Testfunktionen für Optimierungsalgorithmen zu erzeugen.
+- Schwerpunkt ist die begründete Wahl eines geeigneten Vorgehens / Modells und darauf folgend die praktische Umsetzung / Untersuchung
+- Prüfen Sie in einem empirischen Versuch, wie gut die gewählten Modelle die Problemstellung lösen
+- Verwenden Sie als synthetische **Ground-Truth-Funktion** die BBOB function suite.
+    - Siehe auch COCO: http://numbbo.github.io/coco/shortintro
+    - R code: https://cran.r-project.org/package=smoof
+    - Python code: https://pypi.org/project/BBOBtorch/ (oder https://github.com/numbbo/coco)
+- Sie müssen nicht alle BBOB functions nutzen, z.B. reicht eine Einschränkung auf die unten gezeigten Funktionen f1, f2, und f4 (BBOB-instances 1, 3 und 24)
+
+# Demonstration
+
+Einige Details zur folgenden Demonstration werden in der Literatur im Moodle-Kurs
+etwas näher erläutert (zaefferer2017a.pdf, zaefferer2020b.pdf, rehb21a.pdf).
+
+Es wird für ein bestimmtes Vorgehen bzw. Modell (Gauß-Prozess Simulation) demonstriert,
+wie eine praktische Untersuchung zu dieser Aufgabenstellung grob aussehen könnte.
+
+## Ground-truth: BBOB functions
+
+```{r}
+set.seed(1)
+plotf <- function(f,lower,upper,vectorized=FALSE){
+  x <- seq(from=lower[1],to=upper[1],length.out=100)
+  y <- seq(from=lower[2],to=upper[2],length.out=100)
+  df <-  expand.grid(x = x, y = y)
+  if(vectorized)
+    z <- f(df)
+  else
+    z <- apply(df,1,f)
+  #z <- log10(z-min(z)+1)
+  df$z <- z
+  p <- ggplot(df, aes(x, y, z=z))
+  p <- p + geom_contour_filled()
+  #p <- p + geom_raster(aes(fill=z))
+  #p <- p + scale_fill_gradientn(values=c(min(z), median(z), max(z)), colours=c("red","white","blue"))
+  p
+}
+```
+
+
+```{r}
+require(smoof)
+require(ggplot2)
+f1 <- makeBBOBFunction(2,1,1)
+plotf(f1,getLowerBoxConstraints(f1),getUpperBoxConstraints(f1))
+f2 <- makeBBOBFunction(2,3,1)
+plotf(f2,getLowerBoxConstraints(f2),getUpperBoxConstraints(f2))
+f3 <- makeBBOBFunction(2,23,1)
+plotf(f3,getLowerBoxConstraints(f3),getUpperBoxConstraints(f3))
+f4 <- makeBBOBFunction(2,24,1)
+plotf(f4,getLowerBoxConstraints(f4),getUpperBoxConstraints(f4))
+```
+
+## Modell: Gaussian Process ('Estimation')
+
+Estimation bedeutet in diesem Zusammenhang, dass wir eine Testfunktion anstreben, 
+die den lokalisierten Fehler (mean squared error) minimiert.
+Dies entspricht also einem 'klassischen' Vorgehen in der Regression.
+Die erzeugte Funktion ist potenziell zu glatt.
+
+
+```{r}
+ftest <- f4 #selected instance for plotting / testing
+lower <- getLowerBoxConstraints(ftest)
+upper <- getUpperBoxConstraints(ftest)
+x <- runif(200,lower[1],upper[1])
+y <- runif(200,lower[2],upper[2])
+df <-  data.frame(x = x, y = y)
+df$z <- apply(df,1,ftest)
+```
+
+
+```{r}
+
+kernlab::gausspr(df[,-3],df[,3])
+
+```
+
+
+
+```{r}
+require(kernlab)
+fit <- kernlab::gausspr(df[,-3],df[,3])
+
+fpred <- function(x){
+  predict(fit, x)
+}
+
+plotf(fpred,lower,upper,vectorized=T)
+```
+
+Nochmal das selbe, mit anderer Modell-konfiguration und Implementation:
+
+```{r}
+## Das folgende auskommentieren um COBBS zu installieren.
+## Unter Windows wird hierfür "rtools" benötigt (Kompilierungstools für R)
+## siehe https://cran.r-project.org/bin/windows/Rtools/
+#install.packages("devtools")
+#devtools::install_github("martinzaefferer/COBBS")
+```
+
+
+
+
+```{r}
+
+## specify some model configuration
+mc  <- list(useLambda=F,thetaLower=1e-6,thetaUpper=1e12)
+
+## and some configuration details for the simulation
+cntrl <- list(modelControl=mc,
+              nsim=1,
+              seed=1,
+              method="spectral",
+              Ncos = 100,
+              conditionalSimulation=TRUE
+)
+
+
+
+
+fpred <- COBBS::generateCOBBS(as.matrix(df[,-3]), matrix(df[,3],,1), control = cntrl)
+plotf(fpred$estimation,lower,upper,vectorized=T)
+```
+
+Es ergibt sich eine deutlich andere Vorhersage, allerdings mit Bereichen in denen nicht viel passiert.
+Dies passt also auch nicht ganz zur Ground-Truth.
+
+## Modell: Gaussian Process ('Simulation')
+
+Im Gegensatz zu 'Estimation' können wir auch die Simulation eines Gauß-Prozesses durchführen.
+Dabei wird derselbe Modellierungsansatz verwendet, aber ein anderer Typ von 'Inferenz',
+der zwar einen größeren lokalen Fehler aufweist, aber eine bessere Annäherung an die Momente
+der Daten erlaubt. (d.h., es wird versucht, das "Verhalten" der Ground-Truth nachzubilden, 
+statt spezifische einzelne Werte abzubilden).
+
+```{r}
+plotf(fpred$simulation[[1]],lower,upper,vectorized=T)
+```
+
+## Modell: 2-Level Gaussian Process (Simulation)
+
+Die Simulation oben ist immer noch nicht ideal, da ihr die globale Struktur der Ground-Truth fehlt.
+Dies kann durch zwei verknüpfte Gauß-Prozesse besser abgebildet werden.
+
+```{r}
+plotf(f4,getLowerBoxConstraints(f4),getUpperBoxConstraints(f4))
+fit2 <- COBBS::gaussianProcessR2L(as.matrix(df[,-3]), matrix(df[,3],,1),
+                                  control = list(useLambda=F))
+sfun <- COBBS::simulateFunction(fit2,seed = 1,nsim=1,Ncos = 100,conditionalSimulation = T)
+plotf(sfun[[1]],lower,upper,vectorized=T)
+sfun <- COBBS::simulateFunction(fit2,seed = 1,nsim=3,Ncos = 100,conditionalSimulation = F)
+plotf(sfun[[1]],lower,upper,vectorized=T)
+plotf(sfun[[2]],lower,upper,vectorized=T)
+plotf(sfun[[3]],lower,upper,vectorized=T)
+```
+
+Die Conditional Simulation (zweiter Plot) sieht der Ground-Truth (erster Plot) schon deutlich ähnlicher.
+Die anderen Plots zeigen, dass wir auf diese Weise auch Variationen erzeugen können (siehe: Diversity Anforderung).
+Problem ist allerdings, dass diese Art der Verknüpfung zweier Gauß-prozesse möglicherweise
+eine Überanpassung an die Ground-Truth darstellt.
+Sollte die Ground-Truth deutlich glatter sein, kann dies z.B. zu Problemen führen.
+Ein weiteres Problem ist möglicherweise, dass die Ground-Truth gewisse Regelmäßigkeiten
+enthält, die in der Simulation nicht zu sehen sind.
+
+Beim betrachten dieser Grafiken könnte der Eindruck entstehen, dass wir im Grunde
+eine Aufgabenstellung aus der Bildererzeugung haben. Dem steht einerseits
+entgegen, dass auch Zielfunktionen mit mehr als nur 2 Dimensionen von Interesse sind.
+Noch wichtiger ist aber, dass wir tatsächlich Funktionen, und nicht Raster-Bilder
+benötigen. Für ein Raster-Bild ist es ausreichend, je nach Auflösung eine diskrete Zahl von Pixeln
+zu erzeugen. Testfunktionen für die Optimierung müssen (zumindest lokal)
+eine beliebig feine Auflösung erreichen, da Optimierungsalgorithmen mitunter
+extrem kleine Suchschritte ausführen.
+
+Damit ist es wichtig, zur Bewertung erzeugter Testfunktionen nicht nur
+Grafiken der Funktionen selbst zu betrachten, sondern auch echte Benchmarks mit 
+Optimierungsalgorithmen durchzuführen.
+
+## Benchmark mit Optimierungsalgorithmen
+
+Wir wollen also zeigen, dass die beobachteten Unterschiede durchaus relevant für Optimierungsbenchmarks sind.
+Die folgenden Graphen zeigen jeweils die Abweichung zwischen der *Performance*
+auf der Ground-Truth, in Vergleich zu der *Performance* von verschiedenen Modellen / Simulationen.
+
+```{r}
+require(COBBS)
+
+## generate some ground-truth via BBOB
+require(smoof)
+seed <- 1234
+fnbbob <- f4
+groundtruth <- function(x){
+  x=matrix(x,,2) 
+  apply(x,1,fnbbob)
+}
+lower = getLowerBoxConstraints(fnbbob)
+upper = getUpperBoxConstraints(fnbbob)
+dimension <- length(lower)
+set.seed(seed)
+
+## Log results from a single optimization run to generate training data.
+expr <- expression(
+  res <- DEinterface(fun = fnlog,lower=lower,upper=upper,control=list(funEvals=dimension*100,populationSize=dimension*20))
+)
+require(COBBS)
+resgt <- loggedExperiment(expr, groundtruth, 1,logx = TRUE)
+resgt <- resgt[1:(dimension*50),]
+x <- as.matrix(resgt[,c(4,5)]) # training data: features
+y <- as.matrix(resgt[,2,drop=F]) # training data: observations
+
+## generate model and test functions from the data
+cobbsResult <- generateCOBBS(x,y,cntrl)
+#cobbsResult$fit
+
+## also: 2-level model
+cobbsFit2 <- COBBS::gaussianProcessR2L(x, y, control = list(useLambda=F))
+cobbsResult2 <- COBBS::simulateFunction(cobbsFit2,seed = 1,nsim=1,Ncos = 100,conditionalSimulation = T)
+
+## prepare an expression that will be run during the experiments
+## here: DE
+require(nloptr)
+expr <- expression(
+  res <- DEinterface(fun = fnlog,lower=lower,upper=upper,control=list(funEvals=1000*dimension))
+)
+## run the experiments, with logging
+## with each objective function produced by COBBS
+
+resgt <- loggedExperiment(expr, groundtruth, 1:10,10)
+reses <- loggedExperiment(expr, cobbsResult$estimation, 1:10,10)
+ressi <- loggedExperiment(expr, cobbsResult$simulation[[1]], 1:10,10)
+ressi2L <- loggedExperiment(expr, cobbsResult2[[1]], 1:10,10)
+
+## plot results
+print(plotBenchmarkPerformance(list(resgt,reses,ressi,ressi2L),
+                    c("groundtruth","estimation","simulation","simulation-2L")))
+## plot error, comparing against groundtruth
+print(plotBenchmarkValidation(resgt,list(reses,ressi,ressi2L),
+                    c("estimation","simulation","simulation-2L")))
+```
+
+## Boxplot
+
+```{r}
+require(data.table)
+require(magrittr)
+require(dplyr)
+geterror <- function (groundtruth, data, names = NULL) 
+{
+    if (is.null(names)) 
+        names <- letters[1:length(data)]
+    df <- groundtruth[, c("it", "seed", "cy")]
+    for (i in 1:(length(data))) {
+        df <- merge(df, data[[i]][, c("it", "seed", "cy")], by = c("it", 
+            "seed"), all = TRUE)
+    }
+    df <- df[order(df$seed), ]
+    df <- data.frame(nafill(df, "locf"))
+    names(df) <- c("it", "seed", "groundtruth", names)
+    df[, -(1:2)] <- apply(df[, -(1:2)], 2, scale01)
+    nmserr <- paste(names, "err", sep = ".")
+    ddf <- NULL
+    for (i in 1:(length(data))) {
+        dftmp <- data.frame(it = df$it)
+        dftmp[[nmserr[i]]] <- abs(df$groundtruth - df[[names[i]]])
+        dftmp <- dftmp %>% group_by(.data$it) %>% summarise(upper = quantile(!!sym(nmserr[i]), 
+            probs = 0.75), lower = quantile(!!sym(nmserr[i]), 
+            probs = 0.25), med = median(!!sym(nmserr[i])))
+        dftmp$method = names[i]
+        ddf <- rbind(ddf, dftmp)
+    }
+    ddf
+}
+res <- geterror(resgt,list(reses,ressi,ressi2L),
+       c("estimation","simulation","simulation-2L"))
+res
+sum(subset(res,method=="estimation")$med)
+sum(subset(res,method=="simulation")$med)
+sum(subset(res,method=="simulation-2L")$med)
+par(mar=c(3,8,0.5,0.5))
+boxplot(med~method,data=res,las=1,horizontal=T,ylab="",xlab="median error")
+#mean((reses$cy-resgt$cy)^2)
+#mean((ressi$cy-resgt$cy)^2)
+#mean((ressi2L$cy-resgt$cy)^2)
+```
+
+
+<!-- ### Python -->
+
+<!-- Installing required libs  -->
+<!-- ```{python} -->
+<!-- !pip install torch -->
+<!-- !pip install bbobtorch -->
+<!-- ``` -->
+
+
+<!-- ```{python} -->
+<!-- import matplotlib.pyplot as plt -->
+<!-- import numpy as np -->
+<!-- import torch -->
+<!-- import bbobtorch -->
+
+<!-- x = torch.arange(-5,5, 0.01, dtype=torch.float32) -->
+<!-- grid = torch.stack(torch.meshgrid(x, x), -1) -->
+<!-- flat_grid = torch.reshape(grid, (-1,2)) -->
+<!-- xgrid, ygrid = np.meshgrid(x.numpy(), x.numpy()) -->
+
+<!-- fn = bbobtorch.create_f22(2, seed=42)  # two dimension with seed 42 -->
+<!-- results = fn(flat_grid) -->
+<!-- results_grid = torch.reshape(results, xgrid.shape) - fn.f_opt -->
+
+<!-- plt.figure(figsize=(6,6)) -->
+<!-- plt.pcolormesh(xgrid, ygrid, results_grid, cmap='inferno', shading='nearest') -->
+<!-- plt.scatter(*fn.x_opt.tolist()[::-1], marker='x', c='r') -->
+<!-- plt.show() -->
+<!-- ``` -->
+
+# Bewertung der Demo und Anregungen
+
+## Probleme der Demonstration
+- Funktioniert nicht so gut bei höherdimensionalen Funktionen
+- Der 2-Level-GP ist relativ aufwändig zu trainieren
+- Parametrisierung ist nicht immer einfach
+- Möglicherweise: Bias durch zu gute Übereinstimmung der Struktur von 2-Level-GP und Struktur der BBOB Funktionen
+
+## Mögliche andere Ansätze
+- Neuronale Netze mit generativen Ansätzen:
+    - z.B. Variational Autoencoders (VAE), Generative Adversarial Networks (GAN)
+    - Aber: Erzeugung von Funktionen, nicht Daten
+    - Siehe z.B. Literatur im Moodle für piVAE / priorVAE
+- Ensemble-Modelle
+    - Ziehen einzelner Ensemble-Teilnehmer (bzw. Untermengen)
+    - Hätte Ähnlichkeiten zur Gauß-Prozess-Simulation
+- Verwendung anderer Loss-Functions beim Training
+- Seien Sie gern kreativ
+
+Anmerkung: Auch negative Ergebnisse können gute Ergebnisse sein.
+

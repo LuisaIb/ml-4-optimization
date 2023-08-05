@@ -1,0 +1,377 @@
+---
+title: "Machine Learning Project"
+author: "Hammerer, Ibele, Janez, Romer, Steinwender"
+date: "2023-07-29"
+output:
+  ioslides_presentation: default
+  html_document: default
+---
+
+
+```{r}
+
+#library(reticulate)
+#x <- py_eval("1 + 1", convert = FALSE)
+#rstudioapi::restartSession()
+
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Machine Learning Project
+
+Goal of the project is to find a model that learns two or three of the BBOB Ground-Truth-Functions and compare the model function and the Ground-Truth-Function regarding the optimization.
+
+## requirements
+
+```{r}
+require(smoof)
+require(ggplot2)
+require(keras)
+require(SPOT)
+```
+
+
+## loading the functions
+
+```{r}
+set.seed(1)
+plotFunction <- function(f,lower,upper,vectorized=FALSE){
+  x <- seq(from=lower[1],to=upper[1],length.out=100)
+  y <- seq(from=lower[2],to=upper[2],length.out=100)
+  df <-  expand.grid(x = x, y = y)
+  if(vectorized)
+    z <- f(df)
+  else
+    z <- apply(df,1,f)
+  #z <- log10(z-min(z)+1)
+  df$z <- z
+  p <- ggplot(df, aes(x, y, z=z))
+  p <- p + geom_contour_filled()
+  #p <- p + geom_raster(aes(fill=z))
+  #p <- p + scale_fill_gradientn(values=c(min(z), median(z), max(z)), colours=c("red","white","blue"))
+  p
+}
+
+loadFunction <- function(num, dim=2) {
+  f <- makeBBOBFunction(dim,num,1)
+  return(f)
+}
+
+
+f1 <- loadFunction(num=1)
+f2 <- loadFunction(num=3)
+f3 <- loadFunction(num=23)
+f4 <- loadFunction(num=24)
+
+
+
+plotFunction(f1,getLowerBoxConstraints(f1),getUpperBoxConstraints(f1))
+plotFunction(f2,getLowerBoxConstraints(f2),getUpperBoxConstraints(f2))
+plotFunction(f3,getLowerBoxConstraints(f3),getUpperBoxConstraints(f3))
+plotFunction(f4,getLowerBoxConstraints(f4),getUpperBoxConstraints(f4))
+
+```
+
+## generating the data
+
+It is not clear how many data points are needed. There must be enough data points to generate a model that is able to fit the data good enough but not too many data points to slow down the algorithm. The data can be generated randomly or with the help of a model.
+
+```{r}
+generateDataPoints <- function(n = 50, f){
+  ftest <- f #selected instance for plotting / testing
+  lower <- getLowerBoxConstraints(ftest)
+  upper <- getUpperBoxConstraints(ftest)
+  x <- runif(n,lower[1],upper[1])
+  y <- runif(n,lower[2],upper[2])
+  df <-  data.frame(x = x, y = y)
+  df$z <- apply(df,1,ftest)
+  return(df)
+}
+
+
+plotDataPoints <- function(df){
+  ggplot(data=df,aes(x=x,y=y,colour=z)) +
+    geom_point() +
+    scale_colour_gradientn(colours=rainbow(4))
+}
+
+dfF1 <- generateDataPoints(n = 500, f = f1)
+dfF2 <- generateDataPoints(n = 100, f = f1)
+
+plotDataPoints(dfF1)
+
+plotDataPoints(dfF2)
+
+
+```
+
+```{r}
+dfF1
+```
+
+
+## creating the model
+
+```{r}
+
+if (tensorflow::tf$executing_eagerly())
+  tensorflow::tf$compat$v1$disable_eager_execution()
+
+```
+
+```{r}
+
+X_train <- cbind(dfF1$x, dfF1$y)
+y_train <- dfF1$z
+
+X_test <- cbind(dfF2$x, dfF2$y)
+y_test <- dfF2$z
+
+```
+
+
+
+
+```{r}
+
+getCondition <- function(y_true, y_pred) {
+  abs(y_true - y_pred) <= 5
+}
+
+#custom_loss <- function(y_true, y_pred) {
+#  weight_factor <- 0.1
+#  
+#  print("test")
+#  print(y_true)
+#  print(y_pred)
+#  
+#  y_true_num <- k_eval(y_true)
+#  y_pred_num <- k_eval(y_pred)
+#  
+#  print("test 2")
+#  
+#  print(y_true_num)
+#  print(y_pred_num)
+#
+#  condition <- abs(y_true_num - y_pred_num) <= 5
+#  
+#  if (condition) {
+#    true_error <- (y_true_num - y_pred_num) * weight_factor
+#    
+#  } else {
+#    true_error <- (y_true_num - y_pred_num)
+#  }
+#  
+#  mse <- mean(true_error^2)
+#  
+#  mse <- k_constant(array(mse), as.constant = TRUE)
+#  
+#  return(mse)
+#}
+
+custom_loss <- function(y_true, y_pred) {
+  # Implement your custom loss calculation here
+  # For example, you can use mean squared error with a weighting factor
+  weight_factor <- 0.001
+  mse <- mean((y_true - y_pred)^2)
+  weighted_mse <- mean((y_true - y_pred)^2 * (y_true^weight_factor))
+  return(weighted_mse)
+}
+
+
+# Create a Keras loss function from your custom function
+loss_function <- custom_loss
+
+model = keras_model_sequential() %>% 
+   layer_dense(units=64, activation="relu", input_shape=2) %>% 
+   layer_dense(units=64, activation="relu", input_shape=2) %>% 
+   layer_dense(units=64, activation="relu", input_shape=2) %>% 
+   layer_dense(units=32, activation = "relu") %>% 
+   layer_dense(units=1, activation="linear")
+ 
+model %>% compile(
+   loss = custom_loss,
+   optimizer =  "adam", 
+   metrics = list("mean_absolute_error")
+ )
+ 
+model %>% summary()
+
+
+
+```
+
+```{r}
+
+model %>% fit(X_train, y_train, epochs = 100,verbose = 0)
+
+scores = model %>% evaluate(X_train, y_train, verbose = 0)
+print(scores)
+
+scores = model %>% evaluate(X_test, y_test, verbose = 0)
+print(scores)
+
+
+```
+
+
+```{r}
+
+y_pred = model %>% predict(X_test)
+
+x_axes = seq(1:length(y_pred))
+plot(x_axes, y_test, type="l", col="red")
+lines(x_axes, y_pred, col="blue")
+legend("topleft", legend=c("y-original", "y-predicted"),
+        col=c("red", "blue"), lty=1,cex=0.8)
+
+```
+
+
+
+```{r}
+
+library(ggplot2)
+#library(reshape2)
+
+df <- data.frame(x1=dfF2$x, x2=dfF2$y, y=dfF2$z, y_pred); df
+
+
+plotDataPoints <- function(df, row){
+  ggplot(data=df,aes(x=x1,y=x2, colour=row)) +
+    geom_point() +
+    scale_colour_gradientn(colours=rainbow(4))
+}
+
+
+plotDataPoints(df, df$y)
+plotDataPoints(df, df$y_pred)
+
+
+
+
+```
+
+
+```{r}
+
+lower <- getLowerBoxConstraints(f1)
+upper <- getUpperBoxConstraints(f1)
+
+```
+
+
+```{r}
+x <- seq(from=lower[1],to=upper[1],length.out=100)
+y <- seq(from=lower[2],to=upper[2],length.out=100)
+
+
+
+df <-  expand.grid(x = x, y = y)
+
+x_pred <- cbind(df$x, df$y)
+
+z <- model %>% predict(x_pred)
+
+df$z <- z
+
+p <- ggplot(df, aes(x, y, z=z))
+p <- p + geom_contour_filled()
+
+#p <- p + geom_raster(aes(fill=z))
+#p <- p + scale_fill_gradientn(values=c(min(z), median(z), max(z)), colours=c("red","white","blue"))
+
+p
+
+
+```
+
+
+
+```{r}
+
+
+
+```
+
+
+
+```{r}
+
+
+
+```
+
+
+
+## optimization
+
+```{r}
+
+```
+
+CMA-ES
+
+```{r}
+
+cma_es <- function (x = NULL, fun, lower, upper, 
+                                 control = list(), ...) {
+  result <- cmaes::cma_es(par = runif(length(lower),lower,upper),
+                          fn=fun,lower = lower, upper=upper, ..., 
+                          control = list(
+                            funEvals = 100, 
+                            maxIter = 500, 
+                            budget = 50,
+                            sigma = 400,
+                            mu = 10,
+                            lambda = 50
+                          )
+                          )
+  list(
+    xbest = result$par, 
+    ybest = result$value, 
+    count = 0
+  )
+}
+```
+
+
+
+
+```{r}
+
+range(x_test_decoded[, 1])
+range(x_test_decoded[, 2])
+range(x_test_decoded[, 3])
+
+
+```
+
+
+
+
+
+```{r}
+x <- x_test_decoded[, 1:2]
+y_model <- x_test_decoded[, 3]
+
+
+df <-  data.frame(x = x_test_decoded[, 1], y = x_test_decoded[, 2])
+df$z <- apply(df,1,f1)
+
+y_function <- df$z 
+
+
+```
+
+
+```{r}
+model_cmaes <- buildKriging(x,matrix(y_function,,1),control=list(
+      algTheta=cma_es
+))
+
+```
