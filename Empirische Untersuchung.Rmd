@@ -67,6 +67,9 @@ Nachteile:
 - Statische Verteilung: LHS teilt den Parameterraum in gleichmäßige Intervalle auf und wählt jeweils eine Probe aus jedem Intervall. Dies kann dazu führen, dass die Verteilung der Proben statisch bleibt, was möglicherweise nicht ideal ist, wenn die Funktion f im Parameterraum nicht gleichmäßig ist.
 - Nicht ideal für multimodale Verteilungen: Wenn der Parameterraum multimodal ist und wichtige Bereiche mit unterschiedlicher Dichte oder Anzahl von Moden aufweist, kann LHS möglicherweise nicht die besten Ergebnisse liefern.
 
+Verwendete Methode:
+
+--------------------------------------------------
 
 Anzupassende Parameter:
 
@@ -88,3 +91,8 @@ RS: BILD
 GS: BILD
 
 LHC: BILD
+
+
+## Phase 2 Modellentwicklung und Modellauswahl
+
+### Variational Autoencoder
