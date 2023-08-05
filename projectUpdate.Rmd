@@ -2,3 +2,15 @@
 
 ## 31.07.2023 
 ### Agenda
+- Erzeugung der Datenpunkte mit Random Search
+- Laden der Funktionen und plotten der Funktionen
+- Aktueller Versuch: 2 Dimensionen, 1000 Datenpunkte (Training), 100 Datenpunkte (Test)
+- Erstes Modelltraining
+-> bisher keine zufriedenstellende Ergebnisse
+-> Ein Overfitting Modell
+
+
+ToDo:
+- Rücksprach Herr Zaefferer bezüglich: Normalisierung, VAE, Loss, Präsentation
+- Modell optimieren
+- Deconding Ergebnisse validieren
