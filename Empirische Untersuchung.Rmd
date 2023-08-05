@@ -66,3 +66,25 @@ Nachteile:
 - Keine Optimierungsgarantie: Obwohl LHS eine bessere Optimierung als Grid Search bietet, garantiert es nicht, dass die gefundenen Hyperparameterwerte die besten für das Modell sind. Es ist immer noch möglich, dass wichtige Hyperparameterkombinationen unentdeckt bleiben.
 - Statische Verteilung: LHS teilt den Parameterraum in gleichmäßige Intervalle auf und wählt jeweils eine Probe aus jedem Intervall. Dies kann dazu führen, dass die Verteilung der Proben statisch bleibt, was möglicherweise nicht ideal ist, wenn die Funktion f im Parameterraum nicht gleichmäßig ist.
 - Nicht ideal für multimodale Verteilungen: Wenn der Parameterraum multimodal ist und wichtige Bereiche mit unterschiedlicher Dichte oder Anzahl von Moden aufweist, kann LHS möglicherweise nicht die besten Ergebnisse liefern.
+
+
+Anzupassende Parameter:
+
+### Datenpunkte
+Versuchte Anzahl:
+
+Optimale Anzahl:
+
+
+### Dimensionen
+Funktion f1: Die Funktion f1 ist eine Benchmark-Funktion (Testfunktion) mit 2-dimensionalen Eingabedaten. Sie gehört zu den "BBOB" (Black-Box Optimization Benchmarking) Funktionen, die in der "smoof" Bibliothek enthalten sind. BBOB-Funktionen sind standardisierte Testfunktionen, die in der Optimierungsforschung verwendet werden, um Algorithmen für die globale Optimierung zu vergleichen und zu evaluieren. Die genaue mathematische Definition der f1-Funktion kann im Quellcode der "smoof" Bibliothek nachgesehen werden.
+
+Funktion f4: Die Funktion f4 ist ebenfalls eine Benchmark-Funktion mit 2-dimensionalen Eingabedaten aus der BBOB-Funktionsgruppe. Wie f1 gehört sie zu den standardisierten Testfunktionen, die in der Optimierungsforschung verwendet werden. Genauere Details zur mathematischen Definition der f4-Funktion können im Quellcode der "smoof" Bibliothek gefunden werden.
+
+
+### Bildvergleiche mit der Originalfunktion
+RS: BILD
+
+GS: BILD
+
+LHC: BILD
