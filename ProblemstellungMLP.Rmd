@@ -193,6 +193,17 @@ x <- runif(200,lower[1],upper[1])
 y <- runif(200,lower[2],upper[2])
 df <-  data.frame(x = x, y = y)
 df$z <- apply(df,1,ftest)
+
+
+plotDataPoints <- function(df){
+  ggplot(data=df,aes(x=x,y=y,colour=z)) +
+    geom_point() +
+    scale_colour_gradientn(colours=rainbow(4))
+}
+
+plotDataPoints(df)
+
+
 ```
 
 
@@ -243,9 +254,16 @@ cntrl <- list(modelControl=mc,
 )
 
 
-
-
+# generate COBBS generates an estimation and a simulation of the function
 fpred <- COBBS::generateCOBBS(as.matrix(df[,-3]), matrix(df[,3],,1), control = cntrl)
+
+as.matrix(df[,-3])
+matrix(df[,3])
+
+
+fpred$estimation
+
+# ploting the estimation
 plotf(fpred$estimation,lower,upper,vectorized=T)
 ```
 
@@ -261,6 +279,10 @@ der Daten erlaubt. (d.h., es wird versucht, das "Verhalten" der Ground-Truth nac
 statt spezifische einzelne Werte abzubilden).
 
 ```{r}
+
+fpred$simulation[[1]]
+
+# ploting the simulation of the function which is better than the estimation
 plotf(fpred$simulation[[1]],lower,upper,vectorized=T)
 ```
 
@@ -270,11 +292,22 @@ Die Simulation oben ist immer noch nicht ideal, da ihr die globale Struktur der 
 Dies kann durch zwei verknüpfte Gauß-Prozesse besser abgebildet werden.
 
 ```{r}
+# first plot is the plot of the actual ground truth function
 plotf(f4,getLowerBoxConstraints(f4),getUpperBoxConstraints(f4))
+
+# new model with different algorithm
 fit2 <- COBBS::gaussianProcessR2L(as.matrix(df[,-3]), matrix(df[,3],,1),
                                   control = list(useLambda=F))
+
+fit2
+
+# simulation on the new model
 sfun <- COBBS::simulateFunction(fit2,seed = 1,nsim=1,Ncos = 100,conditionalSimulation = T)
+
+# second plot shows the first function of the simulation - not much smoothing - overall quite good
 plotf(sfun[[1]],lower,upper,vectorized=T)
+
+# simulation that show variations of the function to fulfill the condition of variety
 sfun <- COBBS::simulateFunction(fit2,seed = 1,nsim=3,Ncos = 100,conditionalSimulation = F)
 plotf(sfun[[1]],lower,upper,vectorized=T)
 plotf(sfun[[2]],lower,upper,vectorized=T)
@@ -315,35 +348,81 @@ require(COBBS)
 require(smoof)
 seed <- 1234
 fnbbob <- f4
+
+#x
+
 groundtruth <- function(x){
   x=matrix(x,,2) 
   apply(x,1,fnbbob)
 }
+
+groundtruth(x)
+
 lower = getLowerBoxConstraints(fnbbob)
 upper = getUpperBoxConstraints(fnbbob)
 dimension <- length(lower)
 set.seed(seed)
 
+```
+
+```{r}
 ## Log results from a single optimization run to generate training data.
 expr <- expression(
   res <- DEinterface(fun = fnlog,lower=lower,upper=upper,control=list(funEvals=dimension*100,populationSize=dimension*20))
 )
+
+```
+
+
+```{r}
+expr
+
+```
+
+
+
+```{r}
+
 require(COBBS)
 resgt <- loggedExperiment(expr, groundtruth, 1,logx = TRUE)
+resgt
 resgt <- resgt[1:(dimension*50),]
+resgt
 x <- as.matrix(resgt[,c(4,5)]) # training data: features
+
+print(x)
+
 y <- as.matrix(resgt[,2,drop=F]) # training data: observations
 
-## generate model and test functions from the data
+print(y)
+
+```
+
+
+
+```{r}
+
+## generate model and test functions from the data -> generating a model / function
 cobbsResult <- generateCOBBS(x,y,cntrl)
-#cobbsResult$fit
+cobbsResult$fit
+
+```
+
+```{r}
 
 ## also: 2-level model
 cobbsFit2 <- COBBS::gaussianProcessR2L(x, y, control = list(useLambda=F))
 cobbsResult2 <- COBBS::simulateFunction(cobbsFit2,seed = 1,nsim=1,Ncos = 100,conditionalSimulation = T)
 
+# second plot shows the first function of the simulation - not much smoothing - overall quite good
+plotf(cobbsResult2[[1]],lower,upper,vectorized=T)
+
+
 ## prepare an expression that will be run during the experiments
 ## here: DE
+# DEinterface is used for minimization of a function that used the DEoptim algorithm
+# → Minimization for Differential Evolution
+# "interface" for the differential evolution → any other optimization algotirhm could be used
 require(nloptr)
 expr <- expression(
   res <- DEinterface(fun = fnlog,lower=lower,upper=upper,control=list(funEvals=1000*dimension))
@@ -351,14 +430,59 @@ expr <- expression(
 ## run the experiments, with logging
 ## with each objective function produced by COBBS
 
+# from the ground truth
 resgt <- loggedExperiment(expr, groundtruth, 1:10,10)
+resgt
+
+```
+
+
+
+```{r}
+
+# from the estimation of cobbs result
 reses <- loggedExperiment(expr, cobbsResult$estimation, 1:10,10)
+reses
+
+```
+
+
+
+```{r}
+
+# from the simulation of cobbs result
 ressi <- loggedExperiment(expr, cobbsResult$simulation[[1]], 1:10,10)
+ressi
+
+```
+
+
+
+
+```{r}
+
+# from the cobbs result 2 (which is a simulation)
+# cobbsResult2[[1]] is a landscape / enviroment
 ressi2L <- loggedExperiment(expr, cobbsResult2[[1]], 1:10,10)
+ressi2L
+
+```
+```{r}
+
+cobbsResult2[[1]]
+
+```
+
+
+
+
+```{r}
 
 ## plot results
 print(plotBenchmarkPerformance(list(resgt,reses,ressi,ressi2L),
                     c("groundtruth","estimation","simulation","simulation-2L")))
+
+
 ## plot error, comparing against groundtruth
 print(plotBenchmarkValidation(resgt,list(reses,ressi,ressi2L),
                     c("estimation","simulation","simulation-2L")))

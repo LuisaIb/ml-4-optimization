@@ -99,8 +99,8 @@ plotDataPoints <- function(df){
     scale_colour_gradientn(colours=rainbow(4))
 }
 
-dfF1 <- generateDataPoints(n = 500, f = f1)
-dfF2 <- generateDataPoints(n = 100, f = f1)
+dfF1 <- generateDataPoints(n = 200, f = f4)
+dfF2 <- generateDataPoints(n = 50, f = f4)
 
 plotDataPoints(dfF1)
 
@@ -187,14 +187,21 @@ custom_loss <- function(y_true, y_pred) {
 loss_function <- custom_loss
 
 model = keras_model_sequential() %>% 
-   layer_dense(units=64, activation="relu", input_shape=2) %>% 
+   layer_dense(units=128, activation="relu", input_shape=2) %>% 
+   layer_activation_leaky_relu() %>% 
+   layer_dense(units=32, input_shape=2) %>% 
+   layer_activation_leaky_relu() %>% 
+   layer_dense(units=128, input_shape=2) %>% 
+   layer_activation_leaky_relu() %>%
+   layer_dropout(rate=0.01) %>%
    layer_dense(units=64, activation="relu", input_shape=2) %>% 
    layer_dense(units=64, activation="relu", input_shape=2) %>% 
    layer_dense(units=32, activation = "relu") %>% 
+   layer_dropout(rate=0.001) %>% 
    layer_dense(units=1, activation="linear")
  
 model %>% compile(
-   loss = custom_loss,
+   loss = "mse",
    optimizer =  "adam", 
    metrics = list("mean_absolute_error")
  )
@@ -207,7 +214,7 @@ model %>% summary()
 
 ```{r}
 
-model %>% fit(X_train, y_train, epochs = 100,verbose = 0)
+model %>% fit(X_train, y_train, epochs = 150,verbose = 0)
 
 scores = model %>% evaluate(X_train, y_train, verbose = 0)
 print(scores)
@@ -217,6 +224,22 @@ print(scores)
 
 
 ```
+
+
+
+```{r}
+
+require(kernlab)
+fitted_gpr <- kernlab::gausspr(X_train,y_train)
+
+fpred <- function(X_test){
+  predict(fitted_gpr, X_test)
+}
+
+plotFunction(fpred,lower,upper,vectorized=T)
+```
+
+
 
 
 ```{r}
@@ -259,8 +282,8 @@ plotDataPoints(df, df$y_pred)
 
 ```{r}
 
-lower <- getLowerBoxConstraints(f1)
-upper <- getUpperBoxConstraints(f1)
+lower <- getLowerBoxConstraints(f4)
+upper <- getUpperBoxConstraints(f4)
 
 ```
 
@@ -314,29 +337,11 @@ p
 
 ```
 
-CMA-ES
+
 
 ```{r}
 
-cma_es <- function (x = NULL, fun, lower, upper, 
-                                 control = list(), ...) {
-  result <- cmaes::cma_es(par = runif(length(lower),lower,upper),
-                          fn=fun,lower = lower, upper=upper, ..., 
-                          control = list(
-                            funEvals = 100, 
-                            maxIter = 500, 
-                            budget = 50,
-                            sigma = 400,
-                            mu = 10,
-                            lambda = 50
-                          )
-                          )
-  list(
-    xbest = result$par, 
-    ybest = result$value, 
-    count = 0
-  )
-}
+
 ```
 
 
@@ -344,9 +349,7 @@ cma_es <- function (x = NULL, fun, lower, upper,
 
 ```{r}
 
-range(x_test_decoded[, 1])
-range(x_test_decoded[, 2])
-range(x_test_decoded[, 3])
+
 
 
 ```
@@ -356,22 +359,13 @@ range(x_test_decoded[, 3])
 
 
 ```{r}
-x <- x_test_decoded[, 1:2]
-y_model <- x_test_decoded[, 3]
 
-
-df <-  data.frame(x = x_test_decoded[, 1], y = x_test_decoded[, 2])
-df$z <- apply(df,1,f1)
-
-y_function <- df$z 
 
 
 ```
 
 
 ```{r}
-model_cmaes <- buildKriging(x,matrix(y_function,,1),control=list(
-      algTheta=cma_es
-))
+
 
 ```
