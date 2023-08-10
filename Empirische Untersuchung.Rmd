@@ -194,7 +194,7 @@ Modellbewertung
 
 
 ## Phase 3.1 Optimierung
-### Optimierfunktion 1
+### Optimierfunktion 1 - Gradientenbasiert
 
 #### Ereichung des Optimums
 Bewertung: BILD Ground Truth
@@ -207,7 +207,8 @@ Bewertung:
 --------------------------------------------------
 
 
-### Optimierfunktion 2
+### Optimierfunktion 2 - Uniform Random Search
+
 #### Ereichung des Optimums
 Bewertung: BILD Ground Truth
 
