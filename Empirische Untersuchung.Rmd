@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Phase 1 Datenerhebung
 Unterschiedliche Herangehensweisen zur Erstellung von Datenpunkten aus der Ground Truth Funktion:
 
-### Random Search 
+### Grid Sampling
 Vorteile:
 - Anpassungsfähigkeit: Die Funktion erlaubt es, die Anzahl der zu generierenden Datenpunkte n als Eingabeparameter anzugeben. Dadurch kann die Menge der generierten Daten leicht kontrolliert werden.
 - Flexibilität bei der Funktionswahl: Die Funktion akzeptiert eine beliebige Funktion f, die abhängig von den Koordinaten x und y den Wert z berechnet. Dadurch kann die Funktion generateDataPoints vielseitig für verschiedene Anwendungen eingesetzt werden, indem man unterschiedliche Funktionen f übergeben kann.
@@ -31,20 +31,20 @@ Nachteile:
 - Begrenzte Dimensionen: Die Funktion ist auf 2D-Datenpunkte beschränkt (x und y). Wenn du mehrdimensionale Datenpunkte generieren möchtest, müsstest du die Funktion entsprechend anpassen.
 
 
-### Grid Search
+### Grid Sampling
 Vorteile:
-- Exploration des Parameterraums: Grid Search ermöglicht eine umfassende Erkundung des Parameterraums, indem es eine vordefinierte Menge von Parameterkombinationen erstellt. Dadurch werden verschiedene Kombinationen von Hyperparametern ausprobiert, um diejenigen zu finden, die das Modell am besten optimieren.
-- Einfachheit und Einfachheit der Implementierung: Grid Search ist einfach zu implementieren und erfordert keine komplexen Optimierungsalgorithmen oder heuristische Ansätze. Es ist leicht verständlich und kann auch auf einfache Weise parallelisiert werden, um das Training zu beschleunigen.
-- Reproduzierbarkeit: Grid Search ist deterministisch und reproduzierbar, da es jeden Punkt im Parameterraum genau einmal besucht. Dadurch können die Ergebnisse einfach wiederholt werden.
-- Vergleichbarkeit: Durch die systematische Auswertung verschiedener Parameterkombinationen ermöglicht Grid Search einen direkten Vergleich der Leistung verschiedener Modelle unter den gleichen Bedingungen.
-- Geringe Anforderungen an die Datenmenge: Grid Search kann auch mit begrenzten Datenmengen durchgeführt werden, da es nicht auf große Datenmengen angewiesen ist, um eine aussagekräftige Optimierung durchzuführen.
+- Exploration des Parameterraums: Grid Sampling ermöglicht eine umfassende Erkundung des Parameterraums, indem es eine vordefinierte Menge von Parameterkombinationen erstellt. Dadurch werden verschiedene Kombinationen von Hyperparametern ausprobiert, um diejenigen zu finden, die das Modell am besten optimieren.
+- Einfachheit und Einfachheit der Implementierung: Grid Sampling ist einfach zu implementieren und erfordert keine komplexen Optimierungsalgorithmen oder heuristische Ansätze. Es ist leicht verständlich und kann auch auf einfache Weise parallelisiert werden, um das Training zu beschleunigen.
+- Reproduzierbarkeit: Grid Sampling ist deterministisch und reproduzierbar, da es jeden Punkt im Parameterraum genau einmal besucht. Dadurch können die Ergebnisse einfach wiederholt werden.
+- Vergleichbarkeit: Durch die systematische Auswertung verschiedener Parameterkombinationen ermöglicht Grid Sampling einen direkten Vergleich der Leistung verschiedener Modelle unter den gleichen Bedingungen.
+- Geringe Anforderungen an die Datenmenge: Grid Sampling kann auch mit begrenzten Datenmengen durchgeführt werden, da es nicht auf große Datenmengen angewiesen ist, um eine aussagekräftige Optimierung durchzuführen.
 
 Nachteile:
-- Hoher Rechenaufwand: Grid Search kann sehr zeitaufwändig sein, insbesondere bei großen Parameterräumen oder komplexen Modellen. Da es alle möglichen Kombinationen ausprobiert, steigt die Anzahl der Modelltrainings exponentiell mit der Anzahl der Hyperparameter und ihrer möglichen Werte.
-- Ineffizient bei großen Parameterräumen: Wenn der Parameterraum groß ist oder wenn die Hyperparameter viele mögliche Werte haben, kann Grid Search sehr ineffizient sein. Die meisten der Parameterkombinationen werden möglicherweise nicht zu einer wesentlichen Verbesserung des Modells führen, dennoch werden sie alle evaluiert.
-- Fehlende Berücksichtigung der Beziehungen zwischen Hyperparametern: Grid Search betrachtet jede Kombination von Hyperparametern unabhängig voneinander. Es berücksichtigt möglicherweise nicht, wie sich bestimmte Hyperparameterkombinationen gegenseitig beeinflussen oder welche Abhängigkeiten zwischen ihnen bestehen.
-- Overfitting des Hyperparameterraums: Wenn Grid Search auf derselben Datensatzpartition ausgeführt wird, die auch für die Modelloptimierung verwendet wird, besteht die Gefahr von Overfitting des Hyperparameterraums. Es kann sein, dass Grid Search zufällig die besten Hyperparameterkombinationen für diese spezielle Datensatzpartition findet, die jedoch möglicherweise nicht gut auf anderen Daten verallgemeinern.
-- Nicht geeignet für kontinuierliche Hyperparameter: Grid Search eignet sich am besten für diskrete Hyperparameter, bei denen die möglichen Werte aus einer festen Menge ausgewählt werden können. Für kontinuierliche Hyperparameter ist es nicht praktikabel, alle möglichen Werte im Parameterraum auszuprobieren.
+- Hoher Rechenaufwand: Grid Sampling kann sehr zeitaufwändig sein, insbesondere bei großen Parameterräumen oder komplexen Modellen. Da es alle möglichen Kombinationen ausprobiert, steigt die Anzahl der Modelltrainings exponentiell mit der Anzahl der Hyperparameter und ihrer möglichen Werte.
+- Ineffizient bei großen Parameterräumen: Wenn der Parameterraum groß ist oder wenn die Hyperparameter viele mögliche Werte haben, kann Grid Sampling sehr ineffizient sein. Die meisten der Parameterkombinationen werden möglicherweise nicht zu einer wesentlichen Verbesserung des Modells führen, dennoch werden sie alle evaluiert.
+- Fehlende Berücksichtigung der Beziehungen zwischen Hyperparametern: Grid Sampling betrachtet jede Kombination von Hyperparametern unabhängig voneinander. Es berücksichtigt möglicherweise nicht, wie sich bestimmte Hyperparameterkombinationen gegenseitig beeinflussen oder welche Abhängigkeiten zwischen ihnen bestehen.
+- Overfitting des Hyperparameterraums: Wenn Grid Sampling auf derselben Datensatzpartition ausgeführt wird, die auch für die Modelloptimierung verwendet wird, besteht die Gefahr von Overfitting des Hyperparameterraums. Es kann sein, dass Grid Search zufällig die besten Hyperparameterkombinationen für diese spezielle Datensatzpartition findet, die jedoch möglicherweise nicht gut auf anderen Daten verallgemeinern.
+- Nicht geeignet für kontinuierliche Hyperparameter: Grid Sampling eignet sich am besten für diskrete Hyperparameter, bei denen die möglichen Werte aus einer festen Menge ausgewählt werden können. Für kontinuierliche Hyperparameter ist es nicht praktikabel, alle möglichen Werte im Parameterraum auszuprobieren.
 - Fehlende Optimierung: Grid Search ist ein einfacher, nicht-optimierender Ansatz. Es garantiert nicht, dass die gefundenen Hyperparameter die besten für das Modell sind. Andere Optimierungsalgorithmen wie Random Search oder Bayesian Optimization können möglicherweise effizienter sein, um eine gute Kombination von Hyperparametern zu finden.
 
 
