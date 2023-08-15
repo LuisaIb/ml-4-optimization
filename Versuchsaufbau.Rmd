@@ -70,17 +70,6 @@ Nachteile:
 - Statische Verteilung: LHS teilt den Parameterraum in gleichmäßige Intervalle auf und wählt jeweils eine Probe aus jedem Intervall. Dies kann dazu führen, dass die Verteilung der Proben statisch bleibt, was möglicherweise nicht ideal ist, wenn die Funktion f im Parameterraum nicht gleichmäßig ist. 
 - Nicht ideal für multimodale Verteilungen: Wenn der Parameterraum multimodal ist und wichtige Bereiche mit unterschiedlicher Dichte oder Anzahl von Moden aufweist, kann LHS möglicherweise nicht die besten Ergebnisse liefern.
 
-Verwendete Methode: 
-
-------------------------------------------------------------------------
-
-Anzupassende Parameter:
-
-### Datenpunkte
-
-Versuchte Anzahl:
-
-Optimale Anzahl:
 
 ### Dimensionen
 
@@ -89,20 +78,8 @@ Funktion f1: Die Funktion f1 ist eine Benchmark-Funktion (Testfunktion) mit 2-di
 Funktion f4: Die Funktion f4 ist ebenfalls eine Benchmark-Funktion mit 2-dimensionalen Eingabedaten aus der BBOB-Funktionsgruppe. Wie f1 gehört sie zu den standardisierten Testfunktionen, die in der Optimierungsforschung verwendet werden. Genauere Details zur mathematischen Definition der f4-Funktion können im Quellcode der "smoof" Bibliothek gefunden werden.
 
 
+------------------------------------------------------------------------------------------------------------------
 
-### Bildvergleiche mit der Originalfunktion für f1 und f4 mit beispielhaften 200 Datenpunkten, Modell: Regression DNN
-Funktion 1:
-![Alt-Text](images/DataGeneration_F1_200Points_Grid)
-
-RS: BILD
-
-GS: BILD
-
-LHCS: BILD
-
-
-### Lessons Learned
-- 
 
 
 ## Phase 2 Modellentwicklung und Modellauswahl
@@ -140,37 +117,12 @@ Training des Modells:
 
 ------------------------------------------------------------------------
 
-#### Performance
-
-Bewertung:
-
-------------------------------------------------------------------------
-
-#### Modellfehler
-
-MSE + KL Divergence Bewertung: BILD
-
-------------------------------------------------------------------------
-
-#### Output Format
-
-Bewertung: BILD Punkte, Skalierung, Wertebereich
-
-------------------------------------------------------------------------
-
-#### Erzeugte Funktion
-
-Bewertung: BILD (Funktionsvergleich mit f1/f4 und der VAE Funktion)
-
-------------------------------------------------------------------------
-
-Modellbewertung +/-
 
 ### DNN mit Regression
 
 Modelldefinition: 
 - Das DNN besteht aus mehreren Dense-Layern, die in einer sequenziellen Reihenfolge definiert sind. 
-- Die Dense-Layer haben unterschiedliche Anzahlen von Neuronen und verwenden die ReLU-Aktivierungsfunktion, um die nicht-linearen Eigenschaften der Daten zu erfassen. #
+- Die Dense-Layer haben unterschiedliche Anzahlen von Neuronen und verwenden die ReLU-Aktivierungsfunktion, um die nicht-linearen Eigenschaften der Daten zu erfassen. 
 - Die letzte Dense-Layer hat 1 Neuron und eine lineare Aktivierungsfunktion, da es sich um ein Regressionsproblem handelt und der Zielwert kontinuierlich ist.
 
 Kompilierung und Training des Modells: 
@@ -180,31 +132,7 @@ Kompilierung und Training des Modells:
 
 ------------------------------------------------------------------------
 
-#### Performance
 
-Bewertung:
-
-------------------------------------------------------------------------
-
-#### Modellfehler
-
-Eigene Verlustfunktion Bewertung: BILD
-
-------------------------------------------------------------------------
-
-#### Output Format
-
-Bewertung: BILD Punkte, Skalierung, Wertebereich
-
-------------------------------------------------------------------------
-
-#### Erzeugte Funktion
-
-Bewertung: BILD (Funktionsvergleich mit f1/f4 und der DNN Funktion)
-
-------------------------------------------------------------------------
-
-Modellbewertung +/-
 
 ## Phase 3.1 Optimierung
 
@@ -212,41 +140,13 @@ Modellbewertung +/-
 
 #### Ereichung des Optimums
 
-Bewertung: BILD Ground Truth
 
-------------------------------------------------------------------------
-
-#### Performance
-
-Bewertung:
-
-------------------------------------------------------------------------
 
 
 ### Optimierfunktion 2 - Uniform Random Search
 
 #### Ereichung des Optimums
 
-Bewertung: BILD Ground Truth
 
-------------------------------------------------------------------------
 
-#### Performance
 
-Bewertung:
-
-------------------------------------------------------------------------
-
-Optimierungsfunktionsbewertung +/-
-
-## Phase 3.1 Simulation
-
-### Simulationsvergleiche
-
-Bewertung:
-
-------------------------------------------------------------------------
-
-### Gegebnüberstellung y und Error hinsichtlich Anzahl der Evaluationen
-
-Bewertung:
