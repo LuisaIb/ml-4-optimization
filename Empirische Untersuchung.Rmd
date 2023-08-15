@@ -167,12 +167,8 @@ Bewertung: BILD (Funktionsvergleich mit f1/f4 und der DNN Funktion)
 Modellbewertung +/-
 
 ## Phase 3.1 Optimierung
-<<<<<<< HEAD
 
-### Optimierfunktion 1
-=======
 ### Optimierfunktion 1 - Gradientenbasiert
->>>>>>> f58db05160fcfc7f2d9bd299deaf0b5ae238fbc6
 
 #### Ereichung des Optimums
 
@@ -186,11 +182,8 @@ Bewertung:
 
 ------------------------------------------------------------------------
 
-<<<<<<< HEAD
-### Optimierfunktion 2
-=======
+
 ### Optimierfunktion 2 - Uniform Random Search
->>>>>>> f58db05160fcfc7f2d9bd299deaf0b5ae238fbc6
 
 #### Ereichung des Optimums
 
