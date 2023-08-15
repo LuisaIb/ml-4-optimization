@@ -1,0 +1,172 @@
+---
+title: "Machine Learning Project"
+author: "Hammerer, Ibele, Janez, Romer, Steinwender"
+date: "2023-07-29"
+output:
+  ioslides_presentation: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## requirements
+
+```{r}
+require(smoof)
+require(ggplot2)
+require(keras)
+require(SPOT)
+require(pracma)
+require(lhs)
+```
+
+
+
+
+
+## loading the functions
+
+```{r}
+set.seed(1)
+
+loadFunction <- function(num, dim=2) {
+  f <- makeBBOBFunction(dim,num,1)
+  return(f)
+}
+
+
+plotFunction <- function(f,lower,upper,vectorized=FALSE){
+  x <- seq(from=lower[1],to=upper[1],length.out=100)
+  y <- seq(from=lower[2],to=upper[2],length.out=100)
+  df <-  expand.grid(x = x, y = y)
+  if(vectorized)
+    z <- f(df)
+  else
+    z <- apply(df,1,f)
+  #z <- log10(z-min(z)+1)
+  df$z <- z
+  p <- ggplot(df, aes(x, y, z=z))
+  p <- p + geom_contour_filled()
+  #p <- p + geom_raster(aes(fill=z))
+  #p <- p + scale_fill_gradientn(values=c(min(z), median(z), max(z)), colours=c("red","white","blue"))
+  p
+}
+
+```
+
+```{r}
+
+f1 <- loadFunction(num=1)
+f2 <- loadFunction(num=3)
+f3 <- loadFunction(num=23)
+f4 <- loadFunction(num=24)
+
+
+
+plotFunction(f1,getLowerBoxConstraints(f1),getUpperBoxConstraints(f1))
+plotFunction(f2,getLowerBoxConstraints(f2),getUpperBoxConstraints(f2))
+plotFunction(f3,getLowerBoxConstraints(f3),getUpperBoxConstraints(f3))
+plotFunction(f4,getLowerBoxConstraints(f4),getUpperBoxConstraints(f4))
+
+
+```
+
+## generating the data
+
+It is not clear how many data points are needed. There must be enough data points to generate a model that is able to fit the data good enough but not too many data points to slow down the algorithm. The data can be generated randomly or with the help of a model.
+
+```{r}
+
+generateRandom <- function(n = 50, lower, upper, dim = 2){
+  x <- runif(n,lower[1],upper[1])
+  for (i in 2:dim) {
+    x <- cbind(x, runif(n,lower[i],upper[i]))
+  }
+  x
+}
+
+
+generateGrid <- function(n = 50, lower, upper, dim = 2){
+  grid_elements <- round(pracma::nthroot(n, dim))
+  seq <- NULL
+  for (i in 1:dim) {
+    seq <- cbind(seq, seq(lower[i], upper[i], length.out=grid_elements))
+  }
+  if(dim == 2){
+    data <- expand.grid(x1 = seq[,1], x2 = seq[,2])
+  } else if(dim == 3){
+    data <- expand.grid(x1 = seq[,1], x2 = seq[,2], x1 = seq[,3])
+  } else if(dim == 4){
+    data <- expand.grid(x1 = seq[,1], x2 = seq[,2], x1 = seq[,3], x1 = seq[,4])
+  }
+  data
+}
+
+
+
+generateLHS <- function(n = 50, lower, upper, dim = 2){
+  x <- randomLHS(n, dim)
+  for(i in 1:dim){
+    x[,i] <- lower + (upper-lower)*x[,i]
+  }
+  x
+}
+
+
+generateDataPoints <- function(n = 50, f, dim = 2, method = "random"){
+  ftest <- f 
+  lower <- getLowerBoxConstraints(ftest)
+  upper <- getUpperBoxConstraints(ftest)
+  if (method == "random") {
+    x <- generateRandom(n = n, lower = lower, upper = upper, dim = dim)
+  } else if (method == "grid") {
+    x <- generateGrid(n = n, lower = lower, upper = upper, dim = dim)
+  } else if (method == "lhs") {
+    x <- generateLHS(n = n, lower = lower, upper = upper, dim = dim)
+  } else {
+    stop("wrong method - please choose 'random' or 'lhs'")
+  }
+  df <-  data.frame(x)
+  df$z <- apply(df,1,ftest)
+  return(df)
+}
+
+
+plot2DDataPoints <- function(df){
+  dfPlot <- data.frame(x=df[, 1],y=df[, 2],z=df[, 3])
+  ggplot(data=dfPlot,aes(x=x,y=y,colour=z)) +
+    geom_point() +
+    scale_colour_gradientn(colours=rainbow(4))
+}
+
+
+```
+
+```{r}
+
+df <- generateDataPoints(n = 200, f4, dim = 2, method = "random")
+
+plot2DDataPoints(df)
+
+
+df <- generateDataPoints(n = 200, f4, dim = 2, method = "grid")
+
+plot2DDataPoints(df)
+
+
+df <- generateDataPoints(n = 200, f4, dim = 2, method = "lhs")
+
+plot2DDataPoints(df)
+
+
+```
+
+```{r}
+
+
+
+
+
+```

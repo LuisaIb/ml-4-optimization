@@ -307,55 +307,251 @@ plotFunction(fpred_random,lower,upper,vectorized=T)
 
 
 
-```{r}
-
-
-
-```
-
-
-
-```{r}
-
-
-
-
-
-
-```
-
-
-```{r}
-
-
-
-```
-
-
-```{r}
-
-
-```
-
-
-
-```{r}
-
-
-
-```
-
-
-
-```{r}
-
-
-
-```
-
-
 
 ## optimization
+
+```{r}
+
+## specify some model configuration
+mc  <- list(useLambda=F,thetaLower=1e-6,thetaUpper=1e12)
+
+## and some configuration details for the simulation
+cntrl <- list(modelControl=mc,
+              nsim=1,
+              seed=1,
+              method="spectral",
+              Ncos = 100,
+              conditionalSimulation=TRUE
+)
+
+
+# generate COBBS generates an estimation and a simulation of the function
+#fpred <- COBBS::generateCOBBS(as.matrix(df[,-3]), matrix(df[,3],,1), control = cntrl)
+
+#as.matrix(df[,-3])
+#matrix(df[,3])
+
+
+#fpred$estimation
+
+# ploting the estimation
+#plotf(fpred$estimation,lower,upper,vectorized=T)
+```
+
+
+
+## Benchmark mit Optimierungsalgorithmen
+
+Wir wollen also zeigen, dass die beobachteten Unterschiede durchaus relevant für Optimierungsbenchmarks sind.
+Die folgenden Graphen zeigen jeweils die Abweichung zwischen der *Performance*
+auf der Ground-Truth, in Vergleich zu der *Performance* von verschiedenen Modellen / Simulationen.
+
+```{r}
+require(COBBS)
+
+## generate some ground-truth via BBOB
+require(smoof)
+seed <- 1234
+fnbbob <- f1
+
+#x
+
+groundtruth <- function(x){
+  x=matrix(x,,2) 
+  apply(x,1,fnbbob)
+}
+
+groundtruth(x)
+
+lower = getLowerBoxConstraints(fnbbob)
+upper = getUpperBoxConstraints(fnbbob)
+dimension <- length(lower)
+set.seed(seed)
+
+```
+
+```{r}
+## Log results from a single optimization run to generate training data.
+expr <- expression(
+  res <- DEinterface(fun = fnlog,lower=lower,upper=upper,control=list(funEvals=dimension*100,populationSize=dimension*20))
+)
+
+```
+
+
+```{r}
+expr
+
+```
+
+
+
+```{r}
+
+require(COBBS)
+resgt <- loggedExperiment(expr, groundtruth, 1,logx = TRUE)
+resgt
+resgt <- resgt[1:(dimension*50),]
+resgt
+x <- as.matrix(resgt[,c(4,5)]) # training data: features
+
+print(x)
+
+y <- as.matrix(resgt[,2,drop=F]) # training data: observations
+
+print(y)
+
+```
+
+
+
+```{r}
+
+## generate model and test functions from the data -> generating a model / function
+cobbsResult <- generateCOBBS(x,y,cntrl)
+cobbsResult$fit
+
+```
+
+
+
+
+
+
+```{r}
+
+## also: 2-level model
+#cobbsFit2 <- COBBS::gaussianProcessR2L(x, y, control = list(useLambda=F))
+#cobbsResult2 <- COBBS::simulateFunction(cobbsFit2,seed = 1,nsim=1,Ncos = 100,conditionalSimulation = #T)
+
+# second plot shows the first function of the simulation - not much smoothing - overall quite good
+#plotf(cobbsResult2[[1]],lower,upper,vectorized=T)
+
+
+## prepare an expression that will be run during the experiments
+## here: DE
+# DEinterface is used for minimization of a function that used the DEoptim algorithm
+# → Minimization for Differential Evolution
+# "interface" for the differential evolution → any other optimization algotirhm could be used
+require(nloptr)
+expr <- expression(
+  res <- DEinterface(fun = fnlog,lower=lower,upper=upper,control=list(funEvals=1000*dimension))
+)
+## run the experiments, with logging
+## with each objective function produced by COBBS
+
+# from the ground truth
+resgt <- loggedExperiment(expr, groundtruth, 1:10,10)
+resgt
+
+```
+
+
+
+```{r}
+
+cobbsResult$estimation
+
+```
+
+
+```{r}
+
+# from the estimation of cobbs result
+reses <- loggedExperiment(expr, cobbsResult$estimation, 1:10,10)
+reses
+
+```
+
+
+```{r}
+
+rnn_fun <- model_rnn_random$make_predict_function
+
+rnn_fun
+
+
+```
+
+
+```{r}
+
+# from the rnn  result
+resnn <- loggedExperiment(expr, model_rnn_random$predict, 1:10,10)
+resnn
+
+```
+
+
+
+
+
+
+
+```{r}
+
+## plot results
+print(plotBenchmarkPerformance(list(resgt,reses,ressi,ressi2L),
+                    c("groundtruth","estimation","simulation","simulation-2L")))
+
+
+## plot error, comparing against groundtruth
+print(plotBenchmarkValidation(resgt,list(reses,ressi,ressi2L),
+                    c("estimation","simulation","simulation-2L")))
+```
+
+## Boxplot
+
+```{r}
+require(data.table)
+require(magrittr)
+require(dplyr)
+geterror <- function (groundtruth, data, names = NULL) 
+{
+    if (is.null(names)) 
+        names <- letters[1:length(data)]
+    df <- groundtruth[, c("it", "seed", "cy")]
+    for (i in 1:(length(data))) {
+        df <- merge(df, data[[i]][, c("it", "seed", "cy")], by = c("it", 
+            "seed"), all = TRUE)
+    }
+    df <- df[order(df$seed), ]
+    df <- data.frame(nafill(df, "locf"))
+    names(df) <- c("it", "seed", "groundtruth", names)
+    df[, -(1:2)] <- apply(df[, -(1:2)], 2, scale01)
+    nmserr <- paste(names, "err", sep = ".")
+    ddf <- NULL
+    for (i in 1:(length(data))) {
+        dftmp <- data.frame(it = df$it)
+        dftmp[[nmserr[i]]] <- abs(df$groundtruth - df[[names[i]]])
+        dftmp <- dftmp %>% group_by(.data$it) %>% summarise(upper = quantile(!!sym(nmserr[i]), 
+            probs = 0.75), lower = quantile(!!sym(nmserr[i]), 
+            probs = 0.25), med = median(!!sym(nmserr[i])))
+        dftmp$method = names[i]
+        ddf <- rbind(ddf, dftmp)
+    }
+    ddf
+}
+res <- geterror(resgt,list(reses,ressi,ressi2L),
+       c("estimation","simulation","simulation-2L"))
+res
+sum(subset(res,method=="estimation")$med)
+sum(subset(res,method=="simulation")$med)
+sum(subset(res,method=="simulation-2L")$med)
+par(mar=c(3,8,0.5,0.5))
+boxplot(med~method,data=res,las=1,horizontal=T,ylab="",xlab="median error")
+#mean((reses$cy-resgt$cy)^2)
+#mean((ressi$cy-resgt$cy)^2)
+#mean((ressi2L$cy-resgt$cy)^2)
+```
+
+
+
+
+
+
+
+
 
 ```{r}
 

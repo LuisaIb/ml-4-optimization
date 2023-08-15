@@ -138,10 +138,6 @@ y_test <- dfF2$z
 
 ```{r}
 
-getCondition <- function(y_true, y_pred) {
-  abs(y_true - y_pred) <= 5
-}
-
 #custom_loss <- function(y_true, y_pred) {
 #  weight_factor <- 0.1
 #  
@@ -183,6 +179,7 @@ custom_loss <- function(y_true, y_pred) {
 }
 
 
+
 # Create a Keras loss function from your custom function
 loss_function <- custom_loss
 
@@ -201,7 +198,9 @@ model = keras_model_sequential() %>%
    layer_dense(units=1, activation="linear")
  
 model %>% compile(
-   loss = "mse",
+   #loss = loss_huber,
+   #loss = loss_cosine_similarity,
+   loss = loss_logcosh,
    optimizer =  "adam", 
    metrics = list("mean_absolute_error")
  )
