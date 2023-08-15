@@ -1,109 +1,41 @@
-Modell VAE
+# Bewertungsmatrix
 
+Jeder Versuch wieder seperat betrachtet
+Die Versuche werden auf Basis der Anzahl von Datenpunkten definiert
 
-#### Performance
 
-Bewertung:
+Grundparameter:
+Anzahl Datenpunkte
+Datenerhebungsstrategie
+Funktion
+Dimensionen
 
-------------------------------------------------------------------------
 
-#### Modellfehler
+Modelle und die Optimierung werden im Bezug auf die Grundparameter bewertet
 
-MSE + KL Divergence Bewertung: BILD
 
-------------------------------------------------------------------------
+## Modellbewertung
 
-#### Output Format
+- durchschnittlicher Trainingsloss
+- durchschnittlicher Testloss
 
-Bewertung: BILD Punkte, Skalierung, Wertebereich
+- (Visual) Loss Function Verlauf
 
-------------------------------------------------------------------------
+- (Visual) Generated Funciton vs. Original Function
 
-#### Erzeugte Funktion
+- Performance
 
-Bewertung: BILD (Funktionsvergleich mit f1/f4 und der VAE Funktion)
+- (Visual) Abteilung
 
-------------------------------------------------------------------------
 
-Modellbewertung +/-
+## Optimierung
 
+- (Visual) Optimum
 
+- Wert des Optimums
 
-Modell RNN
+- (Visual) Ground Truth vs. Optimierung
 
-#### Performance
+- Fehlervergleich
 
-Bewertung:
-
-------------------------------------------------------------------------
-
-#### Modellfehler
-
-Eigene Verlustfunktion Bewertung: BILD
-
-------------------------------------------------------------------------
-
-#### Output Format
-
-Bewertung: BILD Punkte, Skalierung, Wertebereich
-
-------------------------------------------------------------------------
-
-#### Erzeugte Funktion
-
-Bewertung: BILD (Funktionsvergleich mit f1/f4 und der DNN Funktion)
-
-------------------------------------------------------------------------
-
-Modellbewertung +/-
-
-
-o1
-
-Bewertung: BILD Ground Truth
-
-------------------------------------------------------------------------
-
-#### Performance
-
-Bewertung:
-
-------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-o2
-
-
-
-Bewertung: BILD Ground Truth
-
-------------------------------------------------------------------------
-
-#### Performance
-
-Bewertung:
-
-------------------------------------------------------------------------
-
-Optimierungsfunktionsbewertung +/-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- (Visual) Vergleich mit Simulation
