@@ -14,222 +14,171 @@ knitr::opts_chunk$set(echo = TRUE)
 # Investigation
 
 ## Phase 1 Datenerhebung
+
 Unterschiedliche Herangehensweisen zur Erstellung von Datenpunkten aus der Ground Truth Funktion:
 
-### Random Search 
-Vorteile:
-- Anpassungsfähigkeit: Die Funktion erlaubt es, die Anzahl der zu generierenden Datenpunkte n als Eingabeparameter anzugeben. Dadurch kann die Menge der generierten Daten leicht kontrolliert werden.
-- Flexibilität bei der Funktionswahl: Die Funktion akzeptiert eine beliebige Funktion f, die abhängig von den Koordinaten x und y den Wert z berechnet. Dadurch kann die Funktion generateDataPoints vielseitig für verschiedene Anwendungen eingesetzt werden, indem man unterschiedliche Funktionen f übergeben kann.
-- Zufällige Verteilung: Die Funktion runif() wird verwendet, um Zufallswerte für x und y zu generieren. Dadurch werden die Datenpunkte in einem zufälligen Bereich innerhalb der durch getLowerBoxConstraints(ftest) und getUpperBoxConstraints(ftest) definierten Box erzeugt. Dies kann hilfreich sein, um eine breitere Palette von Szenarien und Randbedingungen abzudecken.
-- Einfachheit: Die Funktion verwendet grundlegende R-Funktionen, wie runif() und apply(), um die Datenpunkte zu generieren und den Funktionswert z zu berechnen. Dies macht die Funktion einfach und leicht verständlich.
-- Geschwindigkeit: Die Funktion nutzt eingebaute R-Funktionen zur Generierung der Datenpunkte. Dadurch kann sie in der Regel effizient und schnell arbeiten, auch für größere Datenmengen.
+### Random Search
 
-Nachteile:
-- Begrenzte Datenerzeugung: Die Funktion generiert Datenpunkte, indem sie Zufallszahlen innerhalb einer definierten Box verwendet. Dies kann dazu führen, dass die Verteilung der generierten Daten nicht genau den tatsächlichen Daten entspricht. Die Daten könnten ungleichmäßig oder in bestimmten Bereichen dichter sein, was möglicherweise nicht die tatsächliche Verteilung der Daten in der realen Welt widerspiegelt.
-- Fixe Boxgrenzen: Die Funktion verwendet feste Grenzen (lower und upper) für die generierten Datenpunkte. Wenn die tatsächlichen Daten in einem anderen Bereich liegen oder sich die Verteilung im Laufe der Zeit ändert, könnten die generierten Datenpunkte möglicherweise nicht repräsentativ für das reale Szenario sein.
-- Zufälligkeit: Die Verwendung von Zufallszahlen zur Generierung der Datenpunkte kann dazu führen, dass bei jeder Ausführung der Funktion unterschiedliche Datenpunkte erzeugt werden. Dies kann die Reproduzierbarkeit von Experimenten oder Analysen erschweren.
-- Begrenzte Dimensionen: Die Funktion ist auf 2D-Datenpunkte beschränkt (x und y). Wenn du mehrdimensionale Datenpunkte generieren möchtest, müsstest du die Funktion entsprechend anpassen.
+Vorteile: - Anpassungsfähigkeit: Die Funktion erlaubt es, die Anzahl der zu generierenden Datenpunkte n als Eingabeparameter anzugeben. Dadurch kann die Menge der generierten Daten leicht kontrolliert werden. - Flexibilität bei der Funktionswahl: Die Funktion akzeptiert eine beliebige Funktion f, die abhängig von den Koordinaten x und y den Wert z berechnet. Dadurch kann die Funktion generateDataPoints vielseitig für verschiedene Anwendungen eingesetzt werden, indem man unterschiedliche Funktionen f übergeben kann. - Zufällige Verteilung: Die Funktion runif() wird verwendet, um Zufallswerte für x und y zu generieren. Dadurch werden die Datenpunkte in einem zufälligen Bereich innerhalb der durch getLowerBoxConstraints(ftest) und getUpperBoxConstraints(ftest) definierten Box erzeugt. Dies kann hilfreich sein, um eine breitere Palette von Szenarien und Randbedingungen abzudecken. - Einfachheit: Die Funktion verwendet grundlegende R-Funktionen, wie runif() und apply(), um die Datenpunkte zu generieren und den Funktionswert z zu berechnen. Dies macht die Funktion einfach und leicht verständlich. - Geschwindigkeit: Die Funktion nutzt eingebaute R-Funktionen zur Generierung der Datenpunkte. Dadurch kann sie in der Regel effizient und schnell arbeiten, auch für größere Datenmengen.
 
+Nachteile: - Begrenzte Datenerzeugung: Die Funktion generiert Datenpunkte, indem sie Zufallszahlen innerhalb einer definierten Box verwendet. Dies kann dazu führen, dass die Verteilung der generierten Daten nicht genau den tatsächlichen Daten entspricht. Die Daten könnten ungleichmäßig oder in bestimmten Bereichen dichter sein, was möglicherweise nicht die tatsächliche Verteilung der Daten in der realen Welt widerspiegelt. - Fixe Boxgrenzen: Die Funktion verwendet feste Grenzen (lower und upper) für die generierten Datenpunkte. Wenn die tatsächlichen Daten in einem anderen Bereich liegen oder sich die Verteilung im Laufe der Zeit ändert, könnten die generierten Datenpunkte möglicherweise nicht repräsentativ für das reale Szenario sein. - Zufälligkeit: Die Verwendung von Zufallszahlen zur Generierung der Datenpunkte kann dazu führen, dass bei jeder Ausführung der Funktion unterschiedliche Datenpunkte erzeugt werden. Dies kann die Reproduzierbarkeit von Experimenten oder Analysen erschweren. - Begrenzte Dimensionen: Die Funktion ist auf 2D-Datenpunkte beschränkt (x und y). Wenn du mehrdimensionale Datenpunkte generieren möchtest, müsstest du die Funktion entsprechend anpassen.
 
 ### Grid Search
-Vorteile:
-- Exploration des Parameterraums: Grid Search ermöglicht eine umfassende Erkundung des Parameterraums, indem es eine vordefinierte Menge von Parameterkombinationen erstellt. Dadurch werden verschiedene Kombinationen von Hyperparametern ausprobiert, um diejenigen zu finden, die das Modell am besten optimieren.
-- Einfachheit und Einfachheit der Implementierung: Grid Search ist einfach zu implementieren und erfordert keine komplexen Optimierungsalgorithmen oder heuristische Ansätze. Es ist leicht verständlich und kann auch auf einfache Weise parallelisiert werden, um das Training zu beschleunigen.
-- Reproduzierbarkeit: Grid Search ist deterministisch und reproduzierbar, da es jeden Punkt im Parameterraum genau einmal besucht. Dadurch können die Ergebnisse einfach wiederholt werden.
-- Vergleichbarkeit: Durch die systematische Auswertung verschiedener Parameterkombinationen ermöglicht Grid Search einen direkten Vergleich der Leistung verschiedener Modelle unter den gleichen Bedingungen.
-- Geringe Anforderungen an die Datenmenge: Grid Search kann auch mit begrenzten Datenmengen durchgeführt werden, da es nicht auf große Datenmengen angewiesen ist, um eine aussagekräftige Optimierung durchzuführen.
 
-Nachteile:
-- Hoher Rechenaufwand: Grid Search kann sehr zeitaufwändig sein, insbesondere bei großen Parameterräumen oder komplexen Modellen. Da es alle möglichen Kombinationen ausprobiert, steigt die Anzahl der Modelltrainings exponentiell mit der Anzahl der Hyperparameter und ihrer möglichen Werte.
-- Ineffizient bei großen Parameterräumen: Wenn der Parameterraum groß ist oder wenn die Hyperparameter viele mögliche Werte haben, kann Grid Search sehr ineffizient sein. Die meisten der Parameterkombinationen werden möglicherweise nicht zu einer wesentlichen Verbesserung des Modells führen, dennoch werden sie alle evaluiert.
-- Fehlende Berücksichtigung der Beziehungen zwischen Hyperparametern: Grid Search betrachtet jede Kombination von Hyperparametern unabhängig voneinander. Es berücksichtigt möglicherweise nicht, wie sich bestimmte Hyperparameterkombinationen gegenseitig beeinflussen oder welche Abhängigkeiten zwischen ihnen bestehen.
-- Overfitting des Hyperparameterraums: Wenn Grid Search auf derselben Datensatzpartition ausgeführt wird, die auch für die Modelloptimierung verwendet wird, besteht die Gefahr von Overfitting des Hyperparameterraums. Es kann sein, dass Grid Search zufällig die besten Hyperparameterkombinationen für diese spezielle Datensatzpartition findet, die jedoch möglicherweise nicht gut auf anderen Daten verallgemeinern.
-- Nicht geeignet für kontinuierliche Hyperparameter: Grid Search eignet sich am besten für diskrete Hyperparameter, bei denen die möglichen Werte aus einer festen Menge ausgewählt werden können. Für kontinuierliche Hyperparameter ist es nicht praktikabel, alle möglichen Werte im Parameterraum auszuprobieren.
-- Fehlende Optimierung: Grid Search ist ein einfacher, nicht-optimierender Ansatz. Es garantiert nicht, dass die gefundenen Hyperparameter die besten für das Modell sind. Andere Optimierungsalgorithmen wie Random Search oder Bayesian Optimization können möglicherweise effizienter sein, um eine gute Kombination von Hyperparametern zu finden.
+Vorteile: - Exploration des Parameterraums: Grid Search ermöglicht eine umfassende Erkundung des Parameterraums, indem es eine vordefinierte Menge von Parameterkombinationen erstellt. Dadurch werden verschiedene Kombinationen von Hyperparametern ausprobiert, um diejenigen zu finden, die das Modell am besten optimieren. - Einfachheit und Einfachheit der Implementierung: Grid Search ist einfach zu implementieren und erfordert keine komplexen Optimierungsalgorithmen oder heuristische Ansätze. Es ist leicht verständlich und kann auch auf einfache Weise parallelisiert werden, um das Training zu beschleunigen. - Reproduzierbarkeit: Grid Search ist deterministisch und reproduzierbar, da es jeden Punkt im Parameterraum genau einmal besucht. Dadurch können die Ergebnisse einfach wiederholt werden. - Vergleichbarkeit: Durch die systematische Auswertung verschiedener Parameterkombinationen ermöglicht Grid Search einen direkten Vergleich der Leistung verschiedener Modelle unter den gleichen Bedingungen. - Geringe Anforderungen an die Datenmenge: Grid Search kann auch mit begrenzten Datenmengen durchgeführt werden, da es nicht auf große Datenmengen angewiesen ist, um eine aussagekräftige Optimierung durchzuführen.
 
+Nachteile: - Hoher Rechenaufwand: Grid Search kann sehr zeitaufwändig sein, insbesondere bei großen Parameterräumen oder komplexen Modellen. Da es alle möglichen Kombinationen ausprobiert, steigt die Anzahl der Modelltrainings exponentiell mit der Anzahl der Hyperparameter und ihrer möglichen Werte. - Ineffizient bei großen Parameterräumen: Wenn der Parameterraum groß ist oder wenn die Hyperparameter viele mögliche Werte haben, kann Grid Search sehr ineffizient sein. Die meisten der Parameterkombinationen werden möglicherweise nicht zu einer wesentlichen Verbesserung des Modells führen, dennoch werden sie alle evaluiert. - Fehlende Berücksichtigung der Beziehungen zwischen Hyperparametern: Grid Search betrachtet jede Kombination von Hyperparametern unabhängig voneinander. Es berücksichtigt möglicherweise nicht, wie sich bestimmte Hyperparameterkombinationen gegenseitig beeinflussen oder welche Abhängigkeiten zwischen ihnen bestehen. - Overfitting des Hyperparameterraums: Wenn Grid Search auf derselben Datensatzpartition ausgeführt wird, die auch für die Modelloptimierung verwendet wird, besteht die Gefahr von Overfitting des Hyperparameterraums. Es kann sein, dass Grid Search zufällig die besten Hyperparameterkombinationen für diese spezielle Datensatzpartition findet, die jedoch möglicherweise nicht gut auf anderen Daten verallgemeinern. - Nicht geeignet für kontinuierliche Hyperparameter: Grid Search eignet sich am besten für diskrete Hyperparameter, bei denen die möglichen Werte aus einer festen Menge ausgewählt werden können. Für kontinuierliche Hyperparameter ist es nicht praktikabel, alle möglichen Werte im Parameterraum auszuprobieren. - Fehlende Optimierung: Grid Search ist ein einfacher, nicht-optimierender Ansatz. Es garantiert nicht, dass die gefundenen Hyperparameter die besten für das Modell sind. Andere Optimierungsalgorithmen wie Random Search oder Bayesian Optimization können möglicherweise effizienter sein, um eine gute Kombination von Hyperparametern zu finden.
 
 ### Latin Hypercube Sampling
-Vorteile:
-- Effizienz und Verteilungsausgleich: LHS ermöglicht eine effiziente Abdeckung des Parameterraums mit einer begrenzten Anzahl von Proben. Im Gegensatz zu Grid Search, das alle möglichen Kombinationen ausprobiert, teilt LHS den Parameterraum in gleichmäßige Intervalle auf und entnimmt jeweils eine Probe aus jedem Intervall. Dadurch wird der Parameterraum gut abgedeckt, ohne dass zu viele unnötige Proben in nicht wichtigen Bereichen durchgeführt werden.
-- Verbesserte Explorationsfähigkeit: LHS bietet eine bessere Exploration des Parameterraums im Vergleich zu einfachen Zufallsstichproben. Durch die gleichmäßige Abdeckung des Parameterraums wird sichergestellt, dass wichtige Regionen nicht übersehen werden, und dass verschiedene Hyperparameterkombinationen effizient ausprobiert werden.
-- Reduziertes Risiko von Overfitting: LHS ermöglicht eine bessere Generalisierung der Ergebnisse, da es die Proben gleichmäßig über den Parameterraum verteilt. Dadurch wird das Risiko von Overfitting reduziert, da die Auswahl von Proben weniger anfällig für zufällige Ausreißer oder stark ungleichmäßige Verteilungen ist.
-- Verbesserte Reproduzierbarkeit: LHS kann so konfiguriert werden, dass die generierten Proben reproduzierbar sind, indem die gleiche Zufallsseed verwendet wird. Dies erleichtert die Wiederholbarkeit von Experimenten und Analysen.
-- Effiziente Verwendung von Ressourcen: Da LHS eine begrenzte Anzahl von Proben verwendet, kann es effizientere Ressourcennutzung ermöglichen, insbesondere wenn die Anzahl der Hyperparameter oder die Dimensionalität des Parameterraums hoch ist.
-- Kontinuierliche Hyperparameterunterstützung: LHS eignet sich gut für kontinuierliche Hyperparameter, bei denen die möglichen Werte in einem Bereich liegen. Es kann die Hyperparameter gleichmäßig auf diesem Bereich verteilen.
-- Verbesserte Optimierung: Im Vergleich zu Grid Search führt LHS eine bessere Optimierung des Parameterraums durch, da es eine effiziente und gleichmäßige Abdeckung ermöglicht, was zu einer schnelleren und genaueren Suche nach guten Hyperparameterkombinationen führt.
 
-Nachteile:
-- Komplexität der Implementierung: Die Implementierung von LHS kann im Vergleich zu einfachen Zufallsstichproben oder Grid Search etwas komplexer sein. Es erfordert eine zusätzliche Logik, um die gleichmäßige Verteilung der Proben im Parameterraum sicherzustellen.
-- Schwierigkeiten bei hochdimensionalen Räumen: LHS kann in hochdimensionalen Parameterräumen schwieriger und weniger effizient sein, da die gleichmäßige Abdeckung schwieriger wird. In solchen Fällen können andere Methoden wie Monte Carlo-Methoden oder Bayesian Optimization vorteilhafter sein.
-- Abhängigkeit von der Anzahl der Proben: Die Leistung von LHS hängt von der Anzahl der Proben ab, die ausgewählt werden. Eine zu kleine Anzahl von Proben kann die Effizienz und Genauigkeit der Abdeckung des Parameterraums beeinträchtigen.
-- Unvollständige Abdeckung bei begrenzten Proben: In einigen Fällen, insbesondere wenn die Anzahl der Proben begrenzt ist, kann LHS den Parameterraum möglicherweise nicht vollständig abdecken, was zu einer möglichen Unterrepräsentation bestimmter Hyperparameterkombinationen führt.
-- Keine Optimierungsgarantie: Obwohl LHS eine bessere Optimierung als Grid Search bietet, garantiert es nicht, dass die gefundenen Hyperparameterwerte die besten für das Modell sind. Es ist immer noch möglich, dass wichtige Hyperparameterkombinationen unentdeckt bleiben.
-- Statische Verteilung: LHS teilt den Parameterraum in gleichmäßige Intervalle auf und wählt jeweils eine Probe aus jedem Intervall. Dies kann dazu führen, dass die Verteilung der Proben statisch bleibt, was möglicherweise nicht ideal ist, wenn die Funktion f im Parameterraum nicht gleichmäßig ist.
-- Nicht ideal für multimodale Verteilungen: Wenn der Parameterraum multimodal ist und wichtige Bereiche mit unterschiedlicher Dichte oder Anzahl von Moden aufweist, kann LHS möglicherweise nicht die besten Ergebnisse liefern.
+Vorteile: - Effizienz und Verteilungsausgleich: LHS ermöglicht eine effiziente Abdeckung des Parameterraums mit einer begrenzten Anzahl von Proben. Im Gegensatz zu Grid Search, das alle möglichen Kombinationen ausprobiert, teilt LHS den Parameterraum in gleichmäßige Intervalle auf und entnimmt jeweils eine Probe aus jedem Intervall. Dadurch wird der Parameterraum gut abgedeckt, ohne dass zu viele unnötige Proben in nicht wichtigen Bereichen durchgeführt werden. - Verbesserte Explorationsfähigkeit: LHS bietet eine bessere Exploration des Parameterraums im Vergleich zu einfachen Zufallsstichproben. Durch die gleichmäßige Abdeckung des Parameterraums wird sichergestellt, dass wichtige Regionen nicht übersehen werden, und dass verschiedene Hyperparameterkombinationen effizient ausprobiert werden. - Reduziertes Risiko von Overfitting: LHS ermöglicht eine bessere Generalisierung der Ergebnisse, da es die Proben gleichmäßig über den Parameterraum verteilt. Dadurch wird das Risiko von Overfitting reduziert, da die Auswahl von Proben weniger anfällig für zufällige Ausreißer oder stark ungleichmäßige Verteilungen ist. - Verbesserte Reproduzierbarkeit: LHS kann so konfiguriert werden, dass die generierten Proben reproduzierbar sind, indem die gleiche Zufallsseed verwendet wird. Dies erleichtert die Wiederholbarkeit von Experimenten und Analysen. - Effiziente Verwendung von Ressourcen: Da LHS eine begrenzte Anzahl von Proben verwendet, kann es effizientere Ressourcennutzung ermöglichen, insbesondere wenn die Anzahl der Hyperparameter oder die Dimensionalität des Parameterraums hoch ist. - Kontinuierliche Hyperparameterunterstützung: LHS eignet sich gut für kontinuierliche Hyperparameter, bei denen die möglichen Werte in einem Bereich liegen. Es kann die Hyperparameter gleichmäßig auf diesem Bereich verteilen. - Verbesserte Optimierung: Im Vergleich zu Grid Search führt LHS eine bessere Optimierung des Parameterraums durch, da es eine effiziente und gleichmäßige Abdeckung ermöglicht, was zu einer schnelleren und genaueren Suche nach guten Hyperparameterkombinationen führt.
+
+Nachteile: - Komplexität der Implementierung: Die Implementierung von LHS kann im Vergleich zu einfachen Zufallsstichproben oder Grid Search etwas komplexer sein. Es erfordert eine zusätzliche Logik, um die gleichmäßige Verteilung der Proben im Parameterraum sicherzustellen. - Schwierigkeiten bei hochdimensionalen Räumen: LHS kann in hochdimensionalen Parameterräumen schwieriger und weniger effizient sein, da die gleichmäßige Abdeckung schwieriger wird. In solchen Fällen können andere Methoden wie Monte Carlo-Methoden oder Bayesian Optimization vorteilhafter sein. - Abhängigkeit von der Anzahl der Proben: Die Leistung von LHS hängt von der Anzahl der Proben ab, die ausgewählt werden. Eine zu kleine Anzahl von Proben kann die Effizienz und Genauigkeit der Abdeckung des Parameterraums beeinträchtigen. - Unvollständige Abdeckung bei begrenzten Proben: In einigen Fällen, insbesondere wenn die Anzahl der Proben begrenzt ist, kann LHS den Parameterraum möglicherweise nicht vollständig abdecken, was zu einer möglichen Unterrepräsentation bestimmter Hyperparameterkombinationen führt. - Keine Optimierungsgarantie: Obwohl LHS eine bessere Optimierung als Grid Search bietet, garantiert es nicht, dass die gefundenen Hyperparameterwerte die besten für das Modell sind. Es ist immer noch möglich, dass wichtige Hyperparameterkombinationen unentdeckt bleiben. - Statische Verteilung: LHS teilt den Parameterraum in gleichmäßige Intervalle auf und wählt jeweils eine Probe aus jedem Intervall. Dies kann dazu führen, dass die Verteilung der Proben statisch bleibt, was möglicherweise nicht ideal ist, wenn die Funktion f im Parameterraum nicht gleichmäßig ist. - Nicht ideal für multimodale Verteilungen: Wenn der Parameterraum multimodal ist und wichtige Bereiche mit unterschiedlicher Dichte oder Anzahl von Moden aufweist, kann LHS möglicherweise nicht die besten Ergebnisse liefern.
 
 Verwendete Methode:
 
---------------------------------------------------
+------------------------------------------------------------------------
 
 Anzupassende Parameter:
 
 ### Datenpunkte
+
 Versuchte Anzahl:
 
 Optimale Anzahl:
 
-
 ### Dimensionen
+
 Funktion f1: Die Funktion f1 ist eine Benchmark-Funktion (Testfunktion) mit 2-dimensionalen Eingabedaten. Sie gehört zu den "BBOB" (Black-Box Optimization Benchmarking) Funktionen, die in der "smoof" Bibliothek enthalten sind. BBOB-Funktionen sind standardisierte Testfunktionen, die in der Optimierungsforschung verwendet werden, um Algorithmen für die globale Optimierung zu vergleichen und zu evaluieren. Die genaue mathematische Definition der f1-Funktion kann im Quellcode der "smoof" Bibliothek nachgesehen werden.
 
 Funktion f4: Die Funktion f4 ist ebenfalls eine Benchmark-Funktion mit 2-dimensionalen Eingabedaten aus der BBOB-Funktionsgruppe. Wie f1 gehört sie zu den standardisierten Testfunktionen, die in der Optimierungsforschung verwendet werden. Genauere Details zur mathematischen Definition der f4-Funktion können im Quellcode der "smoof" Bibliothek gefunden werden.
 
-
 ### Bildvergleiche mit der Originalfunktion
+
 RS: BILD
 
 GS: BILD
 
 LHC: BILD
 
-
 ## Phase 2 Modellentwicklung und Modellauswahl
 
 ### Variational Autoencoder
-Modelldefinition:
-- Der VAE besteht aus einem Encoder-Netzwerk und einem Decoder-Netzwerk.
-- Das Encoder-Netzwerk enthält mehrere Dense-Layer, die die Eingabedaten schrittweise in eine niedrigdimensionale Latent-Space-Repräsentation transformieren.
-- Das Decoder-Netzwerk ist das Gegenteil des Encoders und nimmt die Latent-Space-Repräsentation und rekonstruiert die ursprünglichen Eingabedaten.
-- Der Latent-Space hat eine vorgegebene Dimension (latent_dim), die im Code auf 2 festgelegt ist.
-- Die Latent-Space-Repräsentation wird durch den Mean (z_mean) und den Logarithmus der Varianz (z_log_var) definiert.
 
-Encoder:
-- Der erste Dense-Layer (h) hat intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um die nicht-linearen Eigenschaften der Daten zu erfassen.
-- Der zweite Dense-Layer (i) hat ebenfalls intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um weitere nicht-lineare Transformationen durchzuführen.
-- Die letzten beiden Dense-Layer (z_mean und z_log_var) haben jeweils latent_dim Neuronen, wobei latent_dim die gewünschte Dimension des Latent-Space ist. Der z_mean repräsentiert den Mean (Mittelwert) der Latent-Space-Repräsentation, während z_log_var den Logarithmus der Varianz der Latent-Space-Repräsentation darstellt.
+Modelldefinition: - Der VAE besteht aus einem Encoder-Netzwerk und einem Decoder-Netzwerk. - Das Encoder-Netzwerk enthält mehrere Dense-Layer, die die Eingabedaten schrittweise in eine niedrigdimensionale Latent-Space-Repräsentation transformieren. - Das Decoder-Netzwerk ist das Gegenteil des Encoders und nimmt die Latent-Space-Repräsentation und rekonstruiert die ursprünglichen Eingabedaten. - Der Latent-Space hat eine vorgegebene Dimension (latent_dim), die im Code auf 2 festgelegt ist. - Die Latent-Space-Repräsentation wird durch den Mean (z_mean) und den Logarithmus der Varianz (z_log_var) definiert.
 
-Decoder:
-- Der erste Dense-Layer (decoder_h) hat intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um nicht-lineare Transformationen durchzuführen.
-- Der zweite Dense-Layer (decoder_mean) hat input_dim Neuronen, wobei input_dim die Dimension der ursprünglichen Eingabedaten ist. Hier wird die lineare Aktivierungsfunktion verwendet, da der Decoder die ursprünglichen Eingabedaten rekonstruieren soll.
+Encoder: - Der erste Dense-Layer (h) hat intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um die nicht-linearen Eigenschaften der Daten zu erfassen. - Der zweite Dense-Layer (i) hat ebenfalls intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um weitere nicht-lineare Transformationen durchzuführen. - Die letzten beiden Dense-Layer (z_mean und z_log_var) haben jeweils latent_dim Neuronen, wobei latent_dim die gewünschte Dimension des Latent-Space ist. Der z_mean repräsentiert den Mean (Mittelwert) der Latent-Space-Repräsentation, während z_log_var den Logarithmus der Varianz der Latent-Space-Repräsentation darstellt.
 
-Sampling-Funktion:
-- Es wird eine Sampling-Funktion verwendet, um die Latent-Space-Punkte zu generieren.
-- Diese Funktion nimmt den Mean (z_mean) und den Logarithmus der Varianz (z_log_var) als Eingabe.
-- Die Sampling-Funktion verwendet die "Reparameterization Trick", um die Latent-Space-Punkte zu generieren, indem sie einen Normalverteilten Zufallsvektor mit einer kleinen Varianz (mit Hilfe von epsilon_std) multipliziert und zum Mean addiert.
+Decoder: - Der erste Dense-Layer (decoder_h) hat intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um nicht-lineare Transformationen durchzuführen. - Der zweite Dense-Layer (decoder_mean) hat input_dim Neuronen, wobei input_dim die Dimension der ursprünglichen Eingabedaten ist. Hier wird die lineare Aktivierungsfunktion verwendet, da der Decoder die ursprünglichen Eingabedaten rekonstruieren soll.
 
-Kompilierung des Modells:
-- Das gesamte VAE-Modell wird durch Verketten der Encoder- und Decoder-Netzwerke erstellt.
-- Das Modell wird mit dem VAE-Loss (vae_loss) kompiliert, der aus der Kombination von Mean Squared Error (MSE) und Kullback-Leibler (KL) Divergenz besteht. Der MSE misst den Rekonstruktionsfehler zwischen den ursprünglichen Eingabedaten und den rekonstruierten Daten. Die KL-Divergenz misst die Ähnlichkeit der Latent-Space-Repräsentation mit einer Standardnormalverteilung.
+Sampling-Funktion: - Es wird eine Sampling-Funktion verwendet, um die Latent-Space-Punkte zu generieren. - Diese Funktion nimmt den Mean (z_mean) und den Logarithmus der Varianz (z_log_var) als Eingabe. - Die Sampling-Funktion verwendet die "Reparameterization Trick", um die Latent-Space-Punkte zu generieren, indem sie einen Normalverteilten Zufallsvektor mit einer kleinen Varianz (mit Hilfe von epsilon_std) multipliziert und zum Mean addiert.
 
-Training des Modells:
-- Das VAE-Modell wird mit den Trainingsdaten (input_data) trainiert, die in der Variablen dfF1 im Code enthalten sind.
-- Es wird das Adam-Optimizer mit einer Lernrate von 0.0001 verwendet.
-- Das Training wird für eine bestimmte Anzahl von Epochen (epochs) und in Batches (batch_size) durchgeführt.
-- Das Modell wird auch mit den Testdaten (test_data) validiert, um die Modellleistung zu überwachen.
+Kompilierung des Modells: - Das gesamte VAE-Modell wird durch Verketten der Encoder- und Decoder-Netzwerke erstellt. - Das Modell wird mit dem VAE-Loss (vae_loss) kompiliert, der aus der Kombination von Mean Squared Error (MSE) und Kullback-Leibler (KL) Divergenz besteht. Der MSE misst den Rekonstruktionsfehler zwischen den ursprünglichen Eingabedaten und den rekonstruierten Daten. Die KL-Divergenz misst die Ähnlichkeit der Latent-Space-Repräsentation mit einer Standardnormalverteilung.
 
---------------------------------------------------
+Training des Modells: - Das VAE-Modell wird mit den Trainingsdaten (input_data) trainiert, die in der Variablen dfF1 im Code enthalten sind. - Es wird das Adam-Optimizer mit einer Lernrate von 0.0001 verwendet. - Das Training wird für eine bestimmte Anzahl von Epochen (epochs) und in Batches (batch_size) durchgeführt. - Das Modell wird auch mit den Testdaten (test_data) validiert, um die Modellleistung zu überwachen.
+
+------------------------------------------------------------------------
 
 #### Performance
+
 Bewertung:
 
---------------------------------------------------
+------------------------------------------------------------------------
 
 #### Modellfehler
-MSE + KL Divergence
-Bewertung: BILD
 
---------------------------------------------------
+MSE + KL Divergence Bewertung: BILD
+
+------------------------------------------------------------------------
 
 #### Output Format
+
 Bewertung: BILD Punkte, Skalierung, Wertebereich
 
---------------------------------------------------
+------------------------------------------------------------------------
 
 #### Erzeugte Funktion
+
 Bewertung: BILD (Funktionsvergleich mit f1/f4 und der VAE Funktion)
 
---------------------------------------------------
+------------------------------------------------------------------------
 
-Modellbewertung
-+/-
-
+Modellbewertung +/-
 
 ### DNN mit Regression
-Modelldefinition:
-- Das DNN (model) besteht aus mehreren Dense-Layern, die in einer sequenziellen Reihenfolge definiert sind.
-- Die Dense-Layer haben unterschiedliche Anzahlen von Neuronen und verwenden die ReLU-Aktivierungsfunktion, um die nicht-linearen Eigenschaften der Daten zu erfassen.
-- Die letzte Dense-Layer hat 1 Neuron und eine lineare Aktivierungsfunktion, da es sich um ein Regressionsproblem handelt und der Zielwert kontinuierlich ist.
 
-Kompilierung und Training des Modells:
-- Das Modell wird mit der benutzerdefinierten Loss-Funktion (custom_loss) und dem Adam-Optimizer mit einer Lernrate von 0.001 kompiliert.
-- Das Modell wird auf den Trainingsdaten (X_train und y_train) für 100 Epochen trainiert.
-- Während des Trainings werden die Vorhersageleistung auf den Trainings- und Testdaten mit evaluate() ausgewertet.
+Modelldefinition: - Das DNN (model) besteht aus mehreren Dense-Layern, die in einer sequenziellen Reihenfolge definiert sind. - Die Dense-Layer haben unterschiedliche Anzahlen von Neuronen und verwenden die ReLU-Aktivierungsfunktion, um die nicht-linearen Eigenschaften der Daten zu erfassen. - Die letzte Dense-Layer hat 1 Neuron und eine lineare Aktivierungsfunktion, da es sich um ein Regressionsproblem handelt und der Zielwert kontinuierlich ist.
 
---------------------------------------------------
+Kompilierung und Training des Modells: - Das Modell wird mit der benutzerdefinierten Loss-Funktion (custom_loss) und dem Adam-Optimizer mit einer Lernrate von 0.001 kompiliert. - Das Modell wird auf den Trainingsdaten (X_train und y_train) für 100 Epochen trainiert. - Während des Trainings werden die Vorhersageleistung auf den Trainings- und Testdaten mit evaluate() ausgewertet.
+
+------------------------------------------------------------------------
 
 #### Performance
+
 Bewertung:
 
---------------------------------------------------
+------------------------------------------------------------------------
 
 #### Modellfehler
-Eigene Verlustfunktion
-Bewertung: BILD
 
---------------------------------------------------
+Eigene Verlustfunktion Bewertung: BILD
+
+------------------------------------------------------------------------
 
 #### Output Format
+
 Bewertung: BILD Punkte, Skalierung, Wertebereich
 
---------------------------------------------------
+------------------------------------------------------------------------
 
 #### Erzeugte Funktion
+
 Bewertung: BILD (Funktionsvergleich mit f1/f4 und der DNN Funktion)
 
---------------------------------------------------
+------------------------------------------------------------------------
 
-Modellbewertung
-+/-
-
-
+Modellbewertung +/-
 
 ## Phase 3.1 Optimierung
+
 ### Optimierfunktion 1
 
 #### Ereichung des Optimums
+
 Bewertung: BILD Ground Truth
 
---------------------------------------------------
+------------------------------------------------------------------------
 
 #### Performance
-Bewertung: 
 
---------------------------------------------------
+Bewertung:
 
+------------------------------------------------------------------------
 
 ### Optimierfunktion 2
+
 #### Ereichung des Optimums
+
 Bewertung: BILD Ground Truth
 
---------------------------------------------------
+------------------------------------------------------------------------
 
 #### Performance
-Bewertung: 
 
---------------------------------------------------
+Bewertung:
 
-Optimierungsfunktionsbewertung
-+/-
+------------------------------------------------------------------------
 
-
+Optimierungsfunktionsbewertung +/-
 
 ## Phase 3.1 Simulation
 
 ### Simulationsvergleiche
+
 Bewertung:
 
---------------------------------------------------
+------------------------------------------------------------------------
 
 ### Gegebnüberstellung y und Error hinsichtlich Anzahl der Evaluationen
-Bewertung:
 
+Bewertung:

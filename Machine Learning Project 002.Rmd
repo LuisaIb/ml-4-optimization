@@ -112,6 +112,42 @@ if (tensorflow::tf$executing_eagerly())
 
 ```
 
+```{r}
+
+
+
+```
+
+
+
+```{r}
+
+
+
+scaleData <- function(df){
+  min <- NULL
+  max <- NULL
+  for(i in 1:ncol(df)) { 
+    min <- cbind(min, min(df[ , i]))
+    max <- cbind(max, max(df[ , i]))
+    df[ , i] <- round((df[ , i] - min(df[ , i])) / (max(df[ , i]) - min(df[ , i])), 7)
+  }
+  list(df=df, min=min, max=max)
+}
+
+
+descaleData <- function(df, min, max){
+  for(i in 1:ncol(df)){
+    df[ , i] <- df[ , i] * (max[i] - min[i]) + min[i]
+  }
+  df
+}
+
+
+
+```
+
+
 
 ```{r}
 
@@ -210,6 +246,12 @@ vae %>% compile(optimizer=optimizer_adam(lr = 0.0001), loss = vae_loss, )
 input_data <- cbind(dfF1$x, dfF1$y, dfF1$z)
 test_data <- cbind(dfF2$x, dfF2$y, dfF2$z)
 
+input_scaled <- scaleData(input_data)
+test_scaled <- scaleData(test_data)
+
+input_data_scaled <- input_scaled$df
+test_data_scaled <- test_scaled$df
+
 #target_values <- dfF1$z
 
 
@@ -221,15 +263,17 @@ test_data <- cbind(dfF2$x, dfF2$y, dfF2$z)
 
 # Model training
 vae %>% fit(
-  input_data, input_data,  # Use your custom input data and target values
+  input_data_scaled, input_data_scaled,  # Use your custom input data and target values
   #shuffle = TRUE, 
   epochs = epochs, 
   batch_size = batch_size,
-  validation_data = list(test_data, test_data)
+  validation_data = list(test_data_scaled, test_data_scaled)
 )
 
 
 ```
+
+
 
 
 ```{r}
@@ -238,10 +282,14 @@ vae %>% fit(
 # You may need to modify this part according to your specific regression task.
 
 # Plot the 2D latent space
-x_test_encoded <- predict(encoder, input_data, batch_size = batch_size)
+x_test_encoded <- predict(encoder, input_data_scaled, batch_size = batch_size)
 x_test_decoded <- predict(generator, x_test_encoded, batch_size = batch_size)
 
-x_test_decoded
+
+#x_test_decoded
+x_test_decoded_descaled <- descaleData(x_test_decoded, scaled$min, scaled$max)
+x_test_decoded_descaled
+
 
 
 # Speichere die Mittelwerte und Standardabweichungen der Eingabedaten
@@ -327,9 +375,9 @@ cma_es <- function (x = NULL, fun, lower, upper,
 
 ```{r}
 
-range(x_test_decoded[, 1])
-range(x_test_decoded[, 2])
-range(x_test_decoded[, 3])
+range(x_test_decoded_descaled[, 1])
+range(x_test_decoded_descaled[, 2])
+range(x_test_decoded_descaled[, 3])
 
 
 ```
