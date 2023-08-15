@@ -67,7 +67,7 @@ Nachteile:
 - Statische Verteilung: LHS teilt den Parameterraum in gleichmäßige Intervalle auf und wählt jeweils eine Probe aus jedem Intervall. Dies kann dazu führen, dass die Verteilung der Proben statisch bleibt, was möglicherweise nicht ideal ist, wenn die Funktion f im Parameterraum nicht gleichmäßig ist.
 - Nicht ideal für multimodale Verteilungen: Wenn der Parameterraum multimodal ist und wichtige Bereiche mit unterschiedlicher Dichte oder Anzahl von Moden aufweist, kann LHS möglicherweise nicht die besten Ergebnisse liefern.
 
-Verwendete Methode:
+Verwendete Methode: 
 
 --------------------------------------------------
 
@@ -85,13 +85,18 @@ Funktion f1: Die Funktion f1 ist eine Benchmark-Funktion (Testfunktion) mit 2-di
 Funktion f4: Die Funktion f4 ist ebenfalls eine Benchmark-Funktion mit 2-dimensionalen Eingabedaten aus der BBOB-Funktionsgruppe. Wie f1 gehört sie zu den standardisierten Testfunktionen, die in der Optimierungsforschung verwendet werden. Genauere Details zur mathematischen Definition der f4-Funktion können im Quellcode der "smoof" Bibliothek gefunden werden.
 
 
-### Bildvergleiche mit der Originalfunktion
+### Bildvergleiche mit der Originalfunktion für f1 und f4 mit beispielhaften 200 Datenpunkten
+Funktion 1:
+![Alt-Text](/images/)
+
 RS: BILD
 
 GS: BILD
 
-LHC: BILD
+LHCS: BILD
 
+### Lessons Learned
+- 
 
 ## Phase 2 Modellentwicklung und Modellauswahl
 
