@@ -138,14 +138,12 @@ Kompilierung und Training des Modells:
 
 ### Optimierfunktion 1 - Gradientenbasiert
 
-#### Ereichung des Optimums
 
 
 
 
 ### Optimierfunktion 2 - Uniform Random Search
 
-#### Ereichung des Optimums
 
 
 
