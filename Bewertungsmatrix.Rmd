@@ -1,0 +1,109 @@
+Modell VAE
+
+
+#### Performance
+
+Bewertung:
+
+------------------------------------------------------------------------
+
+#### Modellfehler
+
+MSE + KL Divergence Bewertung: BILD
+
+------------------------------------------------------------------------
+
+#### Output Format
+
+Bewertung: BILD Punkte, Skalierung, Wertebereich
+
+------------------------------------------------------------------------
+
+#### Erzeugte Funktion
+
+Bewertung: BILD (Funktionsvergleich mit f1/f4 und der VAE Funktion)
+
+------------------------------------------------------------------------
+
+Modellbewertung +/-
+
+
+
+Modell RNN
+
+#### Performance
+
+Bewertung:
+
+------------------------------------------------------------------------
+
+#### Modellfehler
+
+Eigene Verlustfunktion Bewertung: BILD
+
+------------------------------------------------------------------------
+
+#### Output Format
+
+Bewertung: BILD Punkte, Skalierung, Wertebereich
+
+------------------------------------------------------------------------
+
+#### Erzeugte Funktion
+
+Bewertung: BILD (Funktionsvergleich mit f1/f4 und der DNN Funktion)
+
+------------------------------------------------------------------------
+
+Modellbewertung +/-
+
+
+o1
+
+Bewertung: BILD Ground Truth
+
+------------------------------------------------------------------------
+
+#### Performance
+
+Bewertung:
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+o2
+
+
+
+Bewertung: BILD Ground Truth
+
+------------------------------------------------------------------------
+
+#### Performance
+
+Bewertung:
+
+------------------------------------------------------------------------
+
+Optimierungsfunktionsbewertung +/-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
