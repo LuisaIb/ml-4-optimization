@@ -1,0 +1,52 @@
+------------------------------------------------------------------------
+
+### Bildvergleiche mit der Originalfunktion für f1 und f4 mit beispielhaften 200 Datenpunkten
+Modell: Regression DNN Aufbau -> siehe DNN
+Training: 80%
+Test: 20%
+Epochs: 150
+
+
+#### Funktion 1:
+![Alt-Text](images/FUnktion 1 alles)
+
+RS: ![Alt-Text](images/FUnktion 1 Punkte)
+RS: ![Alt-Text](images/FUnktion 1 RNN)
+
+GS: ![Alt-Text](images/FUnktion 1 Punkte)
+GS: ![Alt-Text](images/FUnktion 1 RNN)
+
+LHCS: BILD![Alt-Text](images/FUnktion 1 Punkte)
+LHCS: BILD![Alt-Text](images/FUnktion 1 RNN)
+
+
+
+#### Funktion 4:
+![Alt-Text](images/FUnktion 4 alles)
+
+RS: ![Alt-Text](images/FUnktion 4 Punkte)
+RS: ![Alt-Text](images/FUnktion 4 RNN)
+
+GS: ![Alt-Text](images/FUnktion 4 Punkte)
+GS: ![Alt-Text](images/FUnktion 4 RNN)
+
+LHCS: BILD![Alt-Text](images/FUnktion 4 Punkte)
+LHCS: BILD![Alt-Text](images/FUnktion 4 RNN)
+
+
+Anzupassende Parameter:
+
+### Datenpunkte
+
+Versuchte Anzahl: 50 (Realität), 200, 1000
+
+Optimale Anzahl:
+
+
+Verwendete Methode: 
+
+
+
+
+### Lessons Learned
+- 
