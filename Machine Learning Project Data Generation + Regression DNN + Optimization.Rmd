@@ -20,6 +20,7 @@ require(keras)
 require(SPOT)
 require(pracma)
 require(lhs)
+require(cmaes)
 ```
 
 
@@ -181,17 +182,17 @@ loss_function <- custom_loss
 
 createRNNModel <- function(){
   model = keras_model_sequential() %>% 
-   layer_dense(units=128, activation="relu", input_shape=2) %>% 
-   layer_activation_leaky_relu() %>% 
-   layer_dense(units=32, input_shape=2) %>% 
-   layer_activation_leaky_relu() %>% 
    layer_dense(units=128, input_shape=2) %>% 
-   layer_activation_leaky_relu() %>%
+   layer_activation_leaky_relu() %>% 
+#   layer_dense(units=32, input_shape=2) %>% 
+#   layer_activation_leaky_relu() %>% 
+#   layer_dense(units=128, input_shape=2) %>% 
+#   layer_activation_leaky_relu() %>%
    layer_dropout(rate=0.01) %>%
-   layer_dense(units=64, activation="relu", input_shape=2) %>% 
-   layer_dense(units=64, activation="relu", input_shape=2) %>% 
-   layer_dense(units=32, activation = "relu") %>% 
-   layer_dropout(rate=0.001) %>% 
+#   layer_dense(units=64, activation="relu", input_shape=2) %>% 
+#   layer_dense(units=64, activation="relu", input_shape=2) %>% 
+#   layer_dense(units=32, activation = "relu") %>% 
+#   layer_dropout(rate=0.001) %>% 
    layer_dense(units=1, activation="linear")
  
   model %>% compile(
@@ -310,6 +311,92 @@ plotFunction(fpred_random,lower,upper,vectorized=T)
 
 ## optimization
 
+
+```{r}
+library(bbotk)
+library(mlr3)
+library(mlr3learners)
+library(mlr3mbo)
+
+MBOEinterface <-function(x=NULL,fun,lower,upper,control=list(),...){
+  con<-list(funEvals=200,populationSize= (10 * length(lower)),trace=0)
+  con[names(control)] <- control
+  control<-con
+  funEvals <- control$funEvals
+  NP <- control$populationSize
+	
+  ## recalculate funEvals to DE iteration on basis of population size
+  itermax <- floor((funEvals - NP) / NP)
+  if(itermax < 1) itermax= 1
+	
+  control$NP <- control$populationSize
+  control$itermax <- itermax
+	
+	## Delete unused settings
+  control$populationSize <- NULL
+  control$funEvals <- NULL
+  control$types <- NULL
+	
+  ## wrapper for matrix inputs to fun
+  fn <- function(x,...)fun(matrix(x,1),...) 
+
+  ## start optim
+  
+  
+  surrogate = SurrogateLearner$new(lrn("regr.km"))
+  acq_optimizer = AcqOptimizer$new(opt("random_search"), terminator = trm("evals"))
+  
+  
+  
+  res <- OptimizerMbo$new(bayesopt_ego,
+    surrogate = surrogate,
+    acq_function = fn,
+    acq_optimizer = acq_optimizer)
+  list(x=res$member$bestmemit,y=res$member$bestvalit,xbest=matrix(res$optim$bestmem,1),ybest=matrix(res$optim$bestval,1),count= res$optim$nfeval*nrow(res$member$pop))
+}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+LVFGSBinterface <-function(x=NULL,fun,lower,upper,control=list(),...){
+  con<-list(funEvals=200,populationSize= (10 * length(lower)),trace=0)
+  con[names(control)] <- control
+  control<-con
+  funEvals <- control$funEvals
+  #NP <- control$populationSize
+	
+  ## recalculate funEvals to DE iteration on basis of population size
+  #itermax <- floor((funEvals - NP) / NP)
+  #if(itermax < 1) itermax= 1
+	
+  #control$NP <- control$populationSize
+  #control$itermax <- itermax
+	
+	## Delete unused settings
+  control$populationSize <- NULL
+  control$funEvals <- NULL
+  control$types <- NULL
+	
+  ## wrapper for matrix inputs to fun
+  fn <- function(x,...)fun(matrix(x,1),...) 
+
+  ## start optim
+  res <- optim(c(-4.5,-4.5), fn=fn, method = "L-BFGS-B", lower=lower,upper=upper,control=control,...)
+  list(x=res$member$bestmemit,y=res$member$bestvalit,count= res$optim$nfeval*nrow(res$member$pop))
+}
+
+```
+
+
+
+
 ```{r}
 
 ## specify some model configuration
@@ -361,6 +448,7 @@ groundtruth <- function(x){
   apply(x,1,fnbbob)
 }
 
+x <- seq(from=lower[1],to=upper[1],length.out=100)
 groundtruth(x)
 
 lower = getLowerBoxConstraints(fnbbob)
@@ -464,20 +552,12 @@ reses
 ```
 
 
-```{r}
-
-rnn_fun <- model_rnn_random$make_predict_function
-
-rnn_fun
-
-
-```
-
 
 ```{r}
 
 # from the rnn  result
 resnn <- loggedExperiment(expr, model_rnn_random$predict, 1:10,10)
+
 resnn
 
 ```
@@ -491,62 +571,32 @@ resnn
 ```{r}
 
 ## plot results
-print(plotBenchmarkPerformance(list(resgt,reses,ressi,ressi2L),
-                    c("groundtruth","estimation","simulation","simulation-2L")))
+print(plotBenchmarkPerformance(list(resgt,reses,resnn),
+                    c("groundtruth","gaussestimation","nnreg")))
 
 
 ## plot error, comparing against groundtruth
-print(plotBenchmarkValidation(resgt,list(reses,ressi,ressi2L),
-                    c("estimation","simulation","simulation-2L")))
+print(plotBenchmarkValidation(resgt,list(reses,resnn),
+                    c("gaussestimation","nnreg")))
 ```
 
-## Boxplot
+
 
 ```{r}
-require(data.table)
-require(magrittr)
-require(dplyr)
-geterror <- function (groundtruth, data, names = NULL) 
-{
-    if (is.null(names)) 
-        names <- letters[1:length(data)]
-    df <- groundtruth[, c("it", "seed", "cy")]
-    for (i in 1:(length(data))) {
-        df <- merge(df, data[[i]][, c("it", "seed", "cy")], by = c("it", 
-            "seed"), all = TRUE)
-    }
-    df <- df[order(df$seed), ]
-    df <- data.frame(nafill(df, "locf"))
-    names(df) <- c("it", "seed", "groundtruth", names)
-    df[, -(1:2)] <- apply(df[, -(1:2)], 2, scale01)
-    nmserr <- paste(names, "err", sep = ".")
-    ddf <- NULL
-    for (i in 1:(length(data))) {
-        dftmp <- data.frame(it = df$it)
-        dftmp[[nmserr[i]]] <- abs(df$groundtruth - df[[names[i]]])
-        dftmp <- dftmp %>% group_by(.data$it) %>% summarise(upper = quantile(!!sym(nmserr[i]), 
-            probs = 0.75), lower = quantile(!!sym(nmserr[i]), 
-            probs = 0.25), med = median(!!sym(nmserr[i])))
-        dftmp$method = names[i]
-        ddf <- rbind(ddf, dftmp)
-    }
-    ddf
-}
-res <- geterror(resgt,list(reses,ressi,ressi2L),
-       c("estimation","simulation","simulation-2L"))
-res
-sum(subset(res,method=="estimation")$med)
-sum(subset(res,method=="simulation")$med)
-sum(subset(res,method=="simulation-2L")$med)
-par(mar=c(3,8,0.5,0.5))
-boxplot(med~method,data=res,las=1,horizontal=T,ylab="",xlab="median error")
-#mean((reses$cy-resgt$cy)^2)
-#mean((ressi$cy-resgt$cy)^2)
-#mean((ressi2L$cy-resgt$cy)^2)
+
+
+exprLBFGSB <- expression(
+  res <- LVFGSBinterface(fun = fnlog,lower=lower,upper=upper,control=list(funEvals=1000*dimension))
+)
+## run the experiments, with logging
+## with each objective function produced by COBBS
+
+# from the ground truth
+resgt <- loggedExperiment(exprLBFGSB, groundtruth, 1:10,10)
+resgt
+
+
 ```
-
-
-
 
 
 
@@ -555,7 +605,53 @@ boxplot(med~method,data=res,las=1,horizontal=T,ylab="",xlab="median error")
 
 ```{r}
 
+## generate model and test functions from the data -> generating a model / function
+cobbsResult <- generateCOBBS(x,y,cntrl)
+cobbsResult$fit
+
 ```
+
+
+
+```{r}
+
+# from the estimation of cobbs result
+reses <- loggedExperiment(exprLBFGSB, cobbsResult$estimation, 1:10,10)
+reses
+
+```
+
+
+
+
+```{r}
+
+# from the rnn  result
+resnn <- loggedExperiment(exprLBFGSB, model_rnn_random$predict, 1:10,10)
+
+resnn
+
+```
+
+
+
+
+
+
+
+```{r}
+
+## plot results
+print(plotBenchmarkPerformance(list(resgt,reses,resnn),
+                    c("groundtruth","gaussestimation","nnreg")))
+
+
+## plot error, comparing against groundtruth
+print(plotBenchmarkValidation(resgt,list(reses,resnn),
+                    c("gaussestimation","nnreg")))
+```
+
+
 
 
 
