@@ -11,6 +11,14 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Verworfene Ansätze
+- VAE für Regression
+- VAE wegen Dimensionsreduktion nicht für Datenerhebung geeignet
+- Loss Function selber schreiben
+- 
+
+
+
 # Investigation
 
 ## Phase 1 Datenerhebung
