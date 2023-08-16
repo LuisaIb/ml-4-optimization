@@ -39,3 +39,19 @@ Modelle und die Optimierung werden im Bezug auf die Grundparameter bewertet
 - Fehlervergleich
 
 - (Visual) Vergleich mit Simulation
+
+
+
+## Versuchsbewertung (vgl. Simulation-based Test Function for Optimization Algorithms)
+
+- Difficulty
+
+- Diversity
+
+- Flexibility
+
+- Relevance
+
+- Evaluation cost
+
+- Non-Smoothing
