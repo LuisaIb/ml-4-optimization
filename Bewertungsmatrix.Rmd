@@ -1,4 +1,6 @@
-# Bewertungsmatrix
+# Bewertungsmatrix für Experimente im Kontext der Modell- und Optimierungsbewertung
+
+Im Rahmen der vorliegenden Bewertungsmatrix werden einzelne Versuche separat betrachtet, wobei diese Versuche anhand verschiedener Grundparameter definiert sind. Diese Parameter umfassen die Anzahl der erfassten Datenpunkte, die angewandte Datenerhebungsstrategie, die abgebildete Funktion sowie die Dimensionen des betrachteten Problems. Die Modelle und deren Optimierung werden in Relation zu den genannten Grundparametern beurteilt.
 
 Jeder Versuch wieder seperat betrachtet
 Die Versuche werden auf Basis der Anzahl von Datenpunkten definiert
@@ -18,27 +20,40 @@ Modelle und die Optimierung werden im Bezug auf die Grundparameter bewertet
 
 - durchschnittlicher Trainingsloss
 - durchschnittlicher Testloss
+Diese Metriken können durch das Berechnen des durchschnittlichen Fehlers zwischen den tatsächlichen und vorhergesagten Werten während des Trainings und Tests erfasst werden.
 
 - (Visual) Loss Function Verlauf
+Die Veränderung der Loss-Funktion über die Trainingsiterationen hinweg kann grafisch dargestellt werden, um den Konvergenzverlauf des Modells zu visualisieren.
 
 - (Visual) Generated Funciton vs. Original Function
+Visuelle Darstellungen, wie Plots oder Diagramme, können verwendet werden, um den Unterschied zwischen der vom Modell generierten Funktion und der Originalfunktion zu verdeutlichen.
 
 - Performance
+Je nach Anwendungsfall können verschiedene Leistungsmetriken wie Genauigkeit, Präzision, Recall oder F1-Score gemessen werden.
 
 - (Visual) Abteilung
+Die Verteilung der Vorhersagen im Vergleich zu den tatsächlichen Werten kann visualisiert werden, um Einblicke in die Verteilung der Modellleistung zu erhalten.
 
 
 ## Optimierung
 
 - (Visual) Optimum
+Grafische Darstellungen können das gefundene Optimum in einem mehrdimensionalen Raum zeigen.
 
 - Wert des Optimums
+Der Wert der Zielfunktion am erreichten Optimum kann quantifiziert werden.
 
 - (Visual) Ground Truth vs. Optimierung
+Visuelle Darstellungen können den Unterschied zwischen den tatsächlichen und optimierten Werten in einem Diagramm verdeutlichen.
 
 - Fehlervergleich
+Dies kann die quantitative Analyse der Abweichung zwischen den optimalen Werten und den tatsächlichen Zielen beinhalten.
 
 - (Visual) Vergleich mit Simulation
+Quantitative Vergleiche zwischen den optimierten Werten und den erwarteten Simulationsergebnissen können durchgeführt werden.
+
+
+Diese wissenschaftlich ausgerichtete Bewertungsmatrix erlaubt eine systematische Analyse und Bewertung von Experimenten im Rahmen der Modell- und Optimierungsbewertung. Die gewählten Bewertungskriterien ermöglichen eine fundierte Beurteilung der Leistung von Modellen, Optimierungsalgorithmen und Versuchen, wobei sowohl qualitative als auch quantitative Aspekte berücksichtigt werden.
 
 
 
@@ -55,3 +70,14 @@ Modelle und die Optimierung werden im Bezug auf die Grundparameter bewertet
 - Evaluation cost
 
 - Non-Smoothing
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Jedes Kriterium kriegt einen Wert zwischen 1-5 bei der Bewertung zugeilt. Danach ich es möglich für die Modellbewertung, Optimierung und Versuchsbewertung einen Wert zu ermitteln und den Versuch gesamthaft bewerten zu können.
+
+1: Sehr schlecht / Niedrig / Schwach / Gering
+2: Schlecht / Unterhalb des Erwarteten
+3: Durchschnittlich / Akzeptabel
+4: Gut / Über dem Erwarteten
+5: Sehr gut / Hoch / Stark / Hervorragend
