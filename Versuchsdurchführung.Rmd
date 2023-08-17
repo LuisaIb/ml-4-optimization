@@ -9,13 +9,23 @@ Epochs: 300
 
 ## f1
 Bild Fuktion
+![Alt-Text](images/Versuch 4/GroundtruthF1)
+
 Bild Fuktion zugeschnitten
 
 Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch 4/DataGenerationRandomTrainF1MinimalData)
+
 Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch 4/DataGenerationRandomTestF1MinimalData)
+
 Bild Datenpunkte VAE
+![Alt-Text](images/Versuch 4/images/Versuch 4/VAEDataF1MinimalData)
+
 
 Bild Loss Function
+![Alt-Text](images/Versuch 4/LossF1MinimalData.png)
+
 
 ### Fazit
 - nicht in der Lage die Verteilung über gesamten Raum zu lernen
@@ -30,13 +40,22 @@ Bild Loss Function
 
 ## f4
 Bild Fuktion
+![Alt-Text](images/Versuch 4/GroundtruthF4)
+
 Bild Fuktion zugeschnitten
 
 Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch 4/DataGenerationRandomTrainF4MinimalData)
+
 Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch 4/DataGenerationRandomTestF4MinimalData)
+
 Bild Datenpunkte VAE
+![Alt-Text](images/Versuch 4/VAEDataF4MinimalData)
+
 
 Bild Loss Function
+![Alt-Text](images/Versuch 4/LossF4MinimalData.png)
 
 ### Fazit
 - nicht in der Lage die Verteilung über gesamten Raum zu lernen
@@ -61,13 +80,23 @@ Epochs: 100
 
 ## f1
 Bild Fuktion
+![Alt-Text](images/Versuch 4/GroundtruthF1)
+
 Bild Fuktion zugeschnitten
 
 Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch 4/DataGenerationRandomTrainF1MaximalData)
+
 Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch 4/DataGenerationRandomTestF1MaximalData)
+
 Bild Datenpunkte VAE
+![Alt-Text](images/Versuch 4/VAEDataF1MaximalData)
+
 
 Bild Loss Function
+![Alt-Text](images/Versuch 4/LossF1MaximalData.png)
+
 
 ### Fazit
 - bessere Performance + Ergebnisse als bei 50 Datenpunkten
@@ -79,13 +108,23 @@ Bild Loss Function
 
 ## f4
 Bild Fuktion
+![Alt-Text](images/Versuch 4/GroundtruthF4)
+
 Bild Fuktion zugeschnitten
 
 Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch 4/DataGenerationRandomTrainF4MaximalData)
+
 Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch 4/DataGenerationRandomTestF4MaximalData)
+
 Bild Datenpunkte VAE
+![Alt-Text](images/Versuch 4/VAEDataF4MaximalData)
+
 
 Bild Loss Function
+![Alt-Text](images/Versuch 4/LossF4MaximalData.png)
+
 
 ### Fazit
 - bessere Performance + Ergebnisse als bei 50 Datenpunkten
