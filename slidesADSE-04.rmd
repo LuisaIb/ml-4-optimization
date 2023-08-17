@@ -1,0 +1,492 @@
+---
+title: "ADSE - Tuning von Algorithmen"
+subtitle: "#04 Experimente, Auswertung"
+author: "Martin Zaefferer"
+output:
+  ioslides_presentation:
+    widescreen: true
+    transition: faster
+    highlight: espresso
+    css: styles.css
+bibliography: ["zaefdiss.bib", "mine.bib"]
+---
+
+```{r setup, echo=FALSE, warning=FALSE}
+library(knitr)
+library(rgl)
+options(rgl.useNULL = TRUE) # Suppress the separate window.
+knitr::opts_chunk$set(cache=TRUE,echo = T,warning=FALSE,message=FALSE,hide=TRUE)
+set.seed(1)
+```
+
+\newcommand{\RR}{{\mathbb{R}}}
+\newcommand{\ZZ}{{\mathbb{Z}}}
+\newcommand{\QQ}{{\mathbb{Q}}}
+\newcommand{\NN}{{\mathbb{N}}}
+\newcommand{\CC}{{\mathbb{C}}}
+\newcommand\mycvec[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand\mylvec[1]{(#1)}
+\newcommand{\va}{{\vec{a}}}
+\newcommand{\vb}{{\vec{b}}}
+\newcommand{\vc}{{\vec{c}}}
+\newcommand{\vx}{{\vec{x}}}
+\newcommand{\vm}{{\vec{m}}}
+\newcommand{\vp}{{\vec{p}}}
+\newcommand{\vq}{{\vec{q}}}
+\newcommand{\vr}{{\vec{r}}}
+\newcommand{\vox}{{\overrightarrow{0X}}}
+\newcommand{\rg}{{\text{rg}}}
+\newcommand{\det}{{\text{det}}}
+\newcommand{\TP}{\color{green}{TP}}
+\newcommand{\TN}{\color{green}{TN}}
+\newcommand{\FP}{\color{red}{FP}}
+\newcommand{\FN}{\color{red}{FN}}
+
+# Reproduzierbare Experimente
+
+## Herausforderung
+- Andere wollen 
+    - auf Ihren Ergebnissen aufbauen
+        - Kollegen, Forscher, ...
+    - Ihre Ergebnisse überprüfen
+- Zentrale Fragestellung:
+    - Können Andere ihre Experimente erneut durchführen?
+    - Mit gleichen (ähnlichen) Ergebnissen?
+
+# Dokumentation
+
+## Dokumentation: Verwendete Software
+- Verwendete Software dokumentieren
+    - inkl. Versionsnummern
+    - Revisionsnummern (wenn Revionswerkzeuge wie git benutzt werden)
+    - Wichtige Abhängigkeiten ?
+        - Bibliotheken / Pakete / Betriebssysteme / Virtualisierung ...
+
+## Dokumentation: Entwickelte Software
+- Entwickelte Software dokumentieren
+    - Lesbarer, kommentierter Code
+    - Schnittstellen / Argumente beschrieben
+    - Möglichst auch MREs (minimal reproducible examples)
+    - Tests definieren
+
+## Dokumentation: Hardware
+- Nicht immer zentral 
+    - Aber: unumgänglich wenn Laufzeiten / Rechenzeiten o.ä relevant sind
+    - Kann in seltenen Fällen auch numerische Abweichungen erklären
+
+## Dokumentation: Parameter
+- Wenn Parameter verändert werden
+    - Welche?
+    - Wie?
+    - Warum?
+
+## Dokumentation: Daten
+- Eingabedaten (für ML Algorithmen)
+- Daten aus Tuningprozessen
+- Auswertung, Validierung
+
+
+(Auch für (große) Datensätze gibt es Tools zur Versionsverwaltung: https://dvc.org/, 
+https://git-lfs.github.com/, https://git-annex.branchable.com/)
+
+## Mögliche Werkzeuge
+- Dokumentation im Code direkt (R: siehe z.B. Roxygen)
+- Code, technische/wissenschaftliche Beschreibung, Auswertung kombinieren
+    - R: z.B. R-markdown (rmd)
+    - Python: jupyter notebooks
+- Code mit festgelegten Abhängigkeiten in environments (R: siehe renv)
+
+# Experimente richtig aufsetzen
+
+## Stochastische Einflüsse in Experimenten
+- Quellen für stochastische Einflüsse, z.B.:
+    - ML Algorithmen (z.B. __Random__ Forest)
+    - Optimierer (z.B. Evolutionäre Algorithmen mit 'zufälliger' Mutation)
+    - Auswertung/Bewertung (zufällig gezogene Validierungs / Testdaten)
+- Resultat: Selbst mit identischen Parametern/Software/Hardware bei Wiederholung eines Experiments unterschiedliche Ergebnisse
+
+## Random Number Generator (RNG) {.smaller}
+
+<div style="width: 48%; float:left">
+- Bei Computer Experimenten: kein 'echter' Zufall
+- Zufallszahlen stammen selbst aus Algorithmen: RNG
+- Kann gesteuert werden
+- Ansatz: RNG *vor* dem Experiment immer gleich initialisieren
+    - Initialisierung dokumentieren
+- Wiederholung liefert dann das selbe Ergebnis
+</div>
+<div style="width: 48%; float:right">
+```{r RNG}
+runif(1)
+runif(1)
+set.seed(1)
+runif(1)
+set.seed(1)
+runif(1)
+```
+</div>
+
+## Aber: Vorsicht!  {.smaller}
+<div style="width: 48%; float:left">
+- Wir wollen nicht wirklich **immer** das selbe Ergebnis.
+    - z.B. beim re-sampling für Test/Validierungsdaten
+    - Wenn wir zur statistischen Absicherung Versuche wiederholen
+    - Lösung: RNG Initialisierung iterieren
+</div>
+<div style="width: 48%; float:right">
+```{r iterateRNG}
+set.seed(1)
+runif(1)
+set.seed(2)
+runif(1)
+set.seed(3)
+runif(1)
+```
+</div>
+
+## Schnittstellen: andere Programmiersprachen
+- RNG in R verwendet nicht den selben Zahlenstrom wie z.B. Python
+- Wenn R ein Initialwert (seed) gesetzt wird, hat das keinerlei Auswirkungen auf 
+externe calls (Python, C, java...)
+- Muss berücksichtigt werden, z.B. durch Austausch von Initialwerten
+- Manchmal ist das nur schwer möglich (oder unmöglich)
+- Muss man dann mit leben ¯\\\_(ツ)\_/¯
+    - In diesem Fall sollten Experimente wenn schon nicht exakt dann zumindest
+    approximativ reproduzierbar sein
+    
+# Auswertung von Experimenten: Parameter
+
+## IRIS-RF-2 Beispiel {.smaller}
+
+```{r functionf}
+f <- function(x){
+  bacc <- NULL
+  for(i in 1:5){
+    set.seed(i)
+    train <- sample(c(T,F),nrow(iris),replace=T)
+    validation <- !train
+    model <- ranger::ranger(Species~., data=iris[train,], num.trees=x[1],
+      sample.fraction=x[2])
+    pred <- predict(model,iris[validation,-5])
+    acc <- NULL
+    for(spec in unique(iris$Species)){
+      i <- iris[validation,]$Species == spec 
+      correct <- iris[validation,]$Species[i] == pred$predictions[i]
+      acc <- c(acc,mean(correct))
+    }
+    bacc <- c(bacc, mean(acc))
+  }
+  mean(bacc)
+}
+```
+
+## IRIS-RF-2 Beispiel
+```{r runspot}
+require(SPOT)
+require(plotly)
+require(ggsci)
+require(emoa)
+source("code-water/plotting.R")
+lower <- c(1,0.03)
+upper=c(100,0.99)
+fma <- function(x) {-apply(x,1,f)}
+set.seed(1)
+result <- spot(,fma,lower,upper,control=list(funEvals=100,
+                       types=c("integer","numeric"),
+                       designControl=list(size=90),
+                       optimizer=SPOT::optimDE))
+resultpp <- prepare_spot_result_plot(result,SPOT::buildKriging)
+```
+
+## Grafische Auswertung: Sensitivität
+```{r plot1}
+plot_sensitivity(resultpp)
+```
+
+## Grafische Auswertung: Interaktion
+```{r plot2}
+plot_surface(resultpp)
+```
+
+
+
+## Grafische Auswertung: Parallel
+```{r plot3}
+plot_parallel(resultpp)
+```
+
+
+# Auswertung von Experimenten: Vergleiche
+
+## Szenario
+- Zwei Algorithmen zur Auswahl
+- Tuning notwendig
+- Ergibt optimierte Algorithmen 1 und 2
+- Wie vergleichen?
+
+## Vergleichsmöglichkeiten
+- Boxplots (wenn mehr als 10 Beobachtungen vorliegen)
+- Histogramme
+- Violinplots
+- ... uvm ...
+- Statistische Tests
+
+## Testdaten
+- Wiederholte Auswertung der besten Parameterkonfiguration
+- Ungesehene Testdaten
+- Ooops... wir haben schon alle Daten verwendet (Training, Validation) 
+    - Also alles nochmal, aber mit anderer Datenaufteilung
+
+## IRIS-RF-2 Beispiel {.smaller}
+
+```{r functionf2}
+set.seed(123)
+test <- sample(c(T,F),nrow(iris),replace=T,prob = c(0.33,0.66))
+iris_trainval <- iris[!test,]
+f <- function(x){
+  bacc <- NULL
+  for(i in 1:5){
+    set.seed(i)
+    train <- sample(c(T,F),nrow(iris_trainval),replace=T)
+    validation <- !train
+    model <- ranger::ranger(Species~., data=iris_trainval[train,], num.trees=x[1],
+      sample.fraction=x[2])
+    pred <- predict(model,iris_trainval[validation,-5])
+    acc <- NULL
+    for(spec in unique(iris_trainval$Species)){
+      i <- iris_trainval[validation,]$Species == spec 
+      correct <- iris_trainval[validation,]$Species[i] == pred$predictions[i]
+      acc <- c(acc,mean(correct))
+    }
+    bacc <- c(bacc, mean(acc))
+  }
+  mean(bacc)
+}
+```
+
+## IRIS-RF-2 Beispiel {.smaller}
+
+```{r functionftest}
+ftest <- function(x){
+  bacc <- NULL
+  for(i in 1:20){
+    set.seed(i)
+    train <- sample(c(T,F),nrow(iris_trainval),replace=T)
+    validation <- !train
+    model <- ranger::ranger(Species~., data=iris_trainval[train,], num.trees=x[1],
+      sample.fraction=x[2])
+    pred <- predict(model,iris[test,-5])
+    acc <- NULL
+    for(spec in unique(iris[test,]$Species)){
+      i <- iris[test,]$Species == spec 
+      correct <- iris[test,]$Species[i] == pred$predictions[i]
+      acc <- c(acc,mean(correct))
+    }
+    bacc <- c(bacc, mean(acc))
+  }
+  (bacc)
+}
+```
+
+## IRIS-RF-2 Beispiel
+
+```{r runspot2}
+lower <- c(1,0.05)
+upper=c(100,0.99)
+fma <- function(x) {-apply(x,1,f)}
+set.seed(1)
+result <- spot(,fma,lower,upper,control=list(funEvals=100,
+                       types=c("integer","numeric"),
+                       designControl=list(size=90),
+                       optimizer=SPOT::optimDE))
+y_test_best_RF <- ftest(result$xbest)
+```
+
+## Vergleichsalgorithmus: kNN
+- k-Nearest Neighbor
+- Vorhersage eines neuen Datenpunktes basierend
+auf den Klassen/Werten der k nächsten Nachbarn
+- Parameter: $k$, $p$
+
+siehe Abschnitte 3.2 in [@Bartz2023]
+
+## IRIS-kNN-2 Beispiel {.smaller}
+
+```{r functionfkknn}
+f <- function(x){
+  bacc <- NULL
+  for(i in 1:5){
+    set.seed(i)
+    train <- sample(c(T,F),nrow(iris_trainval),replace=T)
+    validation <- !train
+    model <- kknn::kknn(Species~., train=iris_trainval[train,], 
+                        test=iris_trainval[validation,-5],
+                        k=x[1],distance=x[2])
+    pred <- model$fitted.values
+    acc <- NULL
+    for(spec in unique(iris_trainval$Species)){
+      i <- iris_trainval[validation,]$Species == spec 
+      correct <- iris_trainval[validation,]$Species[i] == pred[i]
+      acc <- c(acc,mean(correct))
+    }
+    bacc <- c(bacc, mean(acc))
+  }
+  mean(bacc)
+}
+```
+
+## IRIS-kNN-2 Beispiel {.smaller}
+
+```{r functionftestknn}
+ftest <- function(x){
+  bacc <- NULL
+  for(i in 1:20){
+    set.seed(i)
+    train <- sample(c(T,F),nrow(iris_trainval),replace=T)
+    validation <- !train
+    model <- kknn::kknn(Species~., train=iris_trainval[train,], 
+                        test=iris[test,-5],
+                        k=x[1],distance=x[2])
+    pred <- model$fitted.values
+    acc <- NULL
+    for(spec in unique(iris[test,]$Species)){
+      i <- iris[test,]$Species == spec 
+      correct <- iris[test,]$Species[i] == pred[i]
+      acc <- c(acc,mean(correct))
+    }
+    bacc <- c(bacc, mean(acc))
+  }
+  (bacc)
+}
+```
+
+## IRIS-kNN-2 Beispiel
+
+```{r runspotkknn}
+lower <- c(2,0.01)
+upper=c(20,2)
+fma <- function(x) {-apply(x,1,f)}
+set.seed(1)
+resultknn <- spot(,fma,lower,upper,control=list(funEvals=100,
+                       types=c("integer","numeric"),
+                       designControl=list(size=90),
+                       optimizer=SPOT::optimDE))
+set.seed(1)
+y_test_best_kNN <- ftest(resultknn$xbest)
+```
+
+## Vergleich: RF vs. kNN
+
+```{r boxplot}
+boxplot(y_test_best_kNN,y_test_best_RF,names=c("kNN","RF"),horizontal=T,las=1)
+```
+
+## Vergleich: RF vs. kNN
+```{r histo}
+plot( hist(y_test_best_kNN,4,plot = F), col=rgb(0,0,1,1/2), xlim=c(0.8,1), 
+      ylim=c(0,10),xlab = "BACC",main = "")  # first histogram
+plot( hist(y_test_best_RF,4,plot = F), col=rgb(1,0,0,1/2), xlim=c(0.8,1), add=T)
+```
+
+
+## Statistischer Vergleich
+- Grafischer Vergleich nicht immer ausreichend
+- Stattdessen: statistische Tests
+    - Im Folgenden etwas vereinfacht dargestellt
+
+## Vergleich: t-Test {.smaller}
+- Vergleich MIT Annahme von Normalverteilung
+```{r ttest}
+t.test(y_test_best_kNN,y_test_best_RF)
+```
+
+kleiner p-Wert, würde auf signifkante Unterschiede hinweisen.
+
+## Statistischer Vergleich
+- Annahme Normalverteilung:
+    - problematisch, z.B.:
+        - Daten haben klare obere/untere Grenze
+        - Normalverteilung nicht
+
+## Vergleich: Friedman-Test {.smaller}
+- Vergleich OHNE Annahme von Normalverteilung
+```{r ftest}
+friedman.test(c(y_test_best_kNN,y_test_best_RF),
+              groups=c(rep(1,20),rep(2,20)),
+              blocks=c(1:20,1:20))
+```
+
+kleiner p-Wert, würde auf signifkante Unterschiede hinweisen.
+
+## Dritter Algorithmus
+```{r third}
+y_test_base_kNN <- ftest(c(2,0.001))
+boxplot(y_test_base_kNN,y_test_best_kNN,y_test_best_RF,
+        names=c("bkNN","kNN","RF"),horizontal=T,las=1)
+```
+
+
+## 3 Algorithmen, Friedman-Test {.smaller}
+```{r ftestmehrfach}
+p1 <- friedman.test(c(y_test_base_kNN,y_test_best_kNN),
+              groups=c(rep(1,20),rep(2,20)),
+              blocks=c(1:20,1:20))$p.value
+p2 <- friedman.test(c(y_test_base_kNN,y_test_best_RF),
+              groups=c(rep(1,20),rep(2,20)),
+              blocks=c(1:20,1:20))$p.value
+p3 <- friedman.test(c(y_test_best_kNN,y_test_best_RF),
+              groups=c(rep(1,20),rep(2,20)),
+              blocks=c(1:20,1:20))$p.value
+c(p1,p2,p3)
+```
+
+Interpretation: Unterschiede zwischen Allen?
+⚡☠️⚡ ACHTUNG: Mehrfachvergleich!
+
+## Achtung: Mehrfachvergleiche
+- Bei Vergleich von 3 oder mehr Algorithmen
+    - Mehrfach, paarweise Vergleich so NICHT valide
+    - "Multiple comparisons problem", https://en.wikipedia.org/wiki/Multiple_comparisons_problem
+    - Mehr Vergleiche: Höhere Wahrscheinlichkeit einen Fehler zu machen
+    - Erfordert Korrektur
+    
+## Vorgehen bei Mehrfachen Vergleichen
+1\. Test: Sind überhaupt Unterschiede vorhanden?
+```{r ftestglobal}
+friedman.test(cbind(y_test_base_kNN,y_test_best_kNN,y_test_best_RF))
+```
+
+Kleiner p-Wert: Unterschiede vorhanden, weitermachen. (Wenn nicht: abbrechen. keine Unterschiede.)
+
+## Vorgehen bei Mehrfachen Vergleichen
+2\. Test: zwischen welchen spezifischen Algorithmen bestehen die Unterschiede?
+mit Korrekturverfahren
+```{r posthoc}
+require(PMCMRplus)
+frdAllPairsNemenyiTest(y=c(y_test_base_kNN,y_test_best_kNN,y_test_best_RF),
+                       groups=c(rep(1,20),rep(2,20),rep(3,20)),
+                       blocks=rep(1:20,3))
+```
+
+d.h.: Kein Unterschied zwischen 2/3. Unterschied zwischen 1/2 bzw 1/3.
+
+## Fazit für das Beispiel
+- Die "base" kNN Variante unterscheidet sich relativ deutlich von den beiden optimierten Konfigurationen
+- Sie ist in beiden Fällen schlechter (siehe voriger Boxplot)
+- Ein Unterschied zwischen den optimierten Konfigurationen ist zumindest nicht klar feststellbar
+- Aber Achtung: Rein statistische Bewertung. Ob Unterschied **relevant** ist hängt von Anwendung ab
+- Außerdem zu beachten: Widerspruch bzgl. Unterschiede zwischen optimierten Konfigurationen 
+(2er Test vs. 3er Test)
+- Auch wenn nicht zwingend (statistisch signifikant) besser: RF zu bevorzugen (pragmatische Entscheidung in der realen Anwendung)
+
+## Fazit insgesamt
+- Soweit möglich grafische Auswertungen empfehlenswert (z.B. Boxplots)
+- Statistische Tests können hilfreich sein, aber...
+    - Richtiges Vorgehen ist nicht immer trivial (selbst unter Statistikern strittig)
+    - Statistische Tests sagen nicht unbedingt etwas über Relevanz aus
+- Wichtige Überlegungen
+    - Welche Frage will man beantworten?
+    - Erfüllen die Daten Annahmen/Voraussetzungen (z.B. Verteilung, Anzahl Beobachtungen)
+        - Auch Visualisierungsmethoden haben Voraussetzungen! (siehe Zahl Beobachtungen für Boxplot)
+
+## Quellen
