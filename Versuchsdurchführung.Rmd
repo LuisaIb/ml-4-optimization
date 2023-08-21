@@ -1,145 +1,152 @@
+---
+title: "Machine Learning Project"
+author: "Hammerer, Ibele, Janez, Romer, Steinwender"
+date: "2023-07-29"
+output:
+  ioslides_presentation:
+    widescreen: true
+    transition: faster
+    highlight: espresso
+    css: styles.css
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 # Versuch 4.1 - VAE Datenerhebung
-Modelleinstellung: siehe Versuchsaufbau
-Training: 50
-Test: 15
-Epochs: 300
-- Input Daten wurden nicht skaliert
-- (Versuch) Output Daten x1,x2 auf ursprüngliche Verteilung im Raum zu reskalieren
--> Realität nur wenige Beobachtungen in der Realität vorhanden
+
+Modelleinstellung: siehe Versuchsaufbau Training: 50 Test: 15 Epochs:
+300 - Input Daten wurden nicht skaliert - (Versuch) Output Daten x1,x2
+auf ursprüngliche Verteilung im Raum zu reskalieren -\> Realität nur
+wenige Beobachtungen in der Realität vorhanden
 
 ## f1
-Bild Fuktion
-![Alt-Text](images/Versuch 4/GroundtruthF1)
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF1)
 
 Bild Fuktion zugeschnitten
 
 Bild Datenpunkte zufällig Training
-![Alt-Text](images/Versuch 4/DataGenerationRandomTrainF1MinimalData)
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF1MinimalData)
 
 Bild Datenpunkte zufällig Test
-![Alt-Text](images/Versuch 4/DataGenerationRandomTestF1MinimalData)
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF1MinimalData)
 
 Bild Datenpunkte VAE
-![Alt-Text](images/Versuch 4/images/Versuch 4/VAEDataF1MinimalData)
+![Alt-Text](images/Versuch%204/images/Versuch%204/VAEDataF1MinimalData)
 
-
-Bild Loss Function
-![Alt-Text](images/Versuch 4/LossF1MinimalData.png)
-
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF1MinimalData.png)
 
 ### Fazit
-- nicht in der Lage die Verteilung über gesamten Raum zu lernen
-- Globale Struktur wird im begrenzten Ausmaß erlernt
-- Datenpunkteskala passt nur bedingt
-- representiert die 'Realität' nicht ausreichend
-- Loss Function -> Training und Test Verlauf in Ordnung jedoch nicht überagend gut
 
-
-
-
+-   nicht in der Lage die Verteilung über gesamten Raum zu lernen
+-   Globale Struktur wird im begrenzten Ausmaß erlernt
+-   Datenpunkteskala passt nur bedingt
+-   representiert die 'Realität' nicht ausreichend
+-   Loss Function -\> Training und Test Verlauf in Ordnung jedoch nicht
+    überagend gut
 
 ## f4
-Bild Fuktion
-![Alt-Text](images/Versuch 4/GroundtruthF4)
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF4)
 
 Bild Fuktion zugeschnitten
 
 Bild Datenpunkte zufällig Training
-![Alt-Text](images/Versuch 4/DataGenerationRandomTrainF4MinimalData)
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF4MinimalData)
 
 Bild Datenpunkte zufällig Test
-![Alt-Text](images/Versuch 4/DataGenerationRandomTestF4MinimalData)
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF4MinimalData)
 
 Bild Datenpunkte VAE
-![Alt-Text](images/Versuch 4/VAEDataF4MinimalData)
+![Alt-Text](images/Versuch%204/VAEDataF4MinimalData)
 
-
-Bild Loss Function
-![Alt-Text](images/Versuch 4/LossF4MinimalData.png)
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF4MinimalData.png)
 
 ### Fazit
-- nicht in der Lage die Verteilung über gesamten Raum zu lernen
-- Globale Struktur wird nicht erkannt
-- Datenpunkteskala passt nur bedingt
-- representiert die 'Realität' nicht 
-- Loss Function -> Training und Test Verlauf in Ordnung jedoch nicht überagend gut
 
+-   nicht in der Lage die Verteilung über gesamten Raum zu lernen
+-   Globale Struktur wird nicht erkannt
+-   Datenpunkteskala passt nur bedingt
+-   representiert die 'Realität' nicht
+-   Loss Function -\> Training und Test Verlauf in Ordnung jedoch nicht
+    überagend gut
 
-
----> Versuch abgebrochen
-
+---\> Versuch abgebrochen
 
 # Versuch 4.2 - VAE Datenerhebung
-Modelleinstellung: siehe Versuchsaufbau
-Training: 1000
-Test: 200
-Epochs: 100
-- Input Daten wurden nicht skaliert
-- (Versuch) Output Daten x1,x2 auf ursprüngliche Verteilung im Raum zu reskalieren
--> Realität nur wenige Beobachtungen in der Realität vorhanden
+
+Modelleinstellung: siehe Versuchsaufbau Training: 1000 Test: 200 Epochs:
+100 - Input Daten wurden nicht skaliert - (Versuch) Output Daten x1,x2
+auf ursprüngliche Verteilung im Raum zu reskalieren -\> Realität nur
+wenige Beobachtungen in der Realität vorhanden
 
 ## f1
-Bild Fuktion
-![Alt-Text](images/Versuch 4/GroundtruthF1)
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF1)
 
 Bild Fuktion zugeschnitten
 
 Bild Datenpunkte zufällig Training
-![Alt-Text](images/Versuch 4/DataGenerationRandomTrainF1MaximalData)
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF1MaximalData)
 
 Bild Datenpunkte zufällig Test
-![Alt-Text](images/Versuch 4/DataGenerationRandomTestF1MaximalData)
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF1MaximalData)
 
 Bild Datenpunkte VAE
-![Alt-Text](images/Versuch 4/VAEDataF1MaximalData)
+![Alt-Text](images/Versuch%204/VAEDataF1MaximalData)
 
-
-Bild Loss Function
-![Alt-Text](images/Versuch 4/LossF1MaximalData.png)
-
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF1MaximalData.png)
 
 ### Fazit
-- bessere Performance + Ergebnisse als bei 50 Datenpunkten
-- Loss Function -> Training und Test Verlauf gut und benötigt viel weniger Epochen
-- lernt Verteilung an sich sehr gut, Problem: scheint Dimensionsreduktion anzuwenden, dadurch verzerrte / gestauchte Darstellung
-- nicht praktikabel für geplanten Einsatz
 
-
+-   bessere Performance + Ergebnisse als bei 50 Datenpunkten
+-   Loss Function -\> Training und Test Verlauf gut und benötigt viel
+    weniger Epochen
+-   lernt Verteilung an sich sehr gut, Problem: scheint
+    Dimensionsreduktion anzuwenden, dadurch verzerrte / gestauchte
+    Darstellung
+-   nicht praktikabel für geplanten Einsatz
 
 ## f4
-Bild Fuktion
-![Alt-Text](images/Versuch 4/GroundtruthF4)
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF4)
 
 Bild Fuktion zugeschnitten
 
 Bild Datenpunkte zufällig Training
-![Alt-Text](images/Versuch 4/DataGenerationRandomTrainF4MaximalData)
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF4MaximalData)
 
 Bild Datenpunkte zufällig Test
-![Alt-Text](images/Versuch 4/DataGenerationRandomTestF4MaximalData)
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF4MaximalData)
 
 Bild Datenpunkte VAE
-![Alt-Text](images/Versuch 4/VAEDataF4MaximalData)
+![Alt-Text](images/Versuch%204/VAEDataF4MaximalData)
 
-
-Bild Loss Function
-![Alt-Text](images/Versuch 4/LossF4MaximalData.png)
-
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF4MaximalData.png)
 
 ### Fazit
-- bessere Performance + Ergebnisse als bei 50 Datenpunkten
-- Loss Function -> Training und Test Verlauf gut und benötigt viel weniger Epochen
-- lernt Verteilung an sich sehr gut, Problem: scheint Dimensionsreduktion anzuwenden, dadurch verzerrte / gestauchte Darstellung
-- nicht praktikabel für geplanten Einsatz
-- (Annahme) lokale Struktur wird erkannt und representiert die Funktion
 
----> Versuch abgebrochen
+-   bessere Performance + Ergebnisse als bei 50 Datenpunkten
+-   Loss Function -\> Training und Test Verlauf gut und benötigt viel
+    weniger Epochen
+-   lernt Verteilung an sich sehr gut, Problem: scheint
+    Dimensionsreduktion anzuwenden, dadurch verzerrte / gestauchte
+    Darstellung
+-   nicht praktikabel für geplanten Einsatz
+-   (Annahme) lokale Struktur wird erkannt und representiert die
+    Funktion
 
+---\> Versuch abgebrochen
 
-|-> in Realität ist Groun Truth nicht bekannt, somit ist die Rekonstruktion nicht möglich
-|-> nicht für den angedachten Verwendungszweck nicht geeignet
-|-> Ausblick: Modell nochmals anschauen (Layer, Parameter, etc.), besseres Lernen der Funktion, GAN oder CVAE ggf. ausprobieren #
+\|-\> in Realität ist Groun Truth nicht bekannt, somit ist die
+Rekonstruktion nicht möglich \|-\> nicht für den angedachten
+Verwendungszweck nicht geeignet \|-\> Ausblick: Modell nochmals
+anschauen (Layer, Parameter, etc.), besseres Lernen der Funktion, GAN
+oder CVAE ggf. ausprobieren \#
 
 ------------------------------------------------------------------------
-
-

@@ -312,51 +312,6 @@ plotFunction(fpred_random,lower,upper,vectorized=T)
 ## optimization
 
 
-```{r}
-library(bbotk)
-library(mlr3)
-library(mlr3learners)
-library(mlr3mbo)
-
-MBOEinterface <-function(x=NULL,fun,lower,upper,control=list(),...){
-  con<-list(funEvals=200,populationSize= (10 * length(lower)),trace=0)
-  con[names(control)] <- control
-  control<-con
-  funEvals <- control$funEvals
-  NP <- control$populationSize
-	
-  ## recalculate funEvals to DE iteration on basis of population size
-  itermax <- floor((funEvals - NP) / NP)
-  if(itermax < 1) itermax= 1
-	
-  control$NP <- control$populationSize
-  control$itermax <- itermax
-	
-	## Delete unused settings
-  control$populationSize <- NULL
-  control$funEvals <- NULL
-  control$types <- NULL
-	
-  ## wrapper for matrix inputs to fun
-  fn <- function(x,...)fun(matrix(x,1),...) 
-
-  ## start optim
-  
-  
-  surrogate = SurrogateLearner$new(lrn("regr.km"))
-  acq_optimizer = AcqOptimizer$new(opt("random_search"), terminator = trm("evals"))
-  
-  
-  
-  res <- OptimizerMbo$new(bayesopt_ego,
-    surrogate = surrogate,
-    acq_function = fn,
-    acq_optimizer = acq_optimizer)
-  list(x=res$member$bestmemit,y=res$member$bestvalit,xbest=matrix(res$optim$bestmem,1),ybest=matrix(res$optim$bestval,1),count= res$optim$nfeval*nrow(res$member$pop))
-}
-
-```
-
 
 ```{r}
 
@@ -388,7 +343,7 @@ LVFGSBinterface <-function(x=NULL,fun,lower,upper,control=list(),...){
   fn <- function(x,...)fun(matrix(x,1),...) 
 
   ## start optim
-  res <- optim(c(-4.5,-4.5), fn=fn, method = "L-BFGS-B", lower=lower,upper=upper,control=control,...)
+  res <- optim(c(-4.5,-4.5), fn=fn, method = "L-BFGS-B", lower=lower,upper=upper,factr=-Inf,control=control,...)
   list(x=res$member$bestmemit,y=res$member$bestvalit,count= res$optim$nfeval*nrow(res$member$pop))
 }
 
