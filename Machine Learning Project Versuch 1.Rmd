@@ -171,17 +171,8 @@ if(dim==2){
 
 ```{r}
 
-custom_loss <- function(y_true, y_pred) {
-  # Implement your custom loss calculation here
-  # For example, you can use mean squared error with a weighting factor
-  weight_factor <- 0.001
-  mse <- mean((y_true - y_pred)^2)
-  weighted_mse <- mean((y_true - y_pred)^2 * (y_true^weight_factor))
-  return(weighted_mse)
-}
 
-
-createRNNModel <- function(){
+createRNNModel <- function(epochs = 150, train_data, train_labels, test_data, test_labels){
   model = keras_model_sequential() %>% 
    layer_dense(units=128, input_shape=2) %>% 
    layer_activation_leaky_relu() %>% 
@@ -199,12 +190,24 @@ createRNNModel <- function(){
    layer_dense(units=1, activation="linear")
  
   model %>% compile(
-     loss = "mse",
-     optimizer =  "adam", 
-     metrics = list("mean_absolute_error")
+     loss = loss_mean_squared_logarithmic_error,
+     optimizer =  "adam" #, 
+     #metrics = list("mean_absolute_error")
    )
-   
+  
   model %>% summary()
+  
+  history <- model %>% fit(
+  x = train_data,
+  y = train_labels,
+  epochs = epochs, # Adjust the number of epochs as needed
+  validation_data = list(test_data, test_labels),
+  verbose = 1
+  )
+
+  # Plot the training and validation loss
+  plot(history)
+
   
   model
 }
@@ -241,9 +244,9 @@ y_test <- data$y_test
 ```{r}
 
 
-model_rnn_random <- createRNNModel()
+model_rnn_random <- createRNNModel(epochs = 150, X_train, y_train, X_test, y_test)
 
-model_rnn_random %>% fit(X_train, y_train, epochs = 150,verbose = 0)
+#model_rnn_random %>% fit(X_train, y_train, verbose = 0)
 
 y_pred = model_rnn_random %>% predict(X_test)
 
@@ -493,7 +496,11 @@ resnnde
 ```
 
 
+```{r}
 
+f1
+
+```
 
 
 
@@ -503,6 +510,15 @@ resnnde
 ## plot results
 print(plotBenchmarkPerformance(list(resgtde,resesde,resnnde),
                     c("groundtruth","gaussestimation","nnreg")))
+
+
+## plot results
+print(plotBenchmarkPerformance(list(resnnde, resesde),
+                    c("nnreg","gaussestimation")))
+
+## plot results
+print(plotBenchmarkPerformance(list(resnnde,resgtde),
+                    c("nnreg","groundtruth")))
 
 
 ## plot error, comparing against groundtruth
@@ -541,9 +557,6 @@ resnnde2 <- loggedExperiment(exprDE2, model_rnn_random$predict, 1:10,10)
 resnnde2
 
 ```
-
-
-
 
 
 
@@ -592,10 +605,12 @@ resesde3
 ```{r}
 
 # from the rnn  result
-resnn <- loggedExperiment(exprDE3, model_rnn_random$predict, 1:10,10)
+resnnde3 <- loggedExperiment(exprDE3, model_rnn_random$predict, 1:10,10)
 resnnde3
 
 ```
+
+
 
 
 ```{r}
@@ -621,11 +636,6 @@ print(plotBenchmarkValidation(resgtde3,list(resesde3,resnnde3),
 ```
 
 
-
-```{r}
-
-
-```
 
 
 

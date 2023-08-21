@@ -17,6 +17,23 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+# Versuch 1.1 - Funktion 1, 25 Datenpunkte
+
+Random
+kein überragendes Ergebnis, Optimum wird nicht gefunden, RNN ist unbrauchbar, spiegelt Problematik der
+realen Welt wieder (begrenzte Anzahl an Datenpunkten)
+
+
+Grid
+
+
+
+LHS
+
+
+
+
 # Versuch 4.1 - VAE Datenerhebung
 
 Modelleinstellung: siehe Versuchsaufbau Training: 50 Test: 15 Epochs:
