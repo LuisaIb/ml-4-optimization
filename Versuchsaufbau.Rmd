@@ -142,15 +142,24 @@ Kompilierung und Training des Modells:
 
 
 
-## Phase 3.1 Optimierung
+## Phase 3 Optimierung
 
-### Optimierfunktion 1 - Gradientenbasiert
-
-
+### Optimierfunktion 1 - Differential Evolution | Population size: dimensionen * 20
 
 
+### Optimierfunktion 1.1 - Differential Evolution | Population size: 2-3
 
-### Optimierfunktion 2 - Uniform Random Search
+
+
+### Optimierfunktion 2 - L-BFGS-B
+
+BILD
+
+BILD
+
+
+|-> Abbruchkriterium auf zu hohem Wert, bzw. wird zu schnell erreicht
+|->
 
 
 
