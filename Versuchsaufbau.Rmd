@@ -159,7 +159,7 @@ BILD
 
 
 |-> Abbruchkriterium auf zu hohem Wert, bzw. wird zu schnell erreicht
-|->
+|-> 
 
 
 
