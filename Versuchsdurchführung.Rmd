@@ -1,10 +1,3 @@
-# Versuch 1 - 25 Datenpunkte
-
-
-
-
-
-
 # Versuch 4.1 - VAE Datenerhebung
 Modelleinstellung: siehe Versuchsaufbau
 Training: 50
