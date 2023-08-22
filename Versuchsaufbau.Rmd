@@ -11,11 +11,21 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Forschungsfragen:
+1. Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll? (VAE Experiment)
+2. Ist ein RNN besser als ein Gauss bei der Optimierung? (Bewertungsmatrix Optimierung)
+3. Ist der Einsatz von RNN geeignet? (Versuchkriterien)
+
+
+
+
+
 # Verworfene Ansätze
 - VAE für Regression
 - VAE wegen Dimensionsreduktion nicht für Datenerhebung geeignet
 - Loss Function selber schreiben
-- 
+- L-BFGS-B als Optimierer
+
 
 
 
