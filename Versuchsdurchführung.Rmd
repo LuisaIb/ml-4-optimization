@@ -126,10 +126,19 @@ realen Welt wieder (begrenzte Anzahl an Datenpunkten)
 
 
 ## Versuch 1.2.1.1
-- kein überragendes Ergebnis, Optimum wird nicht gefunden, f4 zu konplex, weder globale noch lokale Struktur wird abgebildet, RNN ist unbrauchbar, spiegelt Problematik der
+- kein gutes Ergebnis, Optimum wird nicht gefunden, f4 zu konplex, weder globale noch lokale Struktur wird abgebildet, RNN ist unbrauchbar, spiegelt Problematik der
 realen Welt wieder (begrenzte Anzahl an Datenpunkten)
 
+## Versuch 1.2.1.2
+- kein gutes Ergebnis, Optimum wird nicht gefunden, f4 zu konplex, weder globale noch lokale Struktur wird abgebildet, RNN ist unbrauchbar, spiegelt Problematik der
+realen Welt wieder (begrenzte Anzahl an Datenpunkten)
 
+## Versuch 1.2.1.3
+- kein gutes Ergebnis, Optimum wird nicht gefunden, f4 zu konplex, weder globale noch lokale Struktur wird abgebildet, RNN ist unbrauchbar, spiegelt Problematik der
+realen Welt wieder (begrenzte Anzahl an Datenpunkten)
+
+|-> Versuch 1.1.1 : Random Sampling am besten, Grid Sampling am schlechtesten, Ergebnisse schlecht, RNN ist unbrauchbar
+|-> Versuch 1.2.1 : Random Sampling am besten, Grid Sampling am schlechtesten, Ergebnisse schlecht, RNN ist unbrauchbar
 
 
 
