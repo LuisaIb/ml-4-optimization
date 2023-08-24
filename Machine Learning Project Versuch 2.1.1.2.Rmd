@@ -1,0 +1,588 @@
+---
+title: "Machine Learning Project"
+author: "Hammerer, Ibele, Janez, Romer, Steinwender"
+date: "2023-07-29"
+output:
+  ioslides_presentation: default
+  html_document: default
+---
+
+
+#ToDO
+- noch mehr Parameter
+- und Optimierer aus dem Paket nloptr
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## requirements
+
+```{r}
+require(smoof)
+require(ggplot2)
+require(keras)
+require(SPOT)
+require(pracma)
+require(lhs)
+require(COBBS)
+require(nloptr)
+require(kernlab)
+
+```
+
+
+## adjustements
+
+```{r}
+
+set.seed(1)
+numBbobf <- 1
+dim <- 2
+dataGenerationMethod <- "grid" #"random", "lhs"
+numDataPoints <- 600
+trainTestSplit <- 0.8
+funEval <- 200
+
+
+```
+
+
+## loading the function
+
+```{r}
+
+loadFunction <- function(numBbobf=1, dim=2) {
+  f <- makeBBOBFunction(dim,numBbobf,1)
+  return(f)
+}
+
+
+plot2DFunction <- function(f,lower,upper,vectorized=FALSE){
+  x <- seq(from=lower[1],to=upper[1],length.out=100)
+  y <- seq(from=lower[2],to=upper[2],length.out=100)
+  df <-  expand.grid(x = x, y = y)
+  if(vectorized)
+    z <- f(df)
+  else
+    z <- apply(df,1,f)
+  df$z <- z
+  p <- ggplot(df, aes(x, y, z=z))
+  p <- p +
+    geom_contour_filled()
+  p
+}
+
+```
+
+
+
+```{r}
+
+bbobf <- loadFunction(numBbobf=numBbobf,dim=dim)
+lower <- getLowerBoxConstraints(bbobf)
+upper <- getUpperBoxConstraints(bbobf)
+
+
+if(dim==2){
+  plot2DFunction(bbobf,lower,upper)
+} else if (dim==3){
+  NULL
+}
+
+
+```
+
+```{r}
+
+bbobf
+
+```
+
+
+
+## generating the data
+
+It is not clear how many data points are needed. There must be enough data points to generate a model that is able to fit the data good enough but not too many data points to slow down the algorithm. The data can be generated randomly or with the help of a model.
+
+```{r}
+
+generateRandom <- function(n=50,lower,upper,dim=2){
+  x <- runif(n,lower[1],upper[1])
+  for (i in 2:dim) {
+    x <- cbind(x, runif(n,lower[i],upper[i]))
+  }
+  x
+}
+
+
+generateGrid <- function(n = 50, lower, upper, dim = 2){
+  grid_elements <- round(pracma::nthroot(n, dim))
+  seq <- NULL
+  for (i in 1:dim) {
+    seq <- cbind(seq, seq(lower[i], upper[i], length.out=grid_elements))
+  }
+  if(dim == 2){
+    data <- expand.grid(x1 = seq[,1], x2 = seq[,2])
+  } else if(dim == 3){
+    data <- expand.grid(x1 = seq[,1], x2 = seq[,2], x1 = seq[,3])
+  } else if(dim == 4){
+    data <- expand.grid(x1 = seq[,1], x2 = seq[,2], x1 = seq[,3], x1 = seq[,4])
+  }
+  data
+}
+
+
+
+generateLHS <- function(n = 50, lower, upper, dim = 2){
+  x <- randomLHS(n, dim)
+  for(i in 1:dim){
+    x[,i] <- lower + (upper-lower)*x[,i]
+  }
+  x
+}
+
+
+generateDataPoints <- function(n = 50, f, dim = 2, method = "random"){
+  ftest <- f 
+  lower <- getLowerBoxConstraints(ftest)
+  upper <- getUpperBoxConstraints(ftest)
+  if (method == "random") {
+    x <- generateRandom(n = n, lower = lower, upper = upper, dim = dim)
+  } else if (method == "grid") {
+    x <- generateGrid(n = n, lower = lower, upper = upper, dim = dim)
+  } else if (method == "lhs") {
+    x <- generateLHS(n = n, lower = lower, upper = upper, dim = dim)
+  } else {
+    stop("wrong method - please choose 'random' or 'lhs'")
+  }
+  df <-  data.frame(x)
+  df$z <- apply(df,1,ftest)
+  return(df)
+}
+
+
+plot2DDataPoints <- function(df){
+  dfPlot <- data.frame(x=df[, 1],y=df[, 2],z=df[, 3])
+  ggplot(data=dfPlot,aes(x=x,y=y,colour=z)) +
+    geom_point() +
+    scale_colour_gradientn(colours= c("#440154", "#414487", "#2a788e", "#22a884", "#7ad151", "#fde725"))
+}
+
+
+```
+
+```{r}
+
+
+df <- generateDataPoints(n = numDataPoints, bbobf, dim = dim, method = dataGenerationMethod)
+if(dim==2){
+  plot2DDataPoints(df)
+}
+
+
+```
+
+
+```{r}
+
+
+createRNNModel <- function(epochs = 150, train_data, train_labels, test_data, test_labels){
+  model = keras_model_sequential() %>% 
+   layer_dense(units=128, input_shape=2) %>% 
+   layer_activation_leaky_relu() %>% 
+   layer_dense(units=32) %>% 
+   layer_activation_leaky_relu() %>% 
+   layer_dense(units=128) %>% 
+   layer_activation_leaky_relu() %>%
+#   layer_dropout(rate=0.01) %>%
+#   layer_dense(units=64, activation="relu", input_shape=2) %>% 
+#   layer_dense(units=64, activation="relu", input_shape=2) %>% 
+#   layer_dense(units=32, activation = "relu") %>% 
+   layer_dropout(rate=0.001) %>% 
+   layer_dense(units=64) %>% 
+   layer_activation_leaky_relu() %>% 
+   layer_dense(units=1, activation="linear")
+ 
+  model %>% compile(
+     loss = loss_mean_squared_logarithmic_error,
+     optimizer =  "adam" #, 
+     #metrics = list("mean_absolute_error")
+   )
+  
+  model %>% summary()
+  
+  startTrainRNN <- Sys.time()
+  history <- model %>% fit(
+  x = train_data,
+  y = train_labels,
+  epochs = epochs, # Adjust the number of epochs as needed
+  validation_data = list(test_data, test_labels),
+  verbose = 1
+  )
+  timeTrainRNN <- Sys.time() - startTrainRNN
+  
+
+  # Plot the training and validation loss
+  plot(history)
+
+  
+  list(model = model, timeTrainRNN = timeTrainRNN)
+}
+
+
+```
+
+
+
+```{r}
+splitTrainTest <- function(df, dim = dim, tts = 0.8){
+  l <- nrow(df)
+  s <- l * tts
+  X_train <- df[0:s, 1:dim]
+  X_train <- data.matrix(X_train)
+  y_train <- df[0:s, (dim + 1)]
+  X_test <- df[(s+1):l, 1:dim]
+  X_test <- data.matrix(X_test)
+  y_test <- df[(s+1):l, (dim + 1)]
+  list(X_train = X_train, y_train = y_train, X_test = X_test, y_test = y_test)
+}
+
+data <- splitTrainTest(df, dim, trainTestSplit)
+X_train <- data$X_train
+y_train <- data$y_train
+X_test <- data$X_test
+y_test <- data$y_test
+
+
+```
+
+
+
+```{r}
+
+trainedModel <- createRNNModel(epochs = 150, X_train, y_train, X_test, y_test)
+
+model_rnn <- trainedModel$model
+trainingTimeRNN <- trainedModel$timeTrainRNN
+
+#model_rnn_random %>% fit(X_train, y_train, verbose = 0)
+
+y_pred = model_rnn %>% predict(X_test)
+
+
+
+plotModel <- function(model, lower, upper){
+  x <- seq(from=lower[1],to=upper[1],length.out=100)
+  y <- seq(from=lower[2],to=upper[2],length.out=100)
+  
+  df <-  expand.grid(x = x, y = y)
+  
+  x_pred <- cbind(df$x, df$y)
+  
+  z <- model %>% predict(x_pred)
+  
+  df$z <- z
+  
+  p <- ggplot(df, aes(x, y, z=z))
+  p <- p + geom_contour_filled()
+  
+  p
+  
+}
+
+
+plotModel(model_rnn, lower, upper)
+print(trainingTimeRNN)
+
+
+```
+
+
+
+
+```{r}
+
+startTrainGauss <- Sys.time()
+fitted_gpr <- kernlab::gausspr(X_train,y_train)
+timeTrainGauss <- Sys.time() - startTrainGauss
+
+
+plotModel(fitted_gpr,lower,upper)
+print(timeTrainGauss)
+
+```
+
+
+```{r}
+
+
+generateGaussModel <- function(X_train, y_train){
+  ## specify some model configuration
+  mc  <- list(useLambda=F,thetaLower=1e-6,thetaUpper=1e12)
+  
+  ## and some configuration details for the simulation
+  cntrl <- list(modelControl=mc,
+                nsim=1,
+                seed=1,
+                method="spectral",
+                Ncos = 100,
+                conditionalSimulation=TRUE
+  )
+  
+  x <- as.matrix(X_train[,c(1,2)]) # training data: features
+  y <- as.matrix(y_train) # training data: observations
+  
+  ## generate model and test functions from the data -> generating a model / function
+  cobbsResult <- generateCOBBS(x,y,cntrl)
+  cobbsResult
+  
+}
+
+cobbsResult <- generateGaussModel(X_train, y_train)
+
+
+```
+
+
+
+```{r}
+
+createGroundtruth <- function(bbobf, X_train){
+  x <- as.matrix(X_train[,c(1,2)])
+  groundtruth <- function(x){
+    x=matrix(x,,2) 
+    apply(x,1,bbobf)
+  }
+  groundtruth
+  
+}
+
+groundtruth <- createGroundtruth(bbobf, X_train)
+
+```
+
+
+
+## optimization
+
+
+```{r}
+
+#BFGSinterface <-function(x=NULL,fun,lower,upper,control=list(),...){
+#  con<-list(funEvals=200,populationSize= (100 * length(lower)),trace=0)
+#  con[names(control)] <- control
+#  control<-con
+#  funEvals <- control$funEvals
+#  NP <- control$populationSize
+	
+#  ## recalculate funEvals to DE iteration on basis of population size
+#  itermax <- floor((funEvals - NP) / NP)
+#  if(itermax < 1) itermax= 1
+	
+#  #control$NP <- control$populationSize
+#  control$maxit <- 2000
+#  control$pgtol <- 1e-9999999999999999999
+#  control$factr <- 1e-9999999999999999999
+#  control$lmm <- 2000
+	
+#	## Delete unused settings
+#  control$populationSize <- NULL
+#  #control$funEvals <- NULL
+#  #control$types <- NULL
+	
+#  ## wrapper for matrix inputs to fun
+#  fn <- function(x,...)fun(matrix(x,1),...) 
+
+#  ## start optim
+#  res <- optimLBFGSB(fun=fn,lower=lower,upper=upper,control=control,...)
+#  list(x=res$member$bestmemit,y=res$member$bestvalit,xbest=res$xbest,ybest=res$ybest,count= res$optim$nfeval*nrow(res$member$pop))
+#}
+
+
+```
+
+
+
+
+```{r include=FALSE}
+
+
+logExperiment <- function( groundtruth, rnn, gauss){
+  expr <- expression(
+    res <- DEinterface(fun=fnlog,
+                      lower=lower,
+                      upper=upper,
+                      control=list(funEvals=funEval,populationSize=popSize))
+  )
+  
+  startGT <- Sys.time()
+  resGT <- loggedExperiment(expr, groundtruth, 1:10,10)
+  timeGT <- Sys.time() - startGT
+  
+  startRNN <- Sys.time()
+  resRNN <- loggedExperiment(expr, rnn, 1:10,10)
+  timeRNN <- Sys.time() - startRNN
+  
+  startGauss <- Sys.time()
+  resGauss <- loggedExperiment(expr, gauss, 1:10,10)
+  timeGauss <- Sys.time() - startGauss
+  
+  list(resGT = resGT, resRNN = resRNN, resGauss = resGauss, timeGT = timeGT, timeRNN = timeRNN, timeGauss = timeGauss)
+}
+
+
+plotBenchmark <- function(resGT, resRNN, resGauss){
+  print(plotBenchmarkPerformance(list(resGT,resGauss,resRNN),
+                      c("groundtruth","gaussestimation","nnreg")))
+  
+  print(plotBenchmarkPerformance(list(resRNN, resGauss),
+                      c("nnreg","gaussestimation")))
+  
+  print(plotBenchmarkPerformance(list(resRNN,resGT),
+                      c("nnreg","groundtruth")))
+  
+  print(plotBenchmarkValidation(resGT,list(resGauss,resRNN),
+                      c("gaussestimation","nnreg")))
+  
+}
+
+
+if(numBbobf == 1){
+  funEval <- 200
+} else if(numBbobf == 24) {
+  funEval <- 400
+}
+
+
+popSize <-  4  #, dim*10, dim*20)
+log1 <- logExperiment(groundtruth, model_rnn$predict, cobbsResult$estimation)
+
+popSize <-  dim*10 #, dim*20)
+log2 <- logExperiment(groundtruth, model_rnn$predict, cobbsResult$estimation)
+
+popSize <-  dim*20
+log3 <- logExperiment(groundtruth, model_rnn$predict, cobbsResult$estimation)
+
+
+```
+
+
+
+```{r}
+
+
+log1
+
+
+```
+
+
+
+```{r}
+
+
+plotBenchmark(log1$resGT, log1$resRNN, log1$resGauss)
+print("----Evaluation Time----")
+print("Groundtruth:")
+print(log1$timeGT)
+print("")
+print("RNN:")
+print(log1$timeRNN)
+print("")
+print("GaussEstimation:")
+print(log1$timeGauss)
+
+
+
+```
+
+
+```{r}
+
+
+log2
+
+
+```
+
+
+```{r}
+
+plotBenchmark(log2$resGT, log2$resRNN, log2$resGauss)
+print("----Evaluation Time----")
+print("Groundtruth:")
+print(log2$timeGT)
+print("")
+print("RNN:")
+print(log2$timeRNN)
+print("")
+print("GaussEstimation:")
+print(log2$timeGauss)
+
+
+```
+
+
+```{r}
+
+
+log3
+
+
+```
+
+
+```{r}
+
+plotBenchmark(log3$resGT, log3$resRNN, log3$resGauss)
+print("----Evaluation Time----")
+print("Groundtruth:")
+print(log3$timeGT)
+print("")
+print("RNN:")
+print(log3$timeRNN)
+print("")
+print("GaussEstimation:")
+print(log3$timeGauss)
+
+
+```
+
+
+
+
+
+
+```{r}
+
+
+
+
+```
+
+
+
+```{r}
+
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+
+```{r}
+
+
+
+
+
+```

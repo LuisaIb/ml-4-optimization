@@ -36,7 +36,7 @@ set.seed(1)
 numBbobf <- 1
 dim <- 2
 dataGenerationMethod <- "random" #"grid", "lhs"
-numDataPoints <- 200
+numDataPoints <- 600
 trainTestSplit <- 0.8
 funEval <- 200
 
@@ -544,8 +544,6 @@ print(log3$timeGauss)
 
 
 ```
-
-
 
 
 
