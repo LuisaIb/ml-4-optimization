@@ -36,7 +36,7 @@ Forschungsfragen:
 Unterschiedliche Herangehensweisen zur Erstellung von Datenpunkten aus der Ground Truth Funktion:
 
 
-### Grid Sampling
+### Random Sampling
 Vorteile:
 - Anpassungsfähigkeit: Die Funktion erlaubt es, die Anzahl der zu generierenden Datenpunkte n als Eingabeparameter anzugeben. Dadurch kann die Menge der generierten Daten leicht kontrolliert werden.
 - Flexibilität bei der Funktionswahl: Die Funktion akzeptiert eine beliebige Funktion f, die abhängig von den Koordinaten x und y den Wert z berechnet. Dadurch kann die Funktion generateDataPoints vielseitig für verschiedene Anwendungen eingesetzt werden, indem man unterschiedliche Funktionen f übergeben kann.
@@ -52,6 +52,8 @@ Nachteile:
 
 
 ### Grid Sampling
+Theorie:
+
 Vorteile:
 - Exploration des Parameterraums: Grid Sampling ermöglicht eine umfassende Erkundung des Parameterraums, indem es eine vordefinierte Menge von Parameterkombinationen erstellt. Dadurch werden verschiedene Kombinationen von Hyperparametern ausprobiert, um diejenigen zu finden, die das Modell am besten optimieren.
 - Einfachheit und Einfachheit der Implementierung: Grid Sampling ist einfach zu implementieren und erfordert keine komplexen Optimierungsalgorithmen oder heuristische Ansätze. Es ist leicht verständlich und kann auch auf einfache Weise parallelisiert werden, um das Training zu beschleunigen.
@@ -69,24 +71,60 @@ Nachteile:
 
 
 ### Latin Hypercube Sampling
+Theorie:
+Das Latin Hypercube Sampling (LHS) ist ein statistisches Stichprobenverfahren, das in verschiedenen Bereichen wie der Umweltmodellierung, der pharmazeutischen Forschung und der Strukturanalyse eingesetzt wird[1][2][3][4]. Es handelt sich um eine Methode zur Erzeugung einer repräsentativen Stichprobe von Parameterwerten aus einer mehrdimensionalen Verteilung.
+
+Bei der LHS wird der Parameterraum in gleich wahrscheinliche Intervalle oder Bins entlang jeder Dimension unterteilt. Aus jedem Bereich wird dann ein einzelner Zufallswert ausgewählt, um einen Stichprobenpunkt zu bilden. Der Grundgedanke von LHS besteht darin, sicherzustellen, dass die Stichprobenpunkte gleichmäßig über den Parameterraum verteilt sind, was den Stichprobenfehler verringert und eine repräsentativere Stichprobe ergibt.
+
+Die Latin Hypercube Sampling Technik hat mehrere Vorteile gegenüber anderen Stichprobenverfahren:
+- Sie ermöglicht eine effizientere Nutzung des Stichprobenumfangs im Vergleich zu einfachen Zufallsstichproben.
+- Sie stellt sicher, dass der gesamte Parameterraum erforscht wird, wodurch das Risiko, wichtige Regionen zu übersehen, verringert wird.
+- Sie reduziert die Korrelation zwischen den Eingangsvariablen, was für die Sensitivitätsanalyse und die Quantifizierung der Unsicherheit von Vorteil sein kann.
+
+LHS ist in verschiedenen Anwendungen weit verbreitet, z. B. in der sensitivity analysis, uncertainty analysis, optimization und model calibration. Es hilft Forschern und Analytikern, das Verhalten komplexer Systeme zu untersuchen, indem es vielfältige und repräsentative Stichproben aus dem Parameterraum erzeugt.
+
+Insgesamt ist das Latin Hypercube Sampling eine wertvolle Technik zur Erzeugung repräsentativer Stichproben aus mehrdimensionalen Verteilungen, die eine genauere und effizientere Analyse in verschiedenen Bereichen ermöglicht.
+
+Citations:
+[1] https://www.semanticscholar.org/paper/8e01e454497fcaed2962f73422498791c855f34c
+[2] https://www.semanticscholar.org/paper/e9a5a3e8e750b3716046f24ef7bebbccad784721
+[3] https://www.semanticscholar.org/paper/b90f8a36ac1c467d48326788716b14ff2c2caa0b
+[4] https://www.semanticscholar.org/paper/b4e1b2c725aeeaa70a9ee31d752bb12c02a6086a
+
+
 
 Vorteile: 
-- Effizienz und Verteilungsausgleich: LHS ermöglicht eine effiziente Abdeckung des Parameterraums mit einer begrenzten Anzahl von Proben. Im Gegensatz zu Grid Sampling, das alle möglichen Kombinationen ausprobiert, teilt LHS den Parameterraum in gleichmäßige Intervalle auf und entnimmt jeweils eine Probe aus jedem Intervall. Dadurch wird der Parameterraum gut abgedeckt, ohne dass zu viele unnötige Proben in nicht wichtigen Bereichen durchgeführt werden. 
-- Verbesserte Explorationsfähigkeit: LHS bietet eine bessere Exploration des Parameterraums im Vergleich zu einfachen Zufallsstichproben. Durch die gleichmäßige Abdeckung des Parameterraums wird sichergestellt, dass wichtige Regionen nicht übersehen werden, und dass verschiedene Hyperparameterkombinationen effizient ausprobiert werden. 
-- Reduziertes Risiko von Overfitting: LHS ermöglicht eine bessere Generalisierung der Ergebnisse, da es die Proben gleichmäßig über den Parameterraum verteilt. Dadurch wird das Risiko von Overfitting reduziert, da die Auswahl von Proben weniger anfällig für zufällige Ausreißer oder stark ungleichmäßige Verteilungen ist. 
-- Verbesserte Reproduzierbarkeit: LHS kann so konfiguriert werden, dass die generierten Proben reproduzierbar sind, indem die gleiche Zufallsseed verwendet wird. Dies erleichtert die Wiederholbarkeit von Experimenten und Analysen. 
-- Effiziente Verwendung von Ressourcen: Da LHS eine begrenzte Anzahl von Proben verwendet, kann es effizientere Ressourcennutzung ermöglichen, insbesondere wenn die Anzahl der Hyperparameter oder die Dimensionalität des Parameterraums hoch ist. 
-- Kontinuierliche Hyperparameterunterstützung: LHS eignet sich gut für kontinuierliche Hyperparameter, bei denen die möglichen Werte in einem Bereich liegen. Es kann die Hyperparameter gleichmäßig auf diesem Bereich verteilen. 
-- Verbesserte Optimierung: Im Vergleich zu Grid Search führt LHS eine bessere Optimierung des Parameterraums durch, da es eine effiziente und gleichmäßige Abdeckung ermöglicht, was zu einer schnelleren und genaueren Suche nach guten Hyperparameterkombinationen führt.
+
+1. Effizientere Nutzung des Stichprobenumfangs: LHS stellt sicher, dass die Stichprobenpunkte gleichmäßig über den Parameterraum verteilt sind, was eine effizientere Nutzung des verfügbaren Stichprobenumfangs ermöglicht. Dies kann im Vergleich zu anderen Stichprobenverfahren zu genaueren und zuverlässigeren Ergebnissen mit einer geringeren Anzahl von Stichproben führen[1].
+2. Erkundung des gesamten Parameterraums: LHS unterteilt den Parameterraum in gleich wahrscheinliche Intervalle oder Bins entlang jeder Dimension. Durch die Auswahl eines einzelnen Zufallswertes aus jedem Bereich stellt LHS sicher, dass der gesamte Parameterraum erforscht wird, wodurch das Risiko, wichtige Regionen zu übersehen, verringert wird. Dies ist besonders bei der Sensitivitätsanalyse und der Quantifizierung der Unsicherheit von Vorteil[1][2].
+3. Geringere Korrelation zwischen Eingabevariablen: LHS zielt darauf ab, die Korrelation zwischen den Eingabevariablen zu verringern, was bei verschiedenen Anwendungen von Vorteil sein kann. Durch die Verringerung der Korrelation ermöglicht LHS eine umfassendere Erkundung des Parameterraums und liefert eine genauere Darstellung des Systemverhaltens[1][2].
+4. Verringerung der Varianz: LHS ist ein Verfahren zur Verringerung der Varianz, das zur Verbesserung der Effizienz und Genauigkeit von Simulationen beitragen kann. Indem sie eine gleichmäßige Verteilung der Stichprobenpunkte sicherstellt, reduziert LHS den Stichprobenfehler und liefert eine repräsentativere Stichprobe des Parameterraums[2].
+5. Anwendbarkeit auf höhere Dimensionen: LHS ist besonders nützlich bei höherdimensionalen Problemen, bei denen einfache Zufallsstichproben möglicherweise nicht effektiv sind. LHS erweitert das Konzept der Schichtung auf höhere Dimensionen und ermöglicht so eine effektivere Erkundung des Parameterraums[2].
+Insgesamt bietet das Latin Hypercube Sampling mehrere Vorteile gegenüber anderen Stichprobenverfahren, darunter eine effizientere Nutzung des Stichprobenumfangs, die Erkundung des gesamten Parameterraums, eine geringere Korrelation zwischen den Eingangsvariablen und eine Verringerung der Varianz. Diese Vorteile machen LHS zu einem wertvollen Werkzeug in verschiedenen Bereichen, darunter Umweltmodellierung, pharmazeutische Forschung und Optimierung[1][2][3][4].
+
+Citations:
+[1] https://www.semanticscholar.org/paper/8e01e454497fcaed2962f73422498791c855f34c
+[2] https://www.semanticscholar.org/paper/115fe63a273b9504d1f66f6a5c2c655382bafecf
+[3] https://www.semanticscholar.org/paper/009d598d18d253a4b5e34b18dc103072b892c1d5
+[4] https://www.semanticscholar.org/paper/0569f1ddce2c9ffb4870c2decdb47167bec6fcaa
+[5] https://www.semanticscholar.org/paper/e9a5a3e8e750b3716046f24ef7bebbccad784721
+[6] https://www.semanticscholar.org/paper/01773881b1d9811d0b9ff270c4947a55f1b92d5f
 
 Nachteile: 
-- Komplexität der Implementierung: Die Implementierung von LHS kann im Vergleich zu einfachen Zufallsstichproben oder Grid Sampling etwas komplexer sein. Es erfordert eine zusätzliche Logik, um die gleichmäßige Verteilung der Proben im Parameterraum sicherzustellen. 
-- Schwierigkeiten bei hochdimensionalen Räumen: LHS kann in hochdimensionalen Parameterräumen schwieriger und weniger effizient sein, da die gleichmäßige Abdeckung schwieriger wird. In solchen Fällen können andere Methoden wie Monte Carlo-Methoden oder Bayesian Optimization vorteilhafter sein. 
-- Abhängigkeit von der Anzahl der Proben: Die Leistung von LHS hängt von der Anzahl der Proben ab, die ausgewählt werden. Eine zu kleine Anzahl von Proben kann die Effizienz und Genauigkeit der Abdeckung des Parameterraums beeinträchtigen. 
-- Unvollständige Abdeckung bei begrenzten Proben: In einigen Fällen, insbesondere wenn die Anzahl der Proben begrenzt ist, kann LHS den Parameterraum möglicherweise nicht vollständig abdecken, was zu einer möglichen Unterrepräsentation bestimmter Hyperparameterkombinationen führt. 
-- Keine Optimierungsgarantie: Obwohl LHS eine bessere Optimierung als Grid Search bietet, garantiert es nicht, dass die gefundenen Hyperparameterwerte die besten für das Modell sind. Es ist immer noch möglich, dass wichtige Hyperparameterkombinationen unentdeckt bleiben. 
-- Statische Verteilung: LHS teilt den Parameterraum in gleichmäßige Intervalle auf und wählt jeweils eine Probe aus jedem Intervall. Dies kann dazu führen, dass die Verteilung der Proben statisch bleibt, was möglicherweise nicht ideal ist, wenn die Funktion f im Parameterraum nicht gleichmäßig ist. 
-- Nicht ideal für multimodale Verteilungen: Wenn der Parameterraum multimodal ist und wichtige Bereiche mit unterschiedlicher Dichte oder Anzahl von Moden aufweist, kann LHS möglicherweise nicht die besten Ergebnisse liefern.
+
+1. Komplexität in höheren Dimensionen: LHS ist zwar bei höherdimensionalen Problemen wirksam, kann aber mit zunehmender Anzahl der Dimensionen rechnerisch komplex werden. Die Aufteilung des Parameterraums in gleich wahrscheinliche Intervalle oder Bins wird schwieriger, und die Rechenkosten für die Erstellung einer repräsentativen Stichprobe können steigen[2].
+2. Fehlen einer allgemeinen Theorie für die Schätzung von Konfidenzintervallen: In den Suchergebnissen wird erwähnt, dass es keine verifizierte allgemeine Theorie für die genaue Schätzung von Konfidenzintervallen (CI) in LHS gibt. Zwar haben jüngste numerische Experimente gezeigt, dass LHS für bestimmte Wahrscheinlichkeitsbereiche effizienter ist als einfache Zufallsstichproben (SRS), doch ist das Verhalten von CI-Schätzern in LHS noch immer ein Forschungsgebiet[3].
+3. Einschränkungen der Effizienz bei extremen Wahrscheinlichkeiten: Der Effizienzvorteil von LHS gegenüber SRS nimmt ab, wenn man sich den Wahrscheinlichkeitsextremen 0 und 1 nähert. In diesen Extremfällen bietet LHS möglicherweise keine signifikanten Effizienzgewinne[3].
+Es ist wichtig, darauf hinzuweisen, dass es sich bei diesen potenziellen Nachteilen nicht um inhärente Beschränkungen von LHS handelt, sondern vielmehr um Überlegungen, die in bestimmten Szenarien auftreten können. LHS ist nach wie vor ein wertvolles Stichprobenverfahren mit zahlreichen Vorteilen.
+
+
+Citations:
+[1] https://www.semanticscholar.org/paper/8e01e454497fcaed2962f73422498791c855f34c
+[2] https://www.semanticscholar.org/paper/115fe63a273b9504d1f66f6a5c2c655382bafecf
+[3] https://www.semanticscholar.org/paper/351f3f69e713ac4c7f1086b2ad9c08efdc87d868
+[4] https://www.semanticscholar.org/paper/009d598d18d253a4b5e34b18dc103072b892c1d5
+[5] https://arxiv.org/abs/2305.12043
+[6] https://www.semanticscholar.org/paper/6d8a0e7b65bf147774991ed45560dbaee6361bf2
 
 
 ### Dimensionen
@@ -103,6 +141,16 @@ Funktion f4: Die Funktion f4 ist ebenfalls eine Benchmark-Funktion mit 2-dimensi
 ## Phase 2 Modellentwicklung und Modellauswahl
 
 ### Variational Autoencoder
+Theorie:
+Ein Variational Autoencoder (VAE) ist eine Art künstliches neuronales Netz, das für die generative Modellierung von Daten verwendet wird[2][4]. Es besteht aus einem Encoder, einem Decoder und einer Verlustfunktion[2]. Der Encoder komprimiert Daten in einen latenten Raum, während der Decoder neue Daten aus dem latenten Raum erzeugt[2][5]. Die wichtigste Neuerung der VAEs ist die Hinzufügung der Variationsinferenz, die auf die Wahrscheinlichkeitsverteilung von Änderungen im Eingangsdatensignal einwirken kann[3]. Dadurch können VAEs realistisch aussehende Bilder und andere Arten von Daten erzeugen[3]. VAEs werden mittels Gradientenabstieg trainiert, um den Verlust in Bezug auf die Parameter des Encoders und Decoders zu optimieren[2]. Variationale Autoencoder werden oft mit dem Autoencoder-Modell in Verbindung gebracht, aber sie haben signifikante Unterschiede in Bezug auf das Ziel und die mathematische Formulierung[4].
+
+Quellen:
+[1] https://wr.informatik.uni-hamburg.de/_media/teaching/sommersemester_2021/siw-21-variational_autoencoder-cindy.pdf
+[2] https://jaan.io/what-is-variational-autoencoder-vae-tutorial/
+[3] https://www.techtarget.com/searchenterpriseai/definition/variational-autoencoder-VAE
+[4] https://en.wikipedia.org/wiki/Variational_autoencoder
+[5] https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73
+[6] https://www.mdpi.com/1099-4300/24/3/423
 
 Modelldefinition:
 - Der Variational Autoencoder (VAE) besteht aus zwei Hauptkomponenten: einem Encoder-Netzwerk und einem Decoder-Netzwerk.
@@ -138,6 +186,7 @@ Training des Modells:
 
 
 ### Versuchsaufbau mit automatisierter Datenerhebung und RNN Modell
+Theorie:
 
 Erforderliche Pakete: Der Code beginnt mit dem Laden verschiedener R-Pakete, die für den Versuchsaufbau benötigt werden, darunter smoof für Benchmark-Testfunktionen, ggplot2 für Diagramme, keras für neuronale Netzwerke, SPOT für Optimierungsalgorithmen, pracma für praktische Mathematikfunktionen, lhs für Latin-Hypercube-Abtastung, COBBS für Modellierung von Funktionen und kernlab für Support Vector Machines und Gauß'sche Prozesse.
 
@@ -172,11 +221,10 @@ Der Versuchsaufbau nutzt maschinelles Lernen, um Optimierungsalgorithmen auf Ben
 
 
 
-## Phase 3 Optimierung
+## Phase 3 Optimierungmit Differential Evolution (DE)
+Theorie:
 
-Optimierung mit Differential Evolution (DE):
-Die Funktion DEinterface (auskommentierter Code) ist eine Wrapper-Funktion für die Optimierung mit Differential Evolution (DE). DE ist ein Optimierungsalgorithmus, der hier genutzt wird, um die besten Parameter für die Funktionen zu finden. Der Algorithmus wird auf die Grundwahrheit (groundtruth), das RNN-Modell (rnn) und das Gaußprozess-Regressionsmodell (gauss) angewendet.
-
+ 
 Experiment-Protokollierung:
 Die Funktion logExperiment führt das DE-Experiment für verschiedene Modelle durch und protokolliert die Ergebnisse. Dabei werden die Grundwahrheit, das RNN-Modell und das Gaußprozess-Modell verglichen.
 
