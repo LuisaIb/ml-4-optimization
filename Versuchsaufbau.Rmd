@@ -31,7 +31,7 @@ Forschungsfragen:
 
 # Investigation
 
-## Phase 1 Datenerhebung
+## Phase 1 Datenerhebungsstrategien
 
 Unterschiedliche Herangehensweisen zur Erstellung von Datenpunkten aus der Ground Truth Funktion:
 
@@ -104,49 +104,69 @@ Funktion f4: Die Funktion f4 ist ebenfalls eine Benchmark-Funktion mit 2-dimensi
 
 ### Variational Autoencoder
 
-Modelldefinition: 
-- Der VAE besteht aus einem Encoder-Netzwerk und einem Decoder-Netzwerk. 
-- Das Encoder-Netzwerk enthält mehrere Dense-Layer, die die Eingabedaten schrittweise in eine niedrigdimensionale Latent-Space-Repräsentation transformieren. 
-- Das Decoder-Netzwerk ist das Gegenteil des Encoders und nimmt die Latent-Space-Repräsentation und rekonstruiert die ursprünglichen Eingabedaten. 
-- Der Latent-Space hat eine vorgegebene Dimension (latent_dim), die im Code auf 2 festgelegt ist. 
+Modelldefinition:
+- Der Variational Autoencoder (VAE) besteht aus zwei Hauptkomponenten: einem Encoder-Netzwerk und einem Decoder-Netzwerk.
+- Das Encoder-Netzwerk verwendet mehrere Dense-Layer, um die Eingabedaten schrittweise in eine niedrigdimensionale Latent-Space-Repräsentation zu transformieren.
+- Das Decoder-Netzwerk ist das Gegenstück zum Encoder und rekonstruiert die ursprünglichen Eingabedaten aus der Latent-Space-Repräsentation.
+- Der Latent-Space hat eine vorgegebene Dimension (latent_dim), die im Code auf 2 festgelegt ist.
 - Die Latent-Space-Repräsentation wird durch den Mean (z_mean) und den Logarithmus der Varianz (z_log_var) definiert.
 
-Encoder: 
-- Der erste Dense-Layer (h) hat intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um die nicht-linearen Eigenschaften der Daten zu erfassen. - Der zweite Dense-Layer (i) hat ebenfalls intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um weitere nicht-lineare Transformationen durchzuführen. 
-- Die letzten beiden Dense-Layer (z_mean und z_log_var) haben jeweils latent_dim Neuronen, wobei latent_dim die gewünschte Dimension des Latent-Space ist. Der z_mean repräsentiert den Mean (Mittelwert) der Latent-Space-Repräsentation, während z_log_var den Logarithmus der Varianz der Latent-Space-Repräsentation darstellt.
+Encoder:
+- Der erste Dense-Layer (h) hat intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um nicht-lineare Eigenschaften der Daten zu erfassen.
+- Der zweite Dense-Layer (i) hat ebenfalls intermediate_dim Neuronen und führt weitere nicht-lineare Transformationen mithilfe der ReLU-Aktivierungsfunktion durch.
+- Die letzten beiden Dense-Layer (z_mean und z_log_var) bestehen aus latent_dim Neuronen, wobei latent_dim die Dimension des Latent-Space ist. z_mean repräsentiert den Mittelwert der Latent-Space-Repräsentation, während z_log_var den Logarithmus der Varianz darstellt.
 
-Decoder: 
-- Der erste Dense-Layer (decoder_h) hat intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion, um nicht-lineare Transformationen durchzuführen. 
-- Der zweite Dense-Layer (decoder_mean) hat input_dim Neuronen, wobei input_dim die Dimension der ursprünglichen Eingabedaten ist. Hier wird die lineare Aktivierungsfunktion verwendet, da der Decoder die ursprünglichen Eingabedaten rekonstruieren soll.
+Decoder:
+- Der erste Dense-Layer (decoder_h) besteht aus intermediate_dim Neuronen und verwendet die ReLU-Aktivierungsfunktion für nicht-lineare Transformationen.
+- Der zweite Dense-Layer (decoder_mean) hat input_dim Neuronen, wobei input_dim die Dimension der ursprünglichen Eingabedaten ist. Hier wird die lineare Aktivierungsfunktion verwendet, um die ursprünglichen Eingabedaten zu rekonstruieren.
 
-Sampling-Funktion: 
-- Es wird eine Sampling-Funktion verwendet, um die Latent-Space-Punkte zu generieren. 
-- Diese Funktion nimmt den Mean (z_mean) und den Logarithmus der Varianz (z_log_var) als Eingabe. 
-- Die Sampling-Funktion verwendet die "Reparameterization Trick", um die Latent-Space-Punkte zu generieren, indem sie einen Normalverteilten Zufallsvektor mit einer kleinen Varianz (mit Hilfe von epsilon_std) multipliziert und zum Mean addiert.
+Sampling-Funktion:
+- Die Sampling-Funktion generiert Latent-Space-Punkte und verwendet z_mean und z_log_var als Eingabe.
+- Die "Reparameterization Trick" wird angewendet, indem ein normalverteilter Zufallsvektor mit geringer Varianz (durch epsilon_std gesteuert) multipliziert und zum z_mean addiert wird.
 
-Kompilierung des Modells: 
-- Das gesamte VAE-Modell wird durch Verketten der Encoder- und Decoder-Netzwerke erstellt. 
-- Das Modell wird mit dem VAE-Loss (vae_loss) kompiliert, der aus der Kombination von Mean Squared Error (MSE) und Kullback-Leibler (KL) Divergenz besteht. Der MSE misst den Rekonstruktionsfehler zwischen den ursprünglichen Eingabedaten und den rekonstruierten Daten. Die KL-Divergenz misst die Ähnlichkeit der Latent-Space-Repräsentation mit einer Standardnormalverteilung.
+Kompilierung des Modells:
+- Das gesamte VAE-Modell wird durch Verketten von Encoder- und Decoder-Netzwerken erstellt.
+- Das Modell wird mit dem VAE-Loss (vae_loss) kompiliert, der aus einer Kombination von Mean Squared Error (MSE) und Kullback-Leibler (KL)-Divergenz besteht. MSE misst den Rekonstruktionsfehler, während KL-Divergenz die Ähnlichkeit der Latent-Space-Repräsentation mit einer Standardnormalverteilung misst.
 
-Training des Modells: 
-- Das VAE-Modell wird mit den Trainingsdaten (input_data) trainiert, die in der Variablen dfF1 im Code enthalten sind. 
-- Es wird das Adam-Optimizer mit einer Lernrate von 0.0001 verwendet. 
-- Das Training wird für eine bestimmte Anzahl von Epochen (epochs) und in Batches (batch_size) durchgeführt. - Das Modell wird auch mit den Testdaten (test_data) validiert, um die Modellleistung zu überwachen.
+Training des Modells:
+- Das VAE-Modell wird mit den Trainingsdaten (input_data) trainiert, die in der Variable dfF1 im Code enthalten sind.
+- Der Adam-Optimizer mit einer Lernrate von 0.0001 wird verwendet.
+- Das Training erfolgt über eine bestimmte Anzahl von Epochen (epochs) und in Batches (batch_size).
+- Das Modell wird auch mit den Testdaten (test_data) validiert, um die Leistung zu überwachen.
 
 ------------------------------------------------------------------------
 
 
-### DNN mit Regression
+### Versuchsaufbau mit automatisierter Datenerhebung und RNN Modell
 
-Modelldefinition: 
-- Das DNN besteht aus mehreren Dense-Layern, die in einer sequenziellen Reihenfolge definiert sind. 
-- Die Dense-Layer haben unterschiedliche Anzahlen von Neuronen und verwenden die ReLU-Aktivierungsfunktion, um die nicht-linearen Eigenschaften der Daten zu erfassen. 
-- Die letzte Dense-Layer hat 1 Neuron und eine lineare Aktivierungsfunktion, da es sich um ein Regressionsproblem handelt und der Zielwert kontinuierlich ist.
+Erforderliche Pakete: Der Code beginnt mit dem Laden verschiedener R-Pakete, die für den Versuchsaufbau benötigt werden, darunter smoof für Benchmark-Testfunktionen, ggplot2 für Diagramme, keras für neuronale Netzwerke, SPOT für Optimierungsalgorithmen, pracma für praktische Mathematikfunktionen, lhs für Latin-Hypercube-Abtastung, COBBS für Modellierung von Funktionen und kernlab für Support Vector Machines und Gauß'sche Prozesse.
 
-Kompilierung und Training des Modells: 
-- Das Modell wird mit der benutzerdefinierten Loss-Funktion (custom_loss) und dem Adam-Optimizer mit einer Lernrate von 0.001 kompiliert. 
-- Das Modell wird auf den Trainingsdaten (X_train und y_train) für 100 Epochen trainiert. 
-- Während des Trainings werden die Vorhersageleistung auf den Trainings- und Testdaten mit evaluate() ausgewertet.
+Einstellungen und Anpassungen: Hier werden verschiedene Parameter eingestellt, darunter die Anzahl der Benchmark-Testfunktionen (numBbobf), die Dimension der Funktionen (dim) - 2 und 3, die Methode zur Generierung von Daten (dataGenerationMethod) - Random Sampling, Grid Sampling und LHS, die Anzahl der Datenpunkte (numDataPoints) - 25 und 600, die Aufteilung von Trainings- und Testdaten (trainTestSplit) und die Anzahl der Funktionsauswertungen (funEval).
+
+Laden der Funktionen: Die Funktionen für die Erstellung von Testfunktionen, die Erstellung von 2D-Funktionsplots und das Anzeigen der Testfunktionen werden definiert - f1 und f24.
+
+Laden und Darstellen der Testfunktionen: Die ausgewählten Benchmark-Testfunktionen werden geladen und ihre unteren und oberen Schranken werden abgerufen. Wenn die Dimension 2 ist, wird eine Funktion zum Erstellen eines 2D-Plots der Testfunktionen aufgerufen.
+
+Generieren der Trainingsdaten: Funktionen zum Generieren von Datenpunkten durch zufällige, gitterbasierte oder Latin-Hypercube-Abtastung werden definiert. Die Funktion generateDataPoints wird verwendet, um Trainingsdaten unter Verwendung der ausgewählten Methode zu generieren. Bei Dimension 2 werden die generierten Datenpunkte in einem Streudiagramm dargestellt.
+
+Aufteilung von Trainings- und Testdaten: Die generierten Daten werden in Trainings- und Testdaten aufgeteilt, wobei der angegebene Trainings-Test-Split (trainTestSplit) verwendet wird.
+
+Erstellen eines RNN-Modells: Eine Funktion zur Erstellung eines sequentiellen neuronalen Netzwerkmodells (RNN) wird definiert. Das Modell besteht aus mehreren Schichten von dichten Neuronen. Das Modell wird mit den Trainingsdaten trainiert und die Trainingszeit wird aufgezeichnet.
+Der Aufbau des RNN-Modells ist wie folgt:
+
+Eingangsschicht: layer_dense(units=128, input_shape=2) mit aktivierender "Leaky ReLU"-Funktion.
+Verborgene Schicht: layer_dense(units=32) mit aktivierender "Leaky ReLU"-Funktion.
+Verborgene Schicht: layer_dense(units=128) mit aktivierender "Leaky ReLU"-Funktion.
+Dropout-Schicht: layer_dropout(rate=0.001) mit einer Auslassrate von 0.001.
+Verborgene Schicht: layer_dense(units=64) mit aktivierender "Leaky ReLU"-Funktion.
+Ausgangsschicht: layer_dense(units=1, activation="linear") für die lineare Ausgabe.
+Das Modell verwendet den Mean Squared Logarithmic Error als Verlustfunktion und den Adam-Optimizer für das Training.
+
+Erstellen eines Regressionsmodells (Gaußprozess): Ein Gaußprozess-Regressionsmodell wird unter Verwendung der Funktion kernlab::gausspr erstellt. Die Trainingszeit wird gemessen und aufgezeichnet.
+
+Generieren der Grundwahrheit: Eine Funktion wird erstellt, die die tatsächlichen Funktionswerte basierend auf den Trainingsdaten und der Benchmark-Testfunktion generiert.
+
+Der Versuchsaufbau nutzt maschinelles Lernen, um Optimierungsalgorithmen auf Benchmark-Testfunktionen anzuwenden. Durch das Trainieren von RNN-Modellen und Regressionsmodellen werden die besten Parameter für die gegebenen Testfunktionen ermittelt. Die Generierung der Grundwahrheit hilft dabei, die Qualität der erzielten Modelle zu bewerten. 
 
 ------------------------------------------------------------------------
 
@@ -154,18 +174,35 @@ Kompilierung und Training des Modells:
 
 ## Phase 3 Optimierung
 
-### Optimierfunktion 1 - Differential Evolution | Population size: dimensionen * 20
+Optimierung mit Differential Evolution (DE):
+Die Funktion DEinterface (auskommentierter Code) ist eine Wrapper-Funktion für die Optimierung mit Differential Evolution (DE). DE ist ein Optimierungsalgorithmus, der hier genutzt wird, um die besten Parameter für die Funktionen zu finden. Der Algorithmus wird auf die Grundwahrheit (groundtruth), das RNN-Modell (rnn) und das Gaußprozess-Regressionsmodell (gauss) angewendet.
 
+Experiment-Protokollierung:
+Die Funktion logExperiment führt das DE-Experiment für verschiedene Modelle durch und protokolliert die Ergebnisse. Dabei werden die Grundwahrheit, das RNN-Modell und das Gaußprozess-Modell verglichen.
 
-### Optimierfunktion 1.1 - Differential Evolution | Population size: 2-3
+Benchmarks für verschiedene Populationen:
+Die Experimente werden für verschiedene Populationsgrößen (popSize) durchgeführt: 4, 20 und 40 mal die Dimension. Die Ergebnisse werden in log1, log2 und log3 gespeichert.
 
+Chancen und Gründe für eine kleine Populationsgröße (popSize = 4):
 
+Schnellere Ausführung: Eine kleinere Populationsgröße erfordert weniger Berechnungen, was zu einer schnelleren Durchführung der Optimierung führt. Dies kann vorteilhaft sein, wenn die Zeit für die Durchführung der Optimierung begrenzt ist.
+Exploration: Eine kleinere Populationsgröße ermöglicht eine schnellere Exploration des Suchraums. Dies kann dazu führen, dass der Algorithmus eine breitere Palette von Lösungen in kürzerer Zeit erkundet.
+Chancen und Gründe für eine moderate Populationsgröße (popSize = 20):
 
-### Optimierfunktion 2 - L-BFGS-B
+Ausgewogenheit zwischen Exploration und Exploitation: Eine moderate Populationsgröße ermöglicht sowohl die Exploration des Suchraums als auch eine bessere Ausnutzung bereits entdeckter vielversprechender Bereiche. Es besteht eine gute Balance zwischen der Breite der Suche und der Vertiefung in vielversprechende Regionen.
+Chancen und Gründe für eine größere Populationsgröße (popSize = 40 mal die Dimension):
 
-BILD
+Bessere Konvergenz: Eine größere Populationsgröße kann dazu beitragen, dass der Algorithmus schneller gegen Ende der Optimierung konvergiert. Dadurch besteht die Möglichkeit, in den letzten Iterationen genauere und genauere Lösungen zu finden.
+Höhere Genauigkeit: Eine größere Populationsgröße ermöglicht eine bessere Schätzung der Parameter und Funktionen, was zu einer höheren Genauigkeit der gefundenen Lösungen führen kann.
 
-BILD
+Zusammenfassend kann man sagen, dass ein Ansatz mit popSize = 4 einige Gemeinsamkeiten mit gradientenbasierten Ansätzen aufweisen kann, insbesondere wenn es darum geht, lokal optimale Lösungen zu finden. Dennoch sind evolutionäre Algorithmen in der Regel weniger anfällig für das Steckenbleiben in lokalen Minima und können eine breitere Exploration des Suchraums ermöglichen. 
+
+Auswertung der Benchmarks und Plots:
+Die Funktion plotBenchmark generiert verschiedene Benchmark-Plots, um die Leistung der Modelle zu vergleichen. Die Funktion plotBenchmarkPerformance wird verwendet, um die Performance der Modelle hinsichtlich der Funkevals darzustellen. Die Funktion plotBenchmarkValidation zeigt die Validierung der Modelle anhand der Funkevals.
+
+Ausgabe der Ergebnisse:
+Die Ergebnisse der Optimierungsexperimente werden ausgegeben. Dies umfasst sowohl die Benchmark-Plots als auch die Zeiten, die für die Optimierung mit den verschiedenen Modellen benötigt wurden.
+
 
 
 |-> Abbruchkriterium auf zu hohem Wert, bzw. wird zu schnell erreicht
