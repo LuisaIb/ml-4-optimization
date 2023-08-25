@@ -187,6 +187,19 @@ Training des Modells:
 
 ### Versuchsaufbau mit automatisierter Datenerhebung und RNN Modell
 Theorie:
+Ein rekurrentes neuronales Netz (RNN) ist eine Art künstliches neuronales Netz, das für die Verarbeitung sequenzieller Daten wie Zeitreihen oder natürliche Sprache konzipiert ist. Im Gegensatz zu neuronalen Feedforward-Netzen, die Daten in einem einzigen Durchgang von der Eingabe zur Ausgabe verarbeiten, verfügen RNNs über eine Rückkopplungsschleife, die es ermöglicht, dass Informationen bestehen bleiben und von einem Schritt zum nächsten weitergegeben werden[1].
+Das Hauptmerkmal von RNNs ist ihre Fähigkeit, einen verborgenen Zustand beizubehalten, der Informationen aus früheren Schritten in der Sequenz aufnimmt. Dieser verborgene Zustand dient als eine Art Gedächtnis, das es dem Netz ermöglicht, bei der Verarbeitung der aktuellen Eingaben auf frühere Informationen zurückzugreifen. Dadurch eignen sich RNNs sehr gut für Aufgaben, die sequenzielle Abhängigkeiten beinhalten, wie z. B. Sprachmodellierung, Spracherkennung, maschinelle Übersetzung und Stimmungsanalyse[1].
+Eine gängige Variante von RNNs ist das Long Short-Term Memory (LSTM)-Netz, das das Problem des verschwindenden Gradienten löst, das bei herkömmlichen RNNs auftreten kann. LSTM-Netzwerke führen zusätzliche Gating-Mechanismen ein, die den Informationsfluss durch das Netzwerk steuern und es ihm ermöglichen, sich selektiv an Informationen über lange Sequenzen zu erinnern oder diese zu vergessen[2].
+Insgesamt sind RNNs und LSTM-Netze leistungsstarke Werkzeuge für die Modellierung sequenzieller Daten und werden in verschiedenen Bereichen häufig eingesetzt. Sie bieten eine Möglichkeit, zeitliche Abhängigkeiten zu erfassen, und haben den Bereich des Deep Learning entscheidend vorangebracht.
+
+Citations:
+[1] https://arxiv.org/abs/1810.10708
+[2] https://arxiv.org/abs/2006.03860
+[3] https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10280473/
+[4] https://www.semanticscholar.org/paper/366cc0e5e7db200e518184690a78d54a57c53306
+[5] https://www.semanticscholar.org/paper/32e0b010950e31e77502c984c69a73ddf0dc4814
+
+
 
 Erforderliche Pakete: Der Code beginnt mit dem Laden verschiedener R-Pakete, die für den Versuchsaufbau benötigt werden, darunter smoof für Benchmark-Testfunktionen, ggplot2 für Diagramme, keras für neuronale Netzwerke, SPOT für Optimierungsalgorithmen, pracma für praktische Mathematikfunktionen, lhs für Latin-Hypercube-Abtastung, COBBS für Modellierung von Funktionen und kernlab für Support Vector Machines und Gauß'sche Prozesse.
 
@@ -223,6 +236,16 @@ Der Versuchsaufbau nutzt maschinelles Lernen, um Optimierungsalgorithmen auf Ben
 
 ## Phase 3 Optimierungmit Differential Evolution (DE)
 Theorie:
+Die differentielle Evolution (DE) ist ein stochastischer Optimierungsalgorithmus mit realen Parametern, der häufig zur Lösung von Optimierungsproblemen eingesetzt wird[1]. Er arbeitet mit ähnlichen Rechenschritten wie ein standardmäßiger evolutionärer Algorithmus (EA), weist jedoch einige wichtige Unterschiede auf[1]. Hier sind einige wichtige Punkte zur Differentiellen Evolution.
+- Störung der Population: DE stört die Populationsmitglieder der aktuellen Generation, indem sie die skalierten Unterschiede zwischen zufällig ausgewählten und unterschiedlichen Populationsmitgliedern verwendet[1]. Dieser Perturbationsschritt hilft, den Suchraum zu erkunden und optimale Lösungen zu finden.
+- Keine gesonderte Wahrscheinlichkeitsverteilung: Im Gegensatz zu traditionellen EAs benötigt DE keine separate Wahrscheinlichkeitsverteilung für die Erzeugung von Nachkommen[1]. Die Nachkommen werden auf der Grundlage der gestörten Populationsmitglieder erzeugt.
+- Varianten und Verbesserungen: Seit seiner Einführung im Jahr 1995 hat DE die Aufmerksamkeit von Forschern weltweit auf sich gezogen, was zur Entwicklung zahlreicher Varianten mit verbesserter Leistung geführt hat[1]. Diese Varianten beinhalten verschiedene Strategien für die Störung der Population und die Anpassung der Kontrollparameter.
+- Anwendungen: DE wurde erfolgreich auf verschiedene Optimierungsprobleme angewandt, einschließlich mehrzieliger, eingeschränkter, großräumiger und unsicherer Optimierungsprobleme[1]. Es hat auch Anwendungen in der Technik gefunden, wo seine leistungsstarke Natur genutzt wurde, um komplexe Optimierungsprobleme zu lösen[1].
+
+Citations:
+[1] https://www.semanticscholar.org/paper/b630e7344ebd9d7e1386cb08c9e9fc03c910380c
+[2] https://www.semanticscholar.org/paper/4cfc45c26f99078ee25aed24badc69d0ce51eb63
+[3] https://www.semanticscholar.org/paper/4b7595bc5e1b8b04c249c3272b0566d4432faf2c
 
  
 Experiment-Protokollierung:
