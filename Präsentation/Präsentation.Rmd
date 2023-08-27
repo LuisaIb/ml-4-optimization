@@ -1,0 +1,152 @@
+---
+title: "Machine Learning Project"
+author: "Hammerer Lena, Ibele Luisa, Janez Isabel, Romer Judith, Steinwender Hanna"
+date: "2023-08-09"
+output:
+  ioslides_presentation:
+    widescreen: true
+    transition: faster
+    highlight: espresso
+    css: styles.css
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Titel der ersten Folie
+
+Inhalt der ersten Folie.
+
+## Untertitel 1
+
+Inhalt der ersten Untertitelfolie.
+
+## Untertitel 2
+
+Inhalt der zweiten Untertitelfolie.
+
+# Titel der zweiten Folie
+
+Inhalt der zweiten Folie.
+
+```{r, echo = FALSE}
+# Hier wird der Code ausgeblendet
+x <- 1:10
+x
+```
+
+```{r, results='hide'}
+# Hier wird der Code ausgeblendet, aber das Ergebnis wird angezeigt
+x <- 1:10
+x
+```
+
+```{r, include=FALSE}
+# Hier wird sowohl der Code als auch das Ergebnis ausgeblendet
+x <- 1:10
+x
+```
+
+```{r, eval=FALSE}
+# Hier wird der Code ausgeführt, aber weder der Code noch das Ergebnis werden angezeigt
+x <- 1:10
+x
+```
+
+-----------------------------------------------------------------------------------------------------
+
+## Gliederung
+- Motivation und Zielsetzung
+- Vorgehen und Methodik
+- Bewertungsmatrix
+- Einführung
+- Versuchsaufbau
+- Umsetzung und Auswertung
+- Fazit
+- Kritische Diskussion
+
+# Motivation und Zielsetzung
+## Motivation 
+
+## Zielsetzung
+
+
+
+# Vorgehen und Methodik
+## Vorgehen 
+
+## Methodik
+
+
+
+# Bewertungsmatrix
+## Modellbewertung
+![Alt-Text](Präsentation\modelMatrix.PNG)
+
+## Optimierungsbewertung
+![Alt-Text](Präsentation\optimizationMatrix.PNG)
+
+## Finale Bewertungsmatrix
+![Alt-Text](Präsentation\generalMatrix.PNG)
+
+
+# Einführung
+## GroundTruth Function
+
+## RNN
+
+## Gauss
+
+## Differential Evolution
+
+## Variantional Autoencoder
+
+## Loss Function
+
+
+# Versuchsaufbau
+## Forschungsfragen
+1. Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll? 
+2. Ist ein RNN besser als ein Gauss bei der Optimierung? 
+3. Ist der Einsatz von RNN geeignet?
+
+## Variable Parameter
+- numBbobf <- 1/24
+- dim <- 2/3
+- dataGenerationMethod <- "lhs", "random", "grid"
+- numDataPoints <- 25/600
+- trainTestSplit <- 0.8
+- funEval <- 200/400
+
+## Datenerhebungstrategie
+- Random Sampling
+- Grid Sampling
+- Latin Hypercube Sampling
+
+## Modellaufbau RNN
+- Eingangsschicht: layer_dense(units=128, input_shape=2) mit aktivierender "Leaky ReLU"-Funktion.
+- Verborgene Schicht: layer_dense(units=32) mit aktivierender "Leaky ReLU"-Funktion.
+- Verborgene Schicht: layer_dense(units=128) mit aktivierender "Leaky ReLU"-Funktion.
+- Dropout-Schicht: layer_dropout(rate=0.001) mit einer Auslassrate von 0.001.
+- Verborgene Schicht: layer_dense(units=64) mit aktivierender "Leaky ReLU"-Funktion.
+- Ausgangsschicht: layer_dense(units=1, activation="linear") für die lineare Ausgabe.
+
+Das Modell verwendet den Mean Squared Logarithmic Error als Verlustfunktion und den Adam-Optimizer für das Training.
+
+## Optimierung mit Differential Evolution
+- popSize = 4
+- popSize = 10*dim
+- popSize = 20*dim
+
+## Verworfene Ansätze
+- VAE für Regression
+- VAE wegen Dimensionsreduktion nicht für Datenerhebung geeignet
+- Loss Function selber schreiben
+- L-BFGS-B als Optimierer
+
+
+
