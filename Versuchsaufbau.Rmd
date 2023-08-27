@@ -234,7 +234,7 @@ Der Versuchsaufbau nutzt maschinelles Lernen, um Optimierungsalgorithmen auf Ben
 
 
 
-## Phase 3 Optimierungmit Differential Evolution (DE)
+## Phase 3 Optimierung mit Differential Evolution
 Theorie:
 Die differentielle Evolution (DE) ist ein stochastischer Optimierungsalgorithmus mit realen Parametern, der häufig zur Lösung von Optimierungsproblemen eingesetzt wird[1]. Er arbeitet mit ähnlichen Rechenschritten wie ein standardmäßiger evolutionärer Algorithmus (EA), weist jedoch einige wichtige Unterschiede auf[1]. Hier sind einige wichtige Punkte zur Differentiellen Evolution.
 - Störung der Population: DE stört die Populationsmitglieder der aktuellen Generation, indem sie die skalierten Unterschiede zwischen zufällig ausgewählten und unterschiedlichen Populationsmitgliedern verwendet[1]. Dieser Perturbationsschritt hilft, den Suchraum zu erkunden und optimale Lösungen zu finden.
