@@ -149,4 +149,131 @@ Das Modell verwendet den Mean Squared Logarithmic Error als Verlustfunktion und 
 - L-BFGS-B als Optimierer
 
 
+# Umsetzung und Auswertung
+## Übersicht Experimente und Versuche - 1. Experiment
+Versuch 1.1 - f1 + 25 Datenpunkte
+Versuch 1.1.1 f1 + 25 Datenpunkte + 2 dim 
+Versuch 1.1.1.1 f1 + 25 Datenpunkte + 2 dim + Random Sampling + (4, 10*dim, 20*dim)
+Versuch 1.1.1.2 f1 + 25 Datenpunkte + 2 dim + Grid Sampling + (4, 10*dim, 20*dim)
+Versuch 1.1.1.3 f1 + 25 Datenpunkte + 2 dim + LHS + (4, 10*dim, 20*dim)
 
+Versuch 1.1.2 f1 + 25 Datenpunkte + 3 dim
+Versuch 1.1.2.1 f1 + 25 Datenpunkte + 3 dim + Grid Sampling + (popsize = 4)
+
+Versuch 1.2 - f4 + 25 Datenpunkte
+Versuch 1.2.1 f4 + 25 Datenpunkte + 2 dim
+Versuch 1.2.1.1 f4 + 25 Datenpunkte + 2 dim + Random Sampling + (4, 10*dim, 20*dim)
+Versuch 1.2.1.2 f4 + 25 Datenpunkte + 2 dim + Grid Sampling + (4, 10*dim, 20*dim)
+Versuch 1.2.1.3 f4 + 25 Datenpunkte + 2 dim + LHS + (4, 10*dim, 20*dim)
+
+Versuch 1.2.2 f4 + 25 Datenpunkte + 3 dim
+Versuch 1.2.2.1 f4 + 25 Datenpunkte + 3 dim + Grid Sampling + (popsize = 4)
+
+
+## Übersicht Experimente und Versuche - 2. Experiment
+Versuch 2.1 - f1 + 600 Datenpunkte
+Versuch 2.1.1 f1 + 600 Datenpunkte + 2 dim
+Versuch 2.1.1.1 f1 + 600 Datenpunkte + 2 dim + Random Sampling + (4, 10*dim, 20*dim)
+Versuch 2.1.1.2 f1 + 600 Datenpunkte + 2 dim + Grid Sampling + (4, 10*dim, 20*dim)
+Versuch 2.1.1.3 f1 + 600 Datenpunkte + 2 dim + LHS + (4, 10*dim, 20*dim)
+
+Versuch 2.1.2 f1 + 600 Datenpunkte + 3 dim
+Versuch 2.1.2.2 f1 + 600 Datenpunkte + 3 dim + Grid Sampling + (popsize = 4)
+
+Versuch 2.2 - f4 + 600 Datenpunkte
+Versuch 2.2.1 f4 + 600 Datenpunkte + 2 dim
+Versuch 2.2.1.1 f4 + 600 Datenpunkte + 2 dim + Random Sampling + (4, 10*dim, 20*dim)
+Versuch 2.2.1.2 f4 + 600 Datenpunkte + 2 dim + Grid Sampling + (4, 10*dim, 20*dim)
+Versuch 2.2.1.3 f4 + 600 Datenpunkte + 2 dim + LHS + (4, 10*dim, 20*dim)
+
+Versuch 2.2.2 f4 + 600 Datenpunkte + 3 dim
+Versuch 2.2.2.1 f4 + 600 Datenpunkte + 3 dim + Random Sampling + (popsize = 4)
+
+
+## Übersicht Experimente und Versuche - 3. Experiment
+Versuch 3.1 - 50 Datenpunkte Training + 15 Datenpunkte Test + 300 Epochs + 2 dim
+Versuch 3.1.1 f1 + 50 Datenpunkte Training + 15 Datenpunkte Test + 300 Epochs + 2 dim
+Versuch 3.1.2 f4 + 50 Datenpunkte Training + 15 Datenpunkte Test + 300 Epochs + 2 dim
+
+Versuch 3.2 - 50 Datenpunkte Training + 15 Datenpunkte Test + 300 Epochs + 3 dim
+Versuch 3.2.1 f1 + 50 Datenpunkte Training + 15 Datenpunkte Test + 300 Epochs + 3 dim
+Versuch 3.2.2 f4 + 50 Datenpunkte Training + 15 Datenpunkte Test + 300 Epochs + 3 dim
+
+Versuch 3.3 - 1000 Datenpunkte Training + 200 Datenpunkte Test + 100 Epochs + 2 dim
+Versuch 3.3.1 f1 + 1000 Datenpunkte Training + 200 Datenpunkte Test + 100 Epochs + 2 dim
+Versuch 3.3.1 f4 + 1000 Datenpunkte Training + 200 Datenpunkte Test + 100 Epochs + 2 dim
+
+Versuch 3.4 - 1000 Datenpunkte Training + 200 Datenpunkte Test + 100 Epochs + 3 dim
+Versuch 3.4.1 f1 + 1000 Datenpunkte Training + 200 Datenpunkte Test + 100 Epochs + 3 dim
+Versuch 3.4.1 f4 + 1000 Datenpunkte Training + 200 Datenpunkte Test + 100 Epochs + 3 dim
+
+## Einblicke in die besten Experimentergebnisse
+- Versuch 3.1 - 50 Datenpunkte Training + 15 Datenpunkte Test + 300 Epochs + 2 dim
+- Versuch 3.3 - 1000 Datenpunkte Training + 200 Datenpunkte Test + 100 Epochs + 2 dim
+
+- Versuch 1.1.2.1 f1 + 25 Datenpunkte + 2 dim + Grid Sampling + (popsize = 4)
+- Versuch 1.1.2.1 f1 + 25 Datenpunkte + 3 dim + Grid Sampling + (popsize = 4)
+
+- Versuch 1.2.2.1 f4 + 25 Datenpunkte + 2 dim + Grid Sampling + (popsize = 4)
+- Versuch 1.2.2.1 f4 + 25 Datenpunkte + 3 dim + Grid Sampling + (popsize = 4)
+
+- Versuch 2.1.2.2 f1 + 600 Datenpunkte + 2 dim + Grid Sampling + (popsize = 4)
+- Versuch 2.1.2.2 f1 + 600 Datenpunkte + 3 dim + Grid Sampling + (popsize = 4)
+
+- Versuch 2.2.2.1 f4 + 600 Datenpunkte + 2 dim + Random Sampling + (popsize = 4)
+- Versuch 2.2.2.1 f4 + 600 Datenpunkte + 3 dim + Random Sampling + (popsize = 4)
+
+## Versuch 3.1
+Versuch 3.1.1 
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF1)
+
+Bild Fuktion zugeschnitten
+
+Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF1MinimalData)
+
+Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF1MinimalData)
+
+Bild Datenpunkte VAE
+![Alt-Text](images/Versuch%204/images/Versuch%204/VAEDataF1MinimalData)
+
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF1MinimalData.png)
+
+### Fazit
+
+-   nicht in der Lage die Verteilung über gesamten Raum zu lernen
+-   Globale Struktur wird im begrenzten Ausmaß erlernt
+-   Datenpunkteskala passt nur bedingt
+-   representiert die 'Realität' nicht ausreichend
+-   Loss Function -> Training und Test Verlauf in Ordnung jedoch nicht
+    überagend gut
+
+Versuch 3.1.2
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF4)
+
+Bild Fuktion zugeschnitten
+
+Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF4MinimalData)
+
+Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF4MinimalData)
+
+Bild Datenpunkte VAE
+![Alt-Text](images/Versuch%204/VAEDataF4MinimalData)
+
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF4MinimalData.png)
+
+### Fazit
+
+-   nicht in der Lage die Verteilung über gesamten Raum zu lernen
+-   Globale Struktur wird nicht erkannt
+-   Datenpunkteskala passt nur bedingt
+-   representiert die 'Realität' nicht
+-   Loss Function -> Training und Test Verlauf in Ordnung jedoch nicht
+    überagend gut
+
+-> Versuch abgebrochen
