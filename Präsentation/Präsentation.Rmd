@@ -223,8 +223,8 @@ Versuch 3.4.1 f4 + 1000 Datenpunkte Training + 200 Datenpunkte Test + 100 Epochs
 - Versuch 2.2.2.1 f4 + 600 Datenpunkte + 2 dim + Random Sampling + (popsize = 4)
 - Versuch 2.2.2.1 f4 + 600 Datenpunkte + 3 dim + Random Sampling + (popsize = 4)
 
-## Versuch 3.1
-Versuch 3.1.1 
+# Versuch 3.1
+## Versuch 3.1.1 
 
 Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF1)
 
@@ -241,8 +241,7 @@ Bild Datenpunkte VAE
 
 Bild Loss Function ![Alt-Text](images/Versuch%204/LossF1MinimalData.png)
 
-### Fazit
-
+Fazit
 -   nicht in der Lage die Verteilung über gesamten Raum zu lernen
 -   Globale Struktur wird im begrenzten Ausmaß erlernt
 -   Datenpunkteskala passt nur bedingt
@@ -250,7 +249,7 @@ Bild Loss Function ![Alt-Text](images/Versuch%204/LossF1MinimalData.png)
 -   Loss Function -> Training und Test Verlauf in Ordnung jedoch nicht
     überagend gut
 
-Versuch 3.1.2
+## Versuch 3.1.2
 
 Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF4)
 
@@ -267,8 +266,7 @@ Bild Datenpunkte VAE
 
 Bild Loss Function ![Alt-Text](images/Versuch%204/LossF4MinimalData.png)
 
-### Fazit
-
+Fazit
 -   nicht in der Lage die Verteilung über gesamten Raum zu lernen
 -   Globale Struktur wird nicht erkannt
 -   Datenpunkteskala passt nur bedingt
@@ -277,3 +275,75 @@ Bild Loss Function ![Alt-Text](images/Versuch%204/LossF4MinimalData.png)
     überagend gut
 
 -> Versuch abgebrochen
+
+# Versuch 3.3
+## Versuch 3.3.1 
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF1)
+
+Bild Fuktion zugeschnitten
+
+Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF1MaximalData)
+
+Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF1MaximalData)
+
+Bild Datenpunkte VAE
+![Alt-Text](images/Versuch%204/VAEDataF1MaximalData)
+
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF1MaximalData.png)
+
+Fazit
+-   bessere Performance + Ergebnisse als bei 50 Datenpunkten
+-   Loss Function -> Training und Test Verlauf gut und benötigt viel
+    weniger Epochen
+-   lernt Verteilung an sich sehr gut, Problem: scheint
+    Dimensionsreduktion anzuwenden, dadurch verzerrte / gestauchte
+    Darstellung
+-   nicht praktikabel für geplanten Einsatz
+
+## Versuch 3.3.1 
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF4)
+
+Bild Fuktion zugeschnitten
+
+Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF4MaximalData)
+
+Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF4MaximalData)
+
+Bild Datenpunkte VAE
+![Alt-Text](images/Versuch%204/VAEDataF4MaximalData)
+
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF4MaximalData.png)
+
+Fazit
+-   bessere Performance + Ergebnisse als bei 50 Datenpunkten
+-   Loss Function -\> Training und Test Verlauf gut und benötigt viel
+    weniger Epochen
+-   lernt Verteilung an sich sehr gut, Problem: scheint
+    Dimensionsreduktion anzuwenden, dadurch verzerrte / gestauchte
+    Darstellung
+-   nicht praktikabel für geplanten Einsatz
+-   (Annahme) lokale Struktur wird erkannt und representiert die
+    Funktion
+
+-> Versuch abgebrochen
+
+|-> in Realität ist Groun Truth nicht bekannt, somit ist die Rekonstruktion nicht möglich 
+|-> nicht für den angedachten Verwendungszweck nicht geeignet 
+|-> Ausblick: Modell nochmals anschauen (Layer, Parameter, etc.), besseres Lernen der Funktion, GAN
+oder CVAE ggf. ausprobieren
+
+# andere Experimente
+## Eperiment 1 und 2
+...
+
+# Schlussbetrachtung
+## Fazit
+...
+
+## Kritische Diskussion
