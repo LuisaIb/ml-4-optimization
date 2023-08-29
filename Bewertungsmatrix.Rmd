@@ -40,9 +40,6 @@ Der Wert der Zielfunktion am erreichten Optimum kann quantifiziert werden.
 - Performance
 Hierbei wird die Trainingsdauer betrachtet.
 
-- (Visual) Ground Truth vs. Optimierung
-Visuelle Darstellungen können den Unterschied zwischen den tatsächlichen und optimierten Werten in einem Diagramm verdeutlichen.
-
 - Error/ Evaluations
 Dies kann die quantitative Analyse der Abweichung zwischen den optimalen Werten und den tatsächlichen Zielen beinhalten und wie viele Evaluations benötigt werden.
 
