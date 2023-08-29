@@ -18,9 +18,6 @@ Modelle und die Optimierung werden im Bezug auf die Grundparameter bewertet
 
 ## Modellbewertung
 
-- (Visual) Optimum
-Grafische Darstellungen können das gefundene Optimum in einem mehrdimensionalen Raum zeigen.
-
 - durchschnittlicher Trainingsloss
 Diese Metriken können durch das Berechnen des durchschnittlichen Fehlers zwischen den tatsächlichen und vorhergesagten Werten während des Trainings und Tests erfasst werden.
 
