@@ -84,14 +84,65 @@ x
 
 
 # Bewertungsmatrix
+##
+
+Grundparameter:
+Anzahl Datenpunkte
+Datenerhebungsstrategie
+Funktion
+Dimensionen
+Modelle und die Optimierung werden im Bezug auf die Grundparameter bewertet
+
 ## Modellbewertung
 ![Alt-Text](Präsentation\modelMatrix.PNG)
+
+## 
+- durchschnittlicher Trainingsloss (0,1)
+Diese Metriken können durch das Berechnen des durchschnittlichen Fehlers zwischen den tatsächlichen und vorhergesagten Werten während des Trainings und Tests erfasst werden.
+- (Visual) Loss Function Verlauf (0,3)
+Die Veränderung der Loss-Funktion über die Trainingsiterationen hinweg kann grafisch dargestellt werden, um den Konvergenzverlauf des Modells zu visualisieren.
+- (Visual) Generated Funciton vs. Original Function (0,4)
+Visuelle Darstellungen, wie Plots oder Diagramme, können verwendet werden, um den Unterschied zwischen der vom Modell generierten Funktion und der Originalfunktion zu verdeutlichen.
+- Performance (0,2)
+Hierbei wird die Trainingsdauer betrachtet.
+
 
 ## Optimierungsbewertung
 ![Alt-Text](Präsentation\optimizationMatrix.PNG)
 
+## 
+- Wert des Optimums (0,3)
+Der Wert der Zielfunktion am erreichten Optimum kann quantifiziert werden.
+- Performance (0,2)
+Hierbei wird die Trainingsdauer betrachtet.
+- Error/ Evaluations (0,2)
+Dies kann die quantitative Analyse der Abweichung zwischen den optimalen Werten und den tatsächlichen Zielen beinhalten und wie viele Evaluations benötigt werden.
+- Y/ Evaluations (0,3)
+Quantitative Vergleiche zwischen den optimierten Werten und den erwarteten Simulationsergebnissen können durchgeführt und wie viele Evaluations benötigt werden.
+
+
 ## Finale Bewertungsmatrix
 ![Alt-Text](Präsentation\generalMatrix.PNG)
+
+##
+Diese wissenschaftlich ausgerichtete Bewertungsmatrix erlaubt eine systematische Analyse und Bewertung von Experimenten im Rahmen der Modell- und Optimierungsbewertung. Die gewählten Bewertungskriterien ermöglichen eine fundierte Beurteilung der Leistung von Modellen, Optimierungsalgorithmen und Versuchen, wobei sowohl qualitative als auch quantitative Aspekte berücksichtigt werden. Hierbei wird eine Gewichtung gesetzt Modell (0,3) Optimierung (0,7) um den Versuch zu bewerten.
+
+Jedes Kriterium kriegt einen Wert zwischen 1-5 bei der Bewertung zugeilt. Danach ich es möglich für die Modellbewertung, Optimierung und Versuchsbewertung einen Wert zu ermitteln und den Versuch gesamthaft bewerten zu können.
+
+1: Sehr schlecht / Niedrig / Schwach / Gering
+2: Schlecht / Unterhalb des Erwarteten
+3: Durchschnittlich / Akzeptabel
+4: Gut / Über dem Erwarteten
+5: Sehr gut / Hoch / Stark / Hervorragend
+
+
+## Versuchsbewertung
+- Difficulty
+- Diversity
+- Flexibility
+- Relevance
+- Evaluation cost
+- Non-Smoothing
 
 
 # Einführung
@@ -105,7 +156,10 @@ x
 
 ## Variantional Autoencoder
 
-## Loss Function
+## Loss Function (Mean Squared Logarithmic Error)
+
+## Simulation-based Test Function for Optimization Algorithms
+- 6 Kriterien
 
 
 # Versuchsaufbau
@@ -333,17 +387,30 @@ Fazit
 
 -> Versuch abgebrochen
 
-|-> in Realität ist Groun Truth nicht bekannt, somit ist die Rekonstruktion nicht möglich 
-|-> nicht für den angedachten Verwendungszweck nicht geeignet 
-|-> Ausblick: Modell nochmals anschauen (Layer, Parameter, etc.), besseres Lernen der Funktion, GAN
-oder CVAE ggf. ausprobieren
+
 
 # andere Experimente
-## Eperiment 1 und 2
+## Eperiment 1 und 2 (2dim und 3dim)
 ...
+
+##
 
 # Schlussbetrachtung
 ## Fazit
+Forshcungsfragen beantworten
+
+## Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll? 
+.......
+|-> in Realität ist Groun Truth nicht bekannt, somit ist die Rekonstruktion nicht möglich 
+|-> nicht für den angedachten Verwendungszweck nicht geeignet 
+|-> Ausblick: Modell nochmals anschauen (Layer, Parameter, etc.), besseres Lernen der Funktion, GAN oder CVAE ggf. ausprobieren
+
+## Ist ein RNN besser als ein Gauss bei der Optimierung? 
+MAtrixvergleich
 ...
+
+## Ist der Einsatz von RNN geeignet?
+...
+Versuchsbewertung mit den 6 Kriterien
 
 ## Kritische Diskussion
