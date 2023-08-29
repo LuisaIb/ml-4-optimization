@@ -18,8 +18,10 @@ Modelle und die Optimierung werden im Bezug auf die Grundparameter bewertet
 
 ## Modellbewertung
 
+- (Visual) Optimum
+Grafische Darstellungen können das gefundene Optimum in einem mehrdimensionalen Raum zeigen.
+
 - durchschnittlicher Trainingsloss
-- durchschnittlicher Testloss
 Diese Metriken können durch das Berechnen des durchschnittlichen Fehlers zwischen den tatsächlichen und vorhergesagten Werten während des Trainings und Tests erfasst werden.
 
 - (Visual) Loss Function Verlauf
@@ -29,28 +31,26 @@ Die Veränderung der Loss-Funktion über die Trainingsiterationen hinweg kann gr
 Visuelle Darstellungen, wie Plots oder Diagramme, können verwendet werden, um den Unterschied zwischen der vom Modell generierten Funktion und der Originalfunktion zu verdeutlichen.
 
 - Performance
-Je nach Anwendungsfall können verschiedene Leistungsmetriken wie Genauigkeit, Präzision, Recall oder F1-Score gemessen werden.
+Hierbei wird die Trainingsdauer betrachtet.
 
-- (Visual) Abteilung
-Die Verteilung der Vorhersagen im Vergleich zu den tatsächlichen Werten kann visualisiert werden, um Einblicke in die Verteilung der Modellleistung zu erhalten.
 
 
 ## Optimierung
 
-- (Visual) Optimum
-Grafische Darstellungen können das gefundene Optimum in einem mehrdimensionalen Raum zeigen.
-
 - Wert des Optimums
 Der Wert der Zielfunktion am erreichten Optimum kann quantifiziert werden.
+
+- Performance
+Hierbei wird die Trainingsdauer betrachtet.
 
 - (Visual) Ground Truth vs. Optimierung
 Visuelle Darstellungen können den Unterschied zwischen den tatsächlichen und optimierten Werten in einem Diagramm verdeutlichen.
 
-- Fehlervergleich
-Dies kann die quantitative Analyse der Abweichung zwischen den optimalen Werten und den tatsächlichen Zielen beinhalten.
+- Error/ Evaluations
+Dies kann die quantitative Analyse der Abweichung zwischen den optimalen Werten und den tatsächlichen Zielen beinhalten und wie viele Evaluations benötigt werden.
 
-- (Visual) Vergleich mit Simulation
-Quantitative Vergleiche zwischen den optimierten Werten und den erwarteten Simulationsergebnissen können durchgeführt werden.
+- Y/ Evaluations
+Quantitative Vergleiche zwischen den optimierten Werten und den erwarteten Simulationsergebnissen können durchgeführt und wie viele Evaluations benötigt werden.
 
 
 Diese wissenschaftlich ausgerichtete Bewertungsmatrix erlaubt eine systematische Analyse und Bewertung von Experimenten im Rahmen der Modell- und Optimierungsbewertung. Die gewählten Bewertungskriterien ermöglichen eine fundierte Beurteilung der Leistung von Modellen, Optimierungsalgorithmen und Versuchen, wobei sowohl qualitative als auch quantitative Aspekte berücksichtigt werden.
