@@ -63,12 +63,11 @@ x
 
 -   Motivation und Zielsetzung
 -   Vorgehen und Methodik
--   Bewertungsmatrix
 -   Einführung
 -   Versuchsaufbau
+-   Bewertungsmatrix
 -   Umsetzung und Auswertung
--   Fazit
--   Kritische Diskussion
+-   Schlussbetrachtung
 
 # Motivation und Zielsetzung
 
@@ -76,11 +75,83 @@ x
 
 ## Zielsetzung
 
+
+## Forschungsfragen
+
+1.  Ist der Einsatz eines Variational Autoencoder als
+    Datenerhebungstrategie sinnvoll?
+2.  Ist ein RNN besser als ein Gauss bei der Optimierung?
+3.  Ist der Einsatz von RNN geeignet?
+
 # Vorgehen und Methodik
 
 ## Vorgehen
 
 ## Methodik
+
+
+# Einführung (kann ggf. auch im Versuchsaufbau und in der BEwertungsmatrix integriert werden
+
+## Sampling Methoden
+
+## GroundTruth Function
+
+## RNN
+
+## Gauss
+
+## Differential Evolution
+
+## Variantional Autoencoder
+
+## Loss Function (Mean Squared Logarithmic Error)
+
+## Simulation-based Test Function for Optimization Algorithms (Paper von ihm kurz die Begriffe erklären)
+
+-   6 Kriterien
+
+
+# Versuchsaufbau
+
+## Variable Parameter
+
+-   numBbobf \<- 1/24
+-   dim \<- 2/3
+-   dataGenerationMethod \<- "lhs", "random", "grid"
+-   numDataPoints \<- 25/600
+-   trainTestSplit \<- 0.8
+-   funEval \<- 200/400
+
+## Datenerhebungstrategie
+
+-   Random Sampling
+-   Grid Sampling
+-   Latin Hypercube Sampling
+
+## Modellaufbau RNN
+
+-   Eingangsschicht: layer_dense(units=128, input_shape=2) mit
+    aktivierender "Leaky ReLU"-Funktion.
+-   Verborgene Schicht: layer_dense(units=32) mit aktivierender "Leaky
+    ReLU"-Funktion.
+-   Verborgene Schicht: layer_dense(units=128) mit aktivierender "Leaky
+    ReLU"-Funktion.
+-   Dropout-Schicht: layer_dropout(rate=0.001) mit einer Auslassrate von
+    0.001.
+-   Verborgene Schicht: layer_dense(units=64) mit aktivierender "Leaky
+    ReLU"-Funktion.
+-   Ausgangsschicht: layer_dense(units=1, activation="linear") für die
+    lineare Ausgabe.
+
+Das Modell verwendet den Mean Squared Logarithmic Error als
+Verlustfunktion und den Adam-Optimizer für das Training.
+
+## Optimierung mit Differential Evolution
+
+-   popSize = 4
+-   popSize = 10\*dim
+-   popSize = 20\*dim
+
 
 # Bewertungsmatrix
 
@@ -160,81 +231,6 @@ Erwarteten 5: Sehr gut / Hoch / Stark / Hervorragend
 -   Evaluation cost
 -   Non-Smoothing
 
-# Einführung
-
-## Sampling Methoden
-
-## GroundTruth Function
-
-## RNN
-
-## Gauss
-
-## Differential Evolution
-
-## Variantional Autoencoder
-
-## Loss Function (Mean Squared Logarithmic Error)
-
-## Simulation-based Test Function for Optimization Algorithms
-
--   6 Kriterien
-
-# Versuchsaufbau
-
-## Forschungsfragen
-
-1.  Ist der Einsatz eines Variational Autoencoder als
-    Datenerhebungstrategie sinnvoll?
-2.  Ist ein RNN besser als ein Gauss bei der Optimierung?
-3.  Ist der Einsatz von RNN geeignet?
-
-## Variable Parameter
-
--   numBbobf \<- 1/24
--   dim \<- 2/3
--   dataGenerationMethod \<- "lhs", "random", "grid"
--   numDataPoints \<- 25/600
--   trainTestSplit \<- 0.8
--   funEval \<- 200/400
-
-## Datenerhebungstrategie
-
--   Random Sampling
--   Grid Sampling
--   Latin Hypercube Sampling
-
-## Modellaufbau RNN
-
--   Eingangsschicht: layer_dense(units=128, input_shape=2) mit
-    aktivierender "Leaky ReLU"-Funktion.
--   Verborgene Schicht: layer_dense(units=32) mit aktivierender "Leaky
-    ReLU"-Funktion.
--   Verborgene Schicht: layer_dense(units=128) mit aktivierender "Leaky
-    ReLU"-Funktion.
--   Dropout-Schicht: layer_dropout(rate=0.001) mit einer Auslassrate von
-    0.001.
--   Verborgene Schicht: layer_dense(units=64) mit aktivierender "Leaky
-    ReLU"-Funktion.
--   Ausgangsschicht: layer_dense(units=1, activation="linear") für die
-    lineare Ausgabe.
-
-Das Modell verwendet den Mean Squared Logarithmic Error als
-Verlustfunktion und den Adam-Optimizer für das Training.
-
-## Optimierung mit Differential Evolution
-
--   popSize = 4
--   popSize = 10\*dim
--   popSize = 20\*dim
-
-## Verworfene Ansätze
-
--   VAE für Regression
--   VAE wegen Dimensionsreduktion nicht für Datenerhebung geeignet
--   Loss Function selber schreiben
--   L-BFGS-B als Optimierer
--   2 Netzwerke hintereinander
 
 # Umsetzung und Auswertung
 
@@ -299,6 +295,16 @@ Versuch 3.4 - 1000 Datenpunkte Training + 200 Datenpunkte Test + 100
 Epochs + 3 dim Versuch 3.4.1 f1 + 1000 Datenpunkte Training + 200
 Datenpunkte Test + 100 Epochs + 3 dim Versuch 3.4.1 f4 + 1000
 Datenpunkte Training + 200 Datenpunkte Test + 100 Epochs + 3 dim
+
+
+## Verworfene Ansätze
+
+-   VAE für Regression
+-   VAE wegen Dimensionsreduktion nicht für Datenerhebung geeignet
+-   Loss Function selber schreiben
+-   L-BFGS-B als Optimierer
+-   2 RNNs hintereinander
+
 
 ## Einblicke in die besten Experimentergebnisse
 
