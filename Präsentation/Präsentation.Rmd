@@ -17,53 +17,10 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Titel der ersten Folie
-
-Inhalt der ersten Folie.
-
-## Untertitel 1
-
-Inhalt der ersten Untertitelfolie.
-
-## Untertitel 2
-
-Inhalt der zweiten Untertitelfolie.
-
-# Titel der zweiten Folie
-
-Inhalt der zweiten Folie.
-
-```{r, echo = FALSE}
-# Hier wird der Code ausgeblendet
-x <- 1:10
-x
-```
-
-```{r, results='hide'}
-# Hier wird der Code ausgeblendet, aber das Ergebnis wird angezeigt
-x <- 1:10
-x
-```
-
-```{r, include=FALSE}
-# Hier wird sowohl der Code als auch das Ergebnis ausgeblendet
-x <- 1:10
-x
-```
-
-```{r, eval=FALSE}
-# Hier wird der Code ausgeführt, aber weder der Code noch das Ergebnis werden angezeigt
-x <- 1:10
-x
-```
-
-------------------------------------------------------------------------
-
 ## Gliederung
 
 -   Motivation und Zielsetzung
 -   Vorgehen und Methodik
--   Einführung
 -   Versuchsaufbau
 -   Bewertungsmatrix
 -   Umsetzung und Auswertung
@@ -72,9 +29,10 @@ x
 # Motivation und Zielsetzung
 
 ## Motivation
+... muss noch erarbeitet werden
 
 ## Zielsetzung
-
+... muss noch erarbeitet werden
 
 ## Forschungsfragen
 
@@ -85,35 +43,17 @@ x
 
 # Vorgehen und Methodik
 
-## Vorgehen
-
-## Methodik
-
-
-# Einführung (kann ggf. auch im Versuchsaufbau und in der BEwertungsmatrix integriert werden
-
-## Sampling Methoden
-
-## GroundTruth Function
-
-## RNN
-
-## Gauss
-
-## Differential Evolution
-
-## Variantional Autoencoder
-
-## Loss Function (Mean Squared Logarithmic Error)
-
-## Simulation-based Test Function for Optimization Algorithms (Paper von ihm kurz die Begriffe erklären)
-
--   6 Kriterien
+## Vorgehen und Methodik
+... muss noch erarbeitet werden
+- Empirisch
+- Experimente
+- eigene BEwertungsmatrix
 
 
 # Versuchsaufbau
 
 ## Variable Parameter
+(Theorie: (Griundtruth Function))
 
 -   numBbobf \<- 1/24
 -   dim \<- 2/3
@@ -123,12 +63,16 @@ x
 -   funEval \<- 200/400
 
 ## Datenerhebungstrategie
+(Theorie: (RS, GS, LHS)) im Versuchsaufbau steht was drin
+
 
 -   Random Sampling
 -   Grid Sampling
 -   Latin Hypercube Sampling
 
 ## Modellaufbau RNN
+(Theorie: (RNN und Gauss und Loss Function (Mean Squared Logarithmic Error)))
+
 
 -   Eingangsschicht: layer_dense(units=128, input_shape=2) mit
     aktivierender "Leaky ReLU"-Funktion.
@@ -147,6 +91,7 @@ Das Modell verwendet den Mean Squared Logarithmic Error als
 Verlustfunktion und den Adam-Optimizer für das Training.
 
 ## Optimierung mit Differential Evolution
+(Theorie: (Differential Evolution und Popsize))
 
 -   popSize = 4
 -   popSize = 10\*dim
@@ -163,11 +108,10 @@ Grundparameter bewertet
 
 ## Modellbewertung
 
-<img src=“optimizationMatrix.PNG“>
-
+<x>
 ![Modell](modelMatrix.PNG)
 
-## Test
+## 
 
 -   durchschnittlicher Trainingsloss (0,1) Diese Metriken können durch
     das Berechnen des durchschnittlichen Fehlers zwischen den
@@ -223,6 +167,7 @@ des Erwarteten 3: Durchschnittlich / Akzeptabel 4: Gut / Über dem
 Erwarteten 5: Sehr gut / Hoch / Stark / Hervorragend
 
 ## Versuchsbewertung
+(Theorie: (Simulation-based Test Function for Optimization Algorithms (Paper von ihm kurz die Begriffe erklären))
 
 -   Difficulty
 -   Diversity
@@ -230,6 +175,8 @@ Erwarteten 5: Sehr gut / Hoch / Stark / Hervorragend
 -   Relevance
 -   Evaluation cost
 -   Non-Smoothing
+
+RNN Modell wird danach bewertet
 
 
 # Umsetzung und Auswertung
