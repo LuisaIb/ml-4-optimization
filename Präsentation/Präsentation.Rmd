@@ -146,6 +146,8 @@ Jedes Kriterium kriegt einen Wert zwischen 1-5 bei der Bewertung zugeilt. Danach
 
 
 # Einführung
+
+## Sampling Methoden
 ## GroundTruth Function
 
 ## RNN
