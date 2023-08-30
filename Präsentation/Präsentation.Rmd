@@ -412,3 +412,6 @@ MAtrixvergleich ...
 ## Kritische Diskussion
 
 -   Bezug auf Optimierer
+
+## Ausblick
+- Abbildung der lokalen Struktur mit dem neuronalen Netz durch Erstellung neuer Loss-Funktion, die nicht nur einzelne Punkte optimiert, sondern mehrere Punkte betrachtet
