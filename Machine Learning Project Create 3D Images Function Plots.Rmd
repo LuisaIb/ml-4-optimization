@@ -1,0 +1,154 @@
+---
+title: "Machine Learning Project"
+author: "Hammerer, Ibele, Janez, Romer, Steinwender"
+date: "2023-07-29"
+output:
+  ioslides_presentation: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## requirements
+
+```{r}
+require(smoof)
+require(ggplot2)
+require(keras)
+require(SPOT)
+require(pracma)
+require(lhs)
+require(COBBS)
+require(nloptr)
+require(kernlab)
+
+```
+
+## adjustements
+
+```{r}
+
+set.seed(1)
+numBbobf <- 24
+dim <- 3
+dataGenerationMethod <- "random" #"grid", "lhs"
+numDataPoints <- 25
+trainTestSplit <- 0.8
+funEval <- 200
+numImages <- 50
+
+
+```
+
+## loading the function
+
+```{r}
+
+loadFunction <- function(numBbobf=1, dim=2) {
+  f <- makeBBOBFunction(dim,numBbobf,1)
+  return(f)
+}
+
+
+f <- loadFunction(numBbobf=numBbobf,dim=dim)
+lower <- getLowerBoxConstraints(f)
+upper <- getUpperBoxConstraints(f)
+
+
+
+
+imgCount = 10
+x <- seq(from=lower[1],to=upper[1],length.out=100)
+y <- seq(from=lower[2],to=upper[2],length.out=100)
+z <- seq(from=lower[2],to=upper[2],length.out=100)
+
+
+df <-  expand.grid(x = x, y = y, z = z)
+
+v <- apply(df,1,f)
+
+
+min <- min(v)
+max <- max(v)
+
+limits <- round((max - min) / 10)
+
+
+```
+
+
+
+
+
+```{r}
+
+#z <- seq(from=lower[2],to=upper[2],length.out=numImages)
+z <- c(0,lower[2])
+
+
+for(num in z){
+  imgCount <- imgCount + 1
+  df <-  expand.grid(x = x, y = y, z = num)
+  v <- apply(df,1,f)
+
+  df$v <- v
+  p <- ggplot(df, aes(x, y, z=v))
+  p <- p + 
+    ggtitle(paste("Crosssection at z = ", num)) +
+    scale_colour_manual( aesthetics = 'fill', drop = FALSE,
+                       values = colorRampPalette(c("#440154", "#414487", "#2a788e", "#22a884", "#7ad151", "#fde725"))(limits) ) +
+    geom_contour_filled( breaks=floor(seq(min,max, length.out=limits)) )
+
+  
+  
+  fp <- file.path("images/F24_3D/", paste0(11, ".png"))
+
+  ggsave(plot = p, 
+         filename = fp, 
+         device = "png")
+  
+  print(p)
+  
+}
+  
+
+
+
+
+```
+
+```{r}
+
+library(magick)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+
+## list file names and read in
+imgs <- list.files("images/F24_3D", full.names = TRUE)
+img_list <- lapply(imgs, image_read)
+
+## join the images together
+img_joined <- image_join(img_list)
+
+## animate at 2 frames per second
+img_animated <- image_animate(img_joined, fps = 2)
+
+## view animated image
+img_animated
+
+## save to disk
+image_write(image = img_animated,
+            path = "images/F24_3D/F24_3D.gif")
+
+
+
+
+
+
+```
+
+
