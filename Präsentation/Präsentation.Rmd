@@ -167,7 +167,7 @@ des Erwarteten 3: Durchschnittlich / Akzeptabel 4: Gut / Über dem
 Erwarteten 5: Sehr gut / Hoch / Stark / Hervorragend
 
 ## Versuchsbewertung
-(Theorie: (Simulation-based Test Function for Optimization Algorithms (Paper von ihm kurz die Begriffe erklären))
+(Theorie: (Simulation-based Test Function for Optimization Algorithms (Paper von ihm kurz die Begriffe erklären)))
 
 -   Difficulty
 -   Diversity
@@ -326,27 +326,43 @@ Struktur wird erkannt und representiert die Funktion
 
 ## Fazit
 
-Forshcungsfragen beantworten
+Forschungsfragen beantworten
 
 ## Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll?
 
-....... \|-\> in Realität ist Groun Truth nicht bekannt, somit ist die
-Rekonstruktion nicht möglich \|-\> nicht für den angedachten
-Verwendungszweck nicht geeignet \|-\> Ausblick: Modell nochmals
-anschauen (Layer, Parameter, etc.), besseres Lernen der Funktion, GAN
-oder CVAE ggf. ausprobieren
+....... 
+\|-\> in Realität ist Groun Truth nicht bekannt, somit ist die Rekonstruktion nicht möglich 
+\|-\> nicht für den angedachten Verwendungszweck nicht geeignet 
+\|-\> Ausblick: Modell nochmals anschauen (Layer, Parameter, etc.), besseres Lernen der Funktion, GAN oder CVAE ggf. ausprobieren
 
 ## Ist ein RNN besser als ein Gauss bei der Optimierung?
 
 MAtrixvergleich ...
+##
+<x>
+![Alt-Text](images/Experiment1Result.png)
+
+##
+<x>
+![Alt-Text](images/Experiment3Result.png)
 
 ## Ist der Einsatz von RNN geeignet?
 
 ... Versuchsbewertung mit den 6 Kriterien
+-  [...|5] Difficulty (Mehrdimensionalität 2+3)
+-  [...|5] Diversity ()
+-  [...|5] Flexibility ()
+-  [...|5] Relevance ()
+-  [...|5] Evaluation cost ()
+-  [1|5] Non-Smoothing (nein, 2 RNNs hintereinander verworfen, Simulaton nicht erstellt)
 
 ## Kritische Diskussion
 
 -   Bezug auf Optimierer
 
 ## Ausblick
+
+- mehr Datenpunkte
+- mehr Dimensionen
+- andere Optimierer
 - Abbildung der lokalen Struktur mit dem neuronalen Netz durch Erstellung neuer Loss-Funktion, die nicht nur einzelne Punkte optimiert, sondern mehrere Punkte betrachtet
