@@ -57,6 +57,9 @@ lower <- getLowerBoxConstraints(f)
 upper <- getUpperBoxConstraints(f)
 
 
+model_rnn <- load_model_hdf5('models/f24_600Random.hdf5')
+
+
 
 
 imgCount = 10
@@ -67,7 +70,10 @@ z <- seq(from=lower[2],to=upper[2],length.out=100)
 
 df <-  expand.grid(x = x, y = y, z = z)
 
-v <- apply(df,1,f)
+
+x_pred <- cbind(df$x, df$y, df$z)
+
+v <- model_rnn %>% predict(x_pred)
 
 
 min <- min(v)
@@ -81,17 +87,22 @@ limits <- round((max - min) / 10)
 
 
 
-
 ```{r}
 
-#z <- seq(from=lower[2],to=upper[2],length.out=numImages)
-z <- c(0,lower[2])
+#z <- seq(from=lower[3],to=upper[3],length.out=numImages)
+z <- c(0,lower[3])
 
 
 for(num in z){
   imgCount <- imgCount + 1
   df <-  expand.grid(x = x, y = y, z = num)
-  v <- apply(df,1,f)
+  
+  x_pred <- cbind(df$x, df$y, df$z)
+  v <- model_rnn %>% predict(x_pred)
+  
+  
+  #df <-  expand.grid(x = x, y = y, z = num)
+  #v <- apply(df,1,f)
 
   df$v <- v
   p <- ggplot(df, aes(x, y, z=v))
@@ -103,7 +114,7 @@ for(num in z){
 
   
   
-  fp <- file.path("images/F24_3D/", paste0(11, ".png"))
+  fp <- file.path("models/f24_600Random/", paste0(11, ".png"))
 
   ggsave(plot = p, 
          filename = fp, 
@@ -128,7 +139,7 @@ library(tidyr)
 
 
 ## list file names and read in
-imgs <- list.files("images/F24_3D", full.names = TRUE)
+imgs <- list.files("models/f24_600Random", full.names = TRUE)
 img_list <- lapply(imgs, image_read)
 
 ## join the images together
@@ -142,7 +153,7 @@ img_animated
 
 ## save to disk
 image_write(image = img_animated,
-            path = "images/F24_3D/F24_3D.gif")
+            path = "models/f24_600Random/rnn.gif")
 
 
 
