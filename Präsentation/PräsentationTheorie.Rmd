@@ -1,0 +1,417 @@
+---
+title: "Machine Learning Project"
+author: "Hammerer Lena, Ibele Luisa, Janez Isabel, Romer Judith, Steinwender Hanna"
+date: "2023-08-09"
+output:
+  ioslides_presentation:
+    widescreen: true
+    transition: faster
+    highlight: espresso
+    css: styles.css
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Gliederung
+
+-   Motivation und Zielsetzung
+-   Vorgehen und Methodik
+-   Versuchsaufbau
+-   Bewertungsmatrix
+-   Umsetzung und Auswertung
+-   Schlussbetrachtung
+
+# Motivation und Zielsetzung
+
+## Motivation
+... muss noch erarbeitet werden
+
+## Zielsetzung
+... muss noch erarbeitet werden
+
+## Forschungsfragen
+
+1.  Ist der Einsatz eines Variational Autoencoder als
+    Datenerhebungstrategie sinnvoll?
+2.  Ist ein RNN besser als ein Gauss bei der Optimierung?
+3.  Ist der Einsatz von RNN geeignet?
+
+# Vorgehen und Methodik
+
+## Vorgehen und Methodik
+... muss noch erarbeitet werden
+- Empirisch
+- Experimente
+- eigene BEwertungsmatrix
+
+
+# Versuchsaufbau
+
+## Variable Parameter
+(Theorie: (Griundtruth Function))
+
+-   numBbobf \<- 1/24
+-   dim \<- 2/3
+-   dataGenerationMethod \<- "lhs", "random", "grid"
+-   numDataPoints \<- 25/600
+-   trainTestSplit \<- 0.8
+-   funEval \<- 200/400
+
+## Datenerhebungstrategie
+(Theorie: (RS, GS, LHS)) im Versuchsaufbau steht was drin
+
+
+-   Random Sampling
+-   Grid Sampling
+-   Latin Hypercube Sampling
+
+## Modellaufbau RNN
+(Theorie: (RNN und Gauss und Loss Function (Mean Squared Logarithmic Error)))
+
+
+-   Eingangsschicht: layer_dense(units=128, input_shape=2) mit
+    aktivierender "Leaky ReLU"-Funktion.
+-   Verborgene Schicht: layer_dense(units=32) mit aktivierender "Leaky
+    ReLU"-Funktion.
+-   Verborgene Schicht: layer_dense(units=128) mit aktivierender "Leaky
+    ReLU"-Funktion.
+-   Dropout-Schicht: layer_dropout(rate=0.001) mit einer Auslassrate von
+    0.001.
+-   Verborgene Schicht: layer_dense(units=64) mit aktivierender "Leaky
+    ReLU"-Funktion.
+-   Ausgangsschicht: layer_dense(units=1, activation="linear") für die
+    lineare Ausgabe.
+
+Das Modell verwendet den Mean Squared Logarithmic Error als
+Verlustfunktion und den Adam-Optimizer für das Training.
+
+## Optimierung mit Differential Evolution
+(Theorie: (Differential Evolution und Popsize))
+
+-   popSize = 4
+-   popSize = 10\*dim
+-   popSize = 20\*dim
+
+
+# Bewertungsmatrix
+
+## 
+
+Grundparameter: Anzahl Datenpunkte Datenerhebungsstrategie Funktion
+Dimensionen Modelle und die Optimierung werden im Bezug auf die
+Grundparameter bewertet
+
+## Modellbewertung
+
+<x>
+![Modell](modelMatrix.PNG)
+
+## 
+
+-   durchschnittlicher Trainingsloss (0,1) Diese Metriken können durch
+    das Berechnen des durchschnittlichen Fehlers zwischen den
+    tatsächlichen und vorhergesagten Werten während des Trainings und
+    Tests erfasst werden.
+-   (Visual) Loss Function Verlauf (0,3) Die Veränderung der
+    Loss-Funktion über die Trainingsiterationen hinweg kann grafisch
+    dargestellt werden, um den Konvergenzverlauf des Modells zu
+    visualisieren.
+-   (Visual) Generated Funciton vs. Original Function (0,4) Visuelle
+    Darstellungen, wie Plots oder Diagramme, können verwendet werden, um
+    den Unterschied zwischen der vom Modell generierten Funktion und der
+    Originalfunktion zu verdeutlichen.
+-   Performance (0,2) Hierbei wird die Trainingsdauer betrachtet.
+
+## Optimierungsbewertung
+
+![Alt-Text](optimizationMatrix)
+
+## 
+
+-   Wert des Optimums (0,3) Der Wert der Zielfunktion am erreichten
+    Optimum kann quantifiziert werden.
+-   Performance (0,2) Hierbei wird die Trainingsdauer betrachtet.
+-   Error/ Evaluations (0,2) Dies kann die quantitative Analyse der
+    Abweichung zwischen den optimalen Werten und den tatsächlichen
+    Zielen beinhalten und wie viele Evaluations benötigt werden.
+-   Y/ Evaluations (0,3) Quantitative Vergleiche zwischen den
+    optimierten Werten und den erwarteten Simulationsergebnissen können
+    durchgeführt und wie viele Evaluations benötigt werden.
+
+## Finale Bewertungsmatrix
+
+![Alt-Text](generalMatrix)
+
+## 
+
+Diese wissenschaftlich ausgerichtete Bewertungsmatrix erlaubt eine
+systematische Analyse und Bewertung von Experimenten im Rahmen der
+Modell- und Optimierungsbewertung. Die gewählten Bewertungskriterien
+ermöglichen eine fundierte Beurteilung der Leistung von Modellen,
+Optimierungsalgorithmen und Versuchen, wobei sowohl qualitative als auch
+quantitative Aspekte berücksichtigt werden. Hierbei wird eine Gewichtung
+gesetzt Modell (0,3) Optimierung (0,7) um den Versuch zu bewerten.
+
+Jedes Kriterium kriegt einen Wert zwischen 1-5 bei der Bewertung
+zugeilt. Danach ich es möglich für die Modellbewertung, Optimierung und
+Versuchsbewertung einen Wert zu ermitteln und den Versuch gesamthaft
+bewerten zu können.
+
+1: Sehr schlecht / Niedrig / Schwach / Gering 2: Schlecht / Unterhalb
+des Erwarteten 3: Durchschnittlich / Akzeptabel 4: Gut / Über dem
+Erwarteten 5: Sehr gut / Hoch / Stark / Hervorragend
+
+## Versuchsbewertung
+(Theorie: (Simulation-based Test Function for Optimization Algorithms (Paper von ihm kurz die Begriffe erklären))
+
+-   Difficulty
+-   Diversity
+-   Flexibility
+-   Relevance
+-   Evaluation cost
+-   Non-Smoothing
+
+RNN Modell wird danach bewertet
+
+
+# Umsetzung und Auswertung
+
+## Übersicht Experimente und Versuche - 1. Experiment
+
+Versuch 1.1 - f1 + 25 Datenpunkte Versuch 1.1.1 f1 + 25 Datenpunkte + 2
+dim Versuch 1.1.1.1 f1 + 25 Datenpunkte + 2 dim + Random Sampling + (4,
+10*dim, 20*dim) Versuch 1.1.1.2 f1 + 25 Datenpunkte + 2 dim + Grid
+Sampling + (4, 10*dim, 20*dim) Versuch 1.1.1.3 f1 + 25 Datenpunkte + 2
+dim + LHS + (4, 10*dim, 20*dim)
+
+Versuch 1.1.2 f1 + 25 Datenpunkte + 3 dim Versuch 1.1.2.1 f1 + 25
+Datenpunkte + 3 dim + Grid Sampling + (popsize = 4)
+
+Versuch 1.2 - f4 + 25 Datenpunkte Versuch 1.2.1 f4 + 25 Datenpunkte + 2
+dim Versuch 1.2.1.1 f4 + 25 Datenpunkte + 2 dim + Random Sampling + (4,
+10*dim, 20*dim) Versuch 1.2.1.2 f4 + 25 Datenpunkte + 2 dim + Grid
+Sampling + (4, 10*dim, 20*dim) Versuch 1.2.1.3 f4 + 25 Datenpunkte + 2
+dim + LHS + (4, 10*dim, 20*dim)
+
+Versuch 1.2.2 f4 + 25 Datenpunkte + 3 dim Versuch 1.2.2.1 f4 + 25
+Datenpunkte + 3 dim + Grid Sampling + (popsize = 4)
+
+## Übersicht Experimente und Versuche - 2. Experiment
+
+Versuch 2.1 - f1 + 600 Datenpunkte Versuch 2.1.1 f1 + 600 Datenpunkte +
+2 dim Versuch 2.1.1.1 f1 + 600 Datenpunkte + 2 dim + Random Sampling +
+(4, 10*dim, 20*dim) Versuch 2.1.1.2 f1 + 600 Datenpunkte + 2 dim + Grid
+Sampling + (4, 10*dim, 20*dim) Versuch 2.1.1.3 f1 + 600 Datenpunkte + 2
+dim + LHS + (4, 10*dim, 20*dim)
+
+Versuch 2.1.2 f1 + 600 Datenpunkte + 3 dim Versuch 2.1.2.2 f1 + 600
+Datenpunkte + 3 dim + Grid Sampling + (popsize = 4)
+
+Versuch 2.2 - f4 + 600 Datenpunkte Versuch 2.2.1 f4 + 600 Datenpunkte +
+2 dim Versuch 2.2.1.1 f4 + 600 Datenpunkte + 2 dim + Random Sampling +
+(4, 10*dim, 20*dim) Versuch 2.2.1.2 f4 + 600 Datenpunkte + 2 dim + Grid
+Sampling + (4, 10*dim, 20*dim) Versuch 2.2.1.3 f4 + 600 Datenpunkte + 2
+dim + LHS + (4, 10*dim, 20*dim)
+
+Versuch 2.2.2 f4 + 600 Datenpunkte + 3 dim Versuch 2.2.2.1 f4 + 600
+Datenpunkte + 3 dim + Random Sampling + (popsize = 4)
+
+## Übersicht Experimente und Versuche - 3. Experiment
+
+Versuch 3.1 - 50 Datenpunkte Training + 15 Datenpunkte Test + 300
+Epochs + 2 dim Versuch 3.1.1 f1 + 50 Datenpunkte Training + 15
+Datenpunkte Test + 300 Epochs + 2 dim Versuch 3.1.2 f4 + 50 Datenpunkte
+Training + 15 Datenpunkte Test + 300 Epochs + 2 dim
+
+Versuch 3.2 - 50 Datenpunkte Training + 15 Datenpunkte Test + 300
+Epochs + 3 dim Versuch 3.2.1 f1 + 50 Datenpunkte Training + 15
+Datenpunkte Test + 300 Epochs + 3 dim Versuch 3.2.2 f4 + 50 Datenpunkte
+Training + 15 Datenpunkte Test + 300 Epochs + 3 dim
+
+Versuch 3.3 - 1000 Datenpunkte Training + 200 Datenpunkte Test + 100
+Epochs + 2 dim Versuch 3.3.1 f1 + 1000 Datenpunkte Training + 200
+Datenpunkte Test + 100 Epochs + 2 dim Versuch 3.3.1 f4 + 1000
+Datenpunkte Training + 200 Datenpunkte Test + 100 Epochs + 2 dim
+
+Versuch 3.4 - 1000 Datenpunkte Training + 200 Datenpunkte Test + 100
+Epochs + 3 dim Versuch 3.4.1 f1 + 1000 Datenpunkte Training + 200
+Datenpunkte Test + 100 Epochs + 3 dim Versuch 3.4.1 f4 + 1000
+Datenpunkte Training + 200 Datenpunkte Test + 100 Epochs + 3 dim
+
+
+## Verworfene Ansätze
+
+-   VAE für Regression
+-   VAE wegen Dimensionsreduktion nicht für Datenerhebung geeignet
+-   Loss Function selber schreiben
+-   L-BFGS-B als Optimierer
+-   2 RNNs hintereinander
+
+
+## Einblicke in die besten Experimentergebnisse
+
+-   Versuch 3.1 - 50 Datenpunkte Training + 15 Datenpunkte Test + 300
+    Epochs + 2 dim
+
+-   Versuch 3.3 - 1000 Datenpunkte Training + 200 Datenpunkte Test + 100
+    Epochs + 2 dim
+
+-   Versuch 1.1.2.1 f1 + 25 Datenpunkte + 2 dim + Grid Sampling +
+    (popsize = 4)
+
+-   Versuch 1.2.2.1 f4 + 25 Datenpunkte + 2 dim + Grid Sampling +
+    (popsize = 4)
+
+-   Versuch 2.1.2.2 f1 + 600 Datenpunkte + 2 dim + Grid Sampling +
+    (popsize = 4)
+
+-   Versuch 2.1.2.2 f1 + 600 Datenpunkte + 3 dim + Grid Sampling +
+    (popsize = 4)
+
+-   Versuch 2.2.2.1 f4 + 600 Datenpunkte + 2 dim + Random Sampling +
+    (popsize = 4)
+
+-   Versuch 2.2.2.1 f4 + 600 Datenpunkte + 3 dim + Random Sampling +
+    (popsize = 4)
+
+# Versuch 3.1
+
+## Versuch 3.1.1
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF1)
+
+Bild Fuktion zugeschnitten
+
+Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF1MinimalData)
+
+Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF1MinimalData)
+
+Bild Datenpunkte VAE
+![Alt-Text](images/Versuch%204/images/Versuch%204/VAEDataF1MinimalData)
+
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF1MinimalData.png)
+
+Fazit - nicht in der Lage die Verteilung über gesamten Raum zu lernen -
+Globale Struktur wird im begrenzten Ausmaß erlernt - Datenpunkteskala
+passt nur bedingt - representiert die 'Realität' nicht ausreichend -
+Loss Function -\> Training und Test Verlauf in Ordnung jedoch nicht
+überagend gut
+
+## Versuch 3.1.2
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF4)
+
+Bild Fuktion zugeschnitten
+
+Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF4MinimalData)
+
+Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF4MinimalData)
+
+Bild Datenpunkte VAE
+![Alt-Text](images/Versuch%204/VAEDataF4MinimalData)
+
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF4MinimalData.png)
+
+Fazit - nicht in der Lage die Verteilung über gesamten Raum zu lernen -
+Globale Struktur wird nicht erkannt - Datenpunkteskala passt nur
+bedingt - representiert die 'Realität' nicht - Loss Function -\>
+Training und Test Verlauf in Ordnung jedoch nicht überagend gut
+
+-\> Versuch abgebrochen
+
+# Versuch 3.3
+
+## Versuch 3.3.1
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF1)
+
+Bild Fuktion zugeschnitten
+
+Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF1MaximalData)
+
+Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF1MaximalData)
+
+Bild Datenpunkte VAE
+![Alt-Text](images/Versuch%204/VAEDataF1MaximalData)
+
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF1MaximalData.png)
+
+Fazit - bessere Performance + Ergebnisse als bei 50 Datenpunkten - Loss
+Function -\> Training und Test Verlauf gut und benötigt viel weniger
+Epochen - lernt Verteilung an sich sehr gut, Problem: scheint
+Dimensionsreduktion anzuwenden, dadurch verzerrte / gestauchte
+Darstellung - nicht praktikabel für geplanten Einsatz
+
+## Versuch 3.3.1
+
+Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF4)
+
+Bild Fuktion zugeschnitten
+
+Bild Datenpunkte zufällig Training
+![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF4MaximalData)
+
+Bild Datenpunkte zufällig Test
+![Alt-Text](images/Versuch%204/DataGenerationRandomTestF4MaximalData)
+
+Bild Datenpunkte VAE
+![Alt-Text](images/Versuch%204/VAEDataF4MaximalData)
+
+Bild Loss Function ![Alt-Text](images/Versuch%204/LossF4MaximalData.png)
+
+Fazit - bessere Performance + Ergebnisse als bei 50 Datenpunkten - Loss
+Function -\> Training und Test Verlauf gut und benötigt viel weniger
+Epochen - lernt Verteilung an sich sehr gut, Problem: scheint
+Dimensionsreduktion anzuwenden, dadurch verzerrte / gestauchte
+Darstellung - nicht praktikabel für geplanten Einsatz - (Annahme) lokale
+Struktur wird erkannt und representiert die Funktion
+
+-\> Versuch abgebrochen
+
+# andere Experimente
+
+## Eperiment 1 und 2 (2dim und 3dim)
+
+...
+
+## 
+
+# Schlussbetrachtung
+
+## Fazit
+
+Forshcungsfragen beantworten
+
+## Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll?
+
+....... \|-\> in Realität ist Groun Truth nicht bekannt, somit ist die
+Rekonstruktion nicht möglich \|-\> nicht für den angedachten
+Verwendungszweck nicht geeignet \|-\> Ausblick: Modell nochmals
+anschauen (Layer, Parameter, etc.), besseres Lernen der Funktion, GAN
+oder CVAE ggf. ausprobieren
+
+## Ist ein RNN besser als ein Gauss bei der Optimierung?
+
+MAtrixvergleich ...
+
+## Ist der Einsatz von RNN geeignet?
+
+... Versuchsbewertung mit den 6 Kriterien
+
+## Kritische Diskussion
+
+-   Bezug auf Optimierer
+
+## Ausblick
+- Abbildung der lokalen Struktur mit dem neuronalen Netz durch Erstellung neuer Loss-Funktion, die nicht nur einzelne Punkte optimiert, sondern mehrere Punkte betrachtet
