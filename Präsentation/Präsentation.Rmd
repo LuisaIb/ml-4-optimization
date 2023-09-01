@@ -29,50 +29,63 @@ knitr::opts_chunk$set(echo = TRUE)
 # Motivation und Zielsetzung
 
 ## Motivation
+
 ... muss noch erarbeitet werden
 
 ## Zielsetzung
+
 ... muss noch erarbeitet werden
 
 ## Forschungsfragen
 
 1.  Ist der Einsatz eines Variational Autoencoder als
     Datenerhebungstrategie sinnvoll?
-2.  Ist ein RNN besser als ein Gauss bei der Optimierung?
+2.  Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein
+    Gaußsches Prozessmodell?
 3.  Ist der Einsatz von RNN geeignet?
 
 # Vorgehen und Methodik
 
 ## Vorgehen und Methodik
-... muss noch erarbeitet werden
-- Empirisch
-- Experimente
-- eigene BEwertungsmatrix
 
+... muss noch erarbeitet werden - Empirisch - Experimente - eigene
+BEwertungsmatrix
 
 # Versuchsaufbau
 
+## Groundtruths
+
+<x>
+![Alt-Text](images/GroundtruthF1){width="47%"}![Alt-Text](images/GroundtruthF24){width="47%"}
+
 ## Variable Parameter
+
 (Theorie: (Griundtruth Function))
 
 -   numBbobf \<- 1/24
+
 -   dim \<- 2/3
+
 -   dataGenerationMethod \<- "lhs", "random", "grid"
+
 -   numDataPoints \<- 25/600
+
 -   trainTestSplit \<- 0.8
+
 -   funEval \<- 200/400
 
 ## Datenerhebungstrategie
-(Theorie: (RS, GS, LHS)) im Versuchsaufbau steht was drin
 
+(Theorie: (RS, GS, LHS)) im Versuchsaufbau steht was drin
 
 -   Random Sampling
 -   Grid Sampling
 -   Latin Hypercube Sampling
 
 ## Modellaufbau RNN
-(Theorie: (RNN und Gauss und Loss Function (Mean Squared Logarithmic Error)))
 
+(Theorie: (RNN und Gauss und Loss Function (Mean Squared Logarithmic
+Error)))
 
 -   Eingangsschicht: layer_dense(units=128, input_shape=2) mit
     aktivierender "Leaky ReLU"-Funktion.
@@ -91,12 +104,12 @@ Das Modell verwendet den Mean Squared Logarithmic Error als
 Verlustfunktion und den Adam-Optimizer für das Training.
 
 ## Optimierung mit Differential Evolution
+
 (Theorie: (Differential Evolution und Popsize))
 
 -   popSize = 4
 -   popSize = 10\*dim
 -   popSize = 20\*dim
-
 
 # Bewertungsmatrix
 
@@ -108,8 +121,7 @@ Grundparameter bewertet
 
 ## Modellbewertung
 
-<x>
-![Modell](modelMatrix.PNG)
+<x> ![Modell](images/modelMatrix.PNG){width="100%"}
 
 ## 
 
@@ -129,7 +141,7 @@ Grundparameter bewertet
 
 ## Optimierungsbewertung
 
-![Alt-Text](optimizationMatrix)
+<x> ![Alt-Text](images/optimizationMatrix.PNG){width="80%"}
 
 ## 
 
@@ -145,7 +157,7 @@ Grundparameter bewertet
 
 ## Finale Bewertungsmatrix
 
-![Alt-Text](generalMatrix)
+<x> ![Alt-Text](images/generalMatrix.PNG){width="80%"}
 
 ## 
 
@@ -167,7 +179,9 @@ des Erwarteten 3: Durchschnittlich / Akzeptabel 4: Gut / Über dem
 Erwarteten 5: Sehr gut / Hoch / Stark / Hervorragend
 
 ## Versuchsbewertung
-(Theorie: (Simulation-based Test Function for Optimization Algorithms (Paper von ihm kurz die Begriffe erklären)))
+
+(Theorie: (Simulation-based Test Function for Optimization Algorithms
+(Paper von ihm kurz die Begriffe erklären)))
 
 -   Difficulty
 -   Diversity
@@ -178,26 +192,150 @@ Erwarteten 5: Sehr gut / Hoch / Stark / Hervorragend
 
 RNN Modell wird danach bewertet
 
-
 # Umsetzung und Auswertung
 
-## Übersicht Experimente und Versuche - 1. Experiment
+## Übersicht 1. Experiment
+
+<x> ![Alt-Text](images/Experiment1.png){width="100%"}
+
+## Übersicht 2. Experiment
+
+<x> ![Alt-Text](images/Experiment2.png){width="100%"}
+
+## Übersicht 3. Experiment
+
+<x> ![Alt-Text](images/Experiment3.png){width="100%"}
+
+# Eperiment 1
+
+## Versuch 1.1.1.2 - Groundtruth Vergleich
+
+<center>
+
+<x>![Alt-Text](images/GroundtruthF1){width="42%"}
+
+
+<x>![Alt-Text](images/Versuch1.1.1.2RNNFunction){width="42%"}![Alt-Text](images/Versuch1.1.1.2GaussFunction){width="42%"}
+
+</center>
+
+## Versuch 1.1.1.2 - Y Wert / Evaluation
+
+<x>![Alt-Text](images/Versuch1.1.1.2DE4YAllThree){width="47%"}![Alt-Text](images/Versuch1.1.1.2DEDimx10YAllThree){width="47%"}
+
+## Versuch 1.1.1.2 - Fehler / Evaluation
+
+<x>![Alt-Text](images/Versuch1.1.1.2DE4Error){width="47%"}![Alt-Text](images/Versuch1.1.1.2DEDimx10Error){width="47%"}
+
+# Experiment 2
+
+## Versuch 2.2.1.1 - Groundtruth Vergleich 2D
+
+<center>
+
+<x>![Alt-Text](images/GroundtruthF24){width="42%"}
+
+<x>![Alt-Text](images/Versuch2.2.1.1RNNFunctionRandom){width="42%"}![Alt-Text](images/Versuch2.2.1.1GaussFunctionRandom){width="42%"}
+
+</center>
+
+## Versuch 2.2.2.1 - Groundtruth Vergleich 3D
+
+<x>![Alt-Text](images/GIFF24.gif){width="47%"}![Alt-Text](images/GIFRNN.gif){width="47%"}
+
+## Versuch 2.2.1.1 & 2.2.2.1 - Y Wert / Evaluation
+
+<x>![Alt-Text](images/Versuch2.2.1.1DE4YAllThree){width="47%"}![Alt-Text](images/Versuch2.2.2.1DE4YAllThree){width="47%"}
+
+## Versuch 2.2.1.1 & 2.2.2.1 - Fehler / Evaluation
+
+<x>![Alt-Text](images/Versuch2.2.1.1DE4Error){width="47%"}![Alt-Text](images/Versuch2.2.2.1DE4Error){width="47%"}
+
+# Experiment 3
+
+## VAE mit 50 Datenpunkten Funktion 1
 
 <x>
-![Alt-Text](images/Experiment1.png)
+![Alt-Text](images/DataGenerationRandomTrainF1MinimalData){width="47%"}![Alt-Text](images/VAEDataF1MinimalData){width="47%"}
 
-
-
-## Übersicht Experimente und Versuche - 2. Experiment
+## VAE mit 1000 Datenpunkten Funktion 1
 
 <x>
-![Alt-Text](images/Experiment2.png)
+![Alt-Text](images/DataGenerationRandomTrainF24MinimalData){width="47%"}![Alt-Text](images/VAEDataF24MinimalData){width="47%"}
 
-
-## Übersicht Experimente und Versuche - 3. Experiment
+## VAE mit 50 Datenpunkten Funktion 24
 
 <x>
-![Alt-Text](images/Experiment3.png)
+![Alt-Text](images/DataGenerationRandomTrainF1MaximalData){width="47%"}![Alt-Text](images/VAEDataF1MaximalData){width="47%"}
+
+## VAE mit 1000 Datenpunkten Funktion 24
+
+<x>
+![Alt-Text](images/DataGenerationRandomTrainF24MaximalData){width="47%"}![Alt-Text](images/VAEDataF24MaximalData){width="47%"}
+
+# Beantwortung der Forschungsfragen
+
+## Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll?
+
+-   Versuch wurde abgebrochen → sehr schlechte Ergebnisse vor allem bei
+    50 Datenpunkten
+-   nicht in der Lage die Verteilung über gesamten Raum zu lernen
+-   Datenpunkteskala passt nur bedingt
+-   representiert die 'Realität' nicht ausreichend
+-   Dimensionsreduktion führt zu Problemen, dadurch verzerrte /
+    gestauchte Darstellung
+-   (Annahme) lokale Struktur wird erkannt und repräsentiert die
+    Funktion
+
+## 
+
+für das vorliegende Problem konnte der VAE nicht zur Datenerhebung
+eingesetzt werden
+
+weiteres Vorgehen: - Modellarchitektur überarbeiten - GAN - CVAE
+
+## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
+
+<x> ![Alt-Text](images/Experiment1Result.png){width="90%"}
+
+## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
+
+<x> ![Alt-Text](images/Experiment3Result.png){width="90%"}
+
+## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
+
+<x> ![Alt-Text](images/3DimResults.PNG){width="100%"}
+
+##
+
+Im vorliegenden Fall: nein, ein RNN ist nicht besser geeignet zur Erzeugung der Testfunktion.
+
+- überwiegend ist Performance des Gaußschen Prozessmodells besser
+- höchste erreichte Punktzahl in Optimierung ist 3,6 / 5
+- niedrigste erreichte Punktzahl in Optimierung ist 1,3 / 5
+
+
+## Ist der Einsatz von RNN geeignet?
+
+- [4\|5] Difficulty (Mehrdimensionalität 2+3, F1 wird gut nachgebildet, F24 ist zu komplex) 
+- [5\|5] Diversity () 
+- [3\|5] Flexibility () 
+- [1\|5] Relevance () 
+- [1\|5] Evaluation cost () 
+- [1\|5] Non-Smoothing (nein, 2 RNNs hintereinander verworfen, Simulaton nicht
+erstellt)
+
+im vorliegenden Fall: erreichte Punktzahl der Testfunktionen des RNN ist 2,5 / 5
+
+
+
+# Schlussbetrachtung
+
+## Fazit
+
+- Graußsche Prozessmodelle im vorliegenden Anwendungsfall besser geeignet
+- Anmerkung: es wurde nur die Estimation verglichen; kein Vergleich von Simulation
+
 
 
 ## Verworfene Ansätze
@@ -208,161 +346,12 @@ RNN Modell wird danach bewertet
 -   L-BFGS-B als Optimierer
 -   2 RNNs hintereinander
 
-
-## Einblicke in die besten Experimentergebnisse
-
-<x>
-![Alt-Text](images/ExperimentBest.png)
-
-# Versuch 3.1
-
-## Versuch 3.1.1
-
-Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF1)
-
-Bild Fuktion zugeschnitten
-
-Bild Datenpunkte zufällig Training
-![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF1MinimalData)
-
-Bild Datenpunkte zufällig Test
-![Alt-Text](images/Versuch%204/DataGenerationRandomTestF1MinimalData)
-
-Bild Datenpunkte VAE
-![Alt-Text](images/Versuch%204/images/Versuch%204/VAEDataF1MinimalData)
-
-Bild Loss Function ![Alt-Text](images/Versuch%204/LossF1MinimalData.png)
-
-Fazit - nicht in der Lage die Verteilung über gesamten Raum zu lernen -
-Globale Struktur wird im begrenzten Ausmaß erlernt - Datenpunkteskala
-passt nur bedingt - representiert die 'Realität' nicht ausreichend -
-Loss Function -\> Training und Test Verlauf in Ordnung jedoch nicht
-überagend gut
-
-## Versuch 3.1.2
-
-Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF4)
-
-Bild Fuktion zugeschnitten
-
-Bild Datenpunkte zufällig Training
-![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF4MinimalData)
-
-Bild Datenpunkte zufällig Test
-![Alt-Text](images/Versuch%204/DataGenerationRandomTestF4MinimalData)
-
-Bild Datenpunkte VAE
-![Alt-Text](images/Versuch%204/VAEDataF4MinimalData)
-
-Bild Loss Function ![Alt-Text](images/Versuch%204/LossF4MinimalData.png)
-
-Fazit - nicht in der Lage die Verteilung über gesamten Raum zu lernen -
-Globale Struktur wird nicht erkannt - Datenpunkteskala passt nur
-bedingt - representiert die 'Realität' nicht - Loss Function -\>
-Training und Test Verlauf in Ordnung jedoch nicht überagend gut
-
--\> Versuch abgebrochen
-
-# Versuch 3.2
-
-## Versuch 3.2.1
-
-Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF1)
-
-Bild Fuktion zugeschnitten
-
-Bild Datenpunkte zufällig Training
-![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF1MaximalData)
-
-Bild Datenpunkte zufällig Test
-![Alt-Text](images/Versuch%204/DataGenerationRandomTestF1MaximalData)
-
-Bild Datenpunkte VAE
-![Alt-Text](images/Versuch%204/VAEDataF1MaximalData)
-
-Bild Loss Function ![Alt-Text](images/Versuch%204/LossF1MaximalData.png)
-
-Fazit - bessere Performance + Ergebnisse als bei 50 Datenpunkten - Loss
-Function -\> Training und Test Verlauf gut und benötigt viel weniger
-Epochen - lernt Verteilung an sich sehr gut, Problem: scheint
-Dimensionsreduktion anzuwenden, dadurch verzerrte / gestauchte
-Darstellung - nicht praktikabel für geplanten Einsatz
-
-## Versuch 3.2.1
-
-Bild Fuktion ![Alt-Text](images/Versuch%204/GroundtruthF4)
-
-Bild Fuktion zugeschnitten
-
-Bild Datenpunkte zufällig Training
-![Alt-Text](images/Versuch%204/DataGenerationRandomTrainF4MaximalData)
-
-Bild Datenpunkte zufällig Test
-![Alt-Text](images/Versuch%204/DataGenerationRandomTestF4MaximalData)
-
-Bild Datenpunkte VAE
-![Alt-Text](images/Versuch%204/VAEDataF4MaximalData)
-
-Bild Loss Function ![Alt-Text](images/Versuch%204/LossF4MaximalData.png)
-
-Fazit - bessere Performance + Ergebnisse als bei 50 Datenpunkten - Loss
-Function -\> Training und Test Verlauf gut und benötigt viel weniger
-Epochen - lernt Verteilung an sich sehr gut, Problem: scheint
-Dimensionsreduktion anzuwenden, dadurch verzerrte / gestauchte
-Darstellung - nicht praktikabel für geplanten Einsatz - (Annahme) lokale
-Struktur wird erkannt und representiert die Funktion
-
--\> Versuch abgebrochen
-
-# andere Experimente
-
-## Eperiment 1 und 2 (2dim und 3dim)
-
-...
-
-## 
-
-# Schlussbetrachtung
-
-## Fazit
-
-Forschungsfragen beantworten
-
-## Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll?
-
-....... 
-\|-\> in Realität ist Groun Truth nicht bekannt, somit ist die Rekonstruktion nicht möglich 
-\|-\> nicht für den angedachten Verwendungszweck nicht geeignet 
-\|-\> Ausblick: Modell nochmals anschauen (Layer, Parameter, etc.), besseres Lernen der Funktion, GAN oder CVAE ggf. ausprobieren
-
-## Ist ein RNN besser als ein Gauss bei der Optimierung?
-
-MAtrixvergleich ...
-##
-<x>
-![Alt-Text](images/Experiment1Result.png)
-
-##
-<x>
-![Alt-Text](images/Experiment3Result.png)
-
-## Ist der Einsatz von RNN geeignet?
-
-... Versuchsbewertung mit den 6 Kriterien
--  [...|5] Difficulty (Mehrdimensionalität 2+3)
--  [...|5] Diversity ()
--  [...|5] Flexibility ()
--  [...|5] Relevance ()
--  [...|5] Evaluation cost ()
--  [1|5] Non-Smoothing (nein, 2 RNNs hintereinander verworfen, Simulaton nicht erstellt)
-
-## Kritische Diskussion
-
--   Bezug auf Optimierer
-
 ## Ausblick
 
-- mehr Datenpunkte
-- mehr Dimensionen
-- andere Optimierer
-- Abbildung der lokalen Struktur mit dem neuronalen Netz durch Erstellung neuer Loss-Funktion, die nicht nur einzelne Punkte optimiert, sondern mehrere Punkte betrachtet
+-   mehr Datenpunkte
+-   mehr Dimensionen
+-   andere Optimierer
+-   Abbildung der lokalen Struktur mit dem neuronalen Netz durch
+    Erstellung neuer Loss-Funktion, die nicht nur einzelne Punkte
+    optimiert, sondern mehrere Punkte betrachtet
+- Vergleich von Graußscher Prozessmodell Simulation anstelle von Estimation
