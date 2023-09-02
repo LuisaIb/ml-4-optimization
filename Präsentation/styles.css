@@ -1,0 +1,273 @@
+/* title slide logo size*/
+
+.gdbar img {
+
+  width: 420px !important;
+
+  height: 60px !important;
+
+  margin: 10px 10px;
+
+}
+
+
+
+.gdbar {
+
+  width: 450px !important;
+
+  height: 80px !important;
+
+}
+
+
+
+/* running slide logo, no effect? */
+
+slides > slide:not(.nobackground):before {
+
+  width: 210px;
+
+  height: 30px;
+
+  background-size: 210px 30px;
+
+}
+
+ 
+
+/* running slide logo for real*/
+
+slides > slide:not(.title-slide) {
+
+   background-image: url("figs/logoFolienvorlage.png");
+
+   background-size: 15%;
+
+   background-repeat: no-repeat;
+
+   background-position: 2% 97%;
+
+ }
+
+ 
+
+
+
+/* color for text 
+
+body p {
+
+  color: #000000;
+
+}
+
+li {
+
+  color: #000000;
+
+}
+
+slides > slide.title-slide p {
+
+  color: #000000;
+
+}
+
+slides > slide p {
+
+  color: #000000;
+
+}
+
+.footer {
+
+    color: black; background: #E8E8E8;
+
+    position: fixed; top: 90%;
+
+    text-align:center; width:50%;
+
+}
+*/
+
+
+/* color for highlighted/selected text */
+
+::-moz-selection { /* Code for Firefox 
+
+  color: red;
+
+  background: yellow;
+
+}
+
+
+
+::selection {
+
+  color: red;
+
+  background: yellow;
+
+}
+
+*/
+
+
+/* Code */
+
+pre {
+
+  width: auto !important;
+
+  left: 0px !important;
+
+  padding: 10px 20px 10px 20px !important;
+
+  border-radius: 5px !important;
+
+  border-color: #adb5bd !important;
+
+  border-width: thin !important;
+
+  border-style: solid !important;
+
+}
+
+
+
+pre.prettyprint {
+
+  background-color: #f8f8f8 !important;
+
+}
+
+
+
+
+
+
+
+/* Table */
+
+table.rmdtable {
+
+  width: auto !important;
+
+  margin-left: auto !important;
+
+  margin-right: auto !important;
+
+  margin-bottom: 25px;
+
+  border-bottom: none !important;
+
+  border-spacing: 0px !important;
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+}
+
+
+
+table.rmdtable th {
+
+  background: none !important;
+
+  background-color: #003f5c !important;
+
+  padding: 10px;
+
+  text-align: center !important;
+
+}
+
+
+
+table.rmdtable td, table th {
+
+    padding: 1em 1em !important;
+
+}
+
+
+
+/* Round borders */
+
+table.rmdtable th:first-child {
+
+    border-radius: 5px 0 0 0;
+
+}
+
+table.rmdtable th:last-child {
+
+    border-radius: 0 5px 0 0;
+
+}
+
+
+
+table.rmdtable tr:last-child td:first-child {
+
+    border-radius: 0 0 0 5px;
+
+}
+
+table.rmdtable tr:last-child td:last-child {
+
+    border-radius: 0 0 5px 0;
+
+}
+
+
+
+/* Table Hover */
+
+table.rmdtable > tbody > tr:hover > td,
+
+table.rmdtable > tbody > tr:hover > th {
+
+  background-color: #e5e5e5;
+
+}
+
+
+
+
+
+/* bullet list styles */
+
+ul li ul li:before {
+
+  content: "\25CB";
+
+}
+
+
+
+/* bullet list styles */
+
+ul li:before {
+
+  content: "\25CF";
+
+}
+
+
+
+
+
+/* scroll bar for overflow on references page */
+
+slides > slide {
+
+  overflow-x: auto !important;
+
+  overflow-y: auto !important;
+
+}
+
+
+

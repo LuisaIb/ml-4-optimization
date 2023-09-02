@@ -28,6 +28,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Motivation und Zielsetzung
 
+Hanna Steinwender
+
 ## Motivation
 
 ... muss noch erarbeitet werden
@@ -46,21 +48,24 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Vorgehen und Methodik
 
+Hanna Steinwender
+
 ## Vorgehen und Methodik
 
 ... muss noch erarbeitet werden - Empirisch - Experimente - eigene
-BEwertungsmatrix
+Bewertungsmatrix
 
 # Versuchsaufbau
 
+Lena Hammerer
+
 ## Groundtruths
 
-<x>
-![Alt-Text](images/GroundtruthF1){width="47%"}![Alt-Text](images/GroundtruthF24){width="47%"}
+<br> <br> ![](images/GroundtruthF1){width="47%"}![](images/GroundtruthF24){width="47%"}
 
 ## Variable Parameter
 
-(Theorie: (Griundtruth Function))
+(Theorie: (Groundtruth Function))
 
 -   numBbobf \<- 1/24
 
@@ -113,6 +118,8 @@ Verlustfunktion und den Adam-Optimizer für das Training.
 
 # Bewertungsmatrix
 
+Luisa Ibele
+
 ## 
 
 Grundparameter: Anzahl Datenpunkte Datenerhebungsstrategie Funktion
@@ -121,7 +128,7 @@ Grundparameter bewertet
 
 ## Modellbewertung
 
-<x> ![Modell](images/modelMatrix.PNG){width="100%"}
+<x> ![](images/modelMatrix.PNG){width="100%"}
 
 ## 
 
@@ -141,7 +148,7 @@ Grundparameter bewertet
 
 ## Optimierungsbewertung
 
-<x> ![Alt-Text](images/optimizationMatrix.PNG){width="80%"}
+<x> ![](images/optimizationMatrix.PNG){width="80%"}
 
 ## 
 
@@ -157,7 +164,7 @@ Grundparameter bewertet
 
 ## Finale Bewertungsmatrix
 
-<x> ![Alt-Text](images/generalMatrix.PNG){width="80%"}
+<x> ![](images/generalMatrix.PNG){width="80%"}
 
 ## 
 
@@ -194,86 +201,100 @@ RNN Modell wird danach bewertet
 
 # Umsetzung und Auswertung
 
+Judith Romer
+
 ## Übersicht 1. Experiment
 
-<x> ![Alt-Text](images/Experiment1.png){width="100%"}
+<x> ![](images/Experiment1.png){width="100%"}
 
 ## Übersicht 2. Experiment
 
-<x> ![Alt-Text](images/Experiment2.png){width="100%"}
+<x> ![](images/Experiment2.png){width="100%"}
 
 ## Übersicht 3. Experiment
 
-<x> ![Alt-Text](images/Experiment3.png){width="100%"}
+<x> ![](images/Experiment3.png){width="100%"}
 
 # Eperiment 1
 
-## Versuch 1.1.1.2 - Groundtruth Vergleich
+Judith Romer
+
+## Versuch 1.1.1.2 - Bildvergleich
 
 <center>
 
-<x>![Alt-Text](images/GroundtruthF1){width="42%"}
+<x>![](images/GroundtruthF1){width="42%"}
 
-
-<x>![Alt-Text](images/Versuch1.1.1.2RNNFunction){width="42%"}![Alt-Text](images/Versuch1.1.1.2GaussFunction){width="42%"}
+<x>![](images/Versuch1.1.1.2RNNFunction){width="42%"}![](images/Versuch1.1.1.2GaussFunction){width="42%"}
 
 </center>
 
 ## Versuch 1.1.1.2 - Y Wert / Evaluation
 
-<x>![Alt-Text](images/Versuch1.1.1.2DE4YAllThree){width="47%"}![Alt-Text](images/Versuch1.1.1.2DEDimx10YAllThree){width="47%"}
+<br> <br>
+![](images/Versuch1.1.1.2DE4YAllThree){width="47%"}![](images/Versuch1.1.1.2DEDimx10YAllThree){width="47%"}
 
 ## Versuch 1.1.1.2 - Fehler / Evaluation
 
-<x>![Alt-Text](images/Versuch1.1.1.2DE4Error){width="47%"}![Alt-Text](images/Versuch1.1.1.2DEDimx10Error){width="47%"}
+<br> <br>
+![](images/Versuch1.1.1.2DE4Error){width="47%"}![](images/Versuch1.1.1.2DEDimx10Error){width="47%"}
 
 # Experiment 2
 
-## Versuch 2.2.1.1 - Groundtruth Vergleich 2D
+Judith Romer
+
+## Versuch 2.2.1.1 - Bildvergleich 2D
 
 <center>
 
-<x>![Alt-Text](images/GroundtruthF24){width="42%"}
+<x>![](images/GroundtruthF24){width="42%"}
 
-<x>![Alt-Text](images/Versuch2.2.1.1RNNFunctionRandom){width="42%"}![Alt-Text](images/Versuch2.2.1.1GaussFunctionRandom){width="42%"}
+<x>![](images/Versuch2.2.1.1RNNFunctionRandom){width="42%"}![](images/Versuch2.2.1.1GaussFunctionRandom){width="42%"}
 
 </center>
 
-## Versuch 2.2.2.1 - Groundtruth Vergleich 3D
+## Versuch 2.2.2.1 - Bildvergleich 3D
 
-<x>![Alt-Text](images/GIFF24.gif){width="47%"}![Alt-Text](images/GIFRNN.gif){width="47%"}
+<br> <br>
+![](images/GIFF24.gif){width="47%"}![](images/GIFRNN.gif){width="47%"}
 
 ## Versuch 2.2.1.1 & 2.2.2.1 - Y Wert / Evaluation
 
-<x>![Alt-Text](images/Versuch2.2.1.1DE4YAllThree){width="47%"}![Alt-Text](images/Versuch2.2.2.1DE4YAllThree){width="47%"}
+<br> <br>
+![](images/Versuch2.2.1.1DE4YAllThree){width="47%"}![](images/Versuch2.2.2.1DE4YAllThree){width="47%"}
 
 ## Versuch 2.2.1.1 & 2.2.2.1 - Fehler / Evaluation
 
-<x>![Alt-Text](images/Versuch2.2.1.1DE4Error){width="47%"}![Alt-Text](images/Versuch2.2.2.1DE4Error){width="47%"}
+<br> <br>
+![](images/Versuch2.2.1.1DE4Error){width="47%"}![](images/Versuch2.2.2.1DE4Error){width="47%"}
 
 # Experiment 3
 
+Judith Romer
+
 ## VAE mit 50 Datenpunkten Funktion 1
 
-<x>
-![Alt-Text](images/DataGenerationRandomTrainF1MinimalData){width="47%"}![Alt-Text](images/VAEDataF1MinimalData){width="47%"}
+<br> <br>
+![](images/DataGenerationRandomTrainF1MinimalData){width="47%"}![](images/VAEDataF1MinimalData){width="47%"}
 
 ## VAE mit 1000 Datenpunkten Funktion 1
 
-<x>
-![Alt-Text](images/DataGenerationRandomTrainF24MinimalData){width="47%"}![Alt-Text](images/VAEDataF24MinimalData){width="47%"}
+<br> <br>
+![](images/DataGenerationRandomTrainF24MinimalData){width="47%"}![](images/VAEDataF24MinimalData){width="47%"}
 
 ## VAE mit 50 Datenpunkten Funktion 24
 
-<x>
-![Alt-Text](images/DataGenerationRandomTrainF1MaximalData){width="47%"}![Alt-Text](images/VAEDataF1MaximalData){width="47%"}
+<br> <br>
+![](images/DataGenerationRandomTrainF1MaximalData){width="47%"}![](images/VAEDataF1MaximalData){width="47%"}
 
 ## VAE mit 1000 Datenpunkten Funktion 24
 
-<x>
-![Alt-Text](images/DataGenerationRandomTrainF24MaximalData){width="47%"}![Alt-Text](images/VAEDataF24MaximalData){width="47%"}
+<br> <br>
+![](images/DataGenerationRandomTrainF24MaximalData){width="47%"}![](images/VAEDataF24MaximalData){width="47%"}
 
 # Beantwortung der Forschungsfragen
+
+Isabel Janez
 
 ## Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll?
 
@@ -292,59 +313,84 @@ RNN Modell wird danach bewertet
 für das vorliegende Problem konnte der VAE nicht zur Datenerhebung
 eingesetzt werden
 
-weiteres Vorgehen: - Modellarchitektur überarbeiten - GAN - CVAE
+weiteres Vorgehen: 
+
+- Modellarchitektur überarbeiten 
+- GAN 
+- CVAE
 
 ## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
 
-<x> ![Alt-Text](images/Experiment1Result.png){width="90%"}
+<center>
+
+<x> ![](images/Experiment1Result.png){width="77%"}
+
+</center>
 
 ## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
 
-<x> ![Alt-Text](images/Experiment3Result.png){width="90%"}
+<center>
+
+<x> ![](images/Experiment3Result.png){width="77%"}
+
+</center>
 
 ## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
 
-<x> ![Alt-Text](images/3DimResults.PNG){width="100%"}
+<br> <br> ![](images/3DimResults.PNG){width="100%"}
 
-##
+## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
 
-Im vorliegenden Fall: nein, ein RNN ist nicht besser geeignet zur Erzeugung der Testfunktion.
+Im vorliegenden Fall: nein, ein RNN ist nicht besser geeignet zur
+Erzeugung der Testfunktion.
 
-- überwiegend ist Performance des Gaußschen Prozessmodells besser
-- höchste erreichte Punktzahl in Optimierung ist 3,6 / 5
-- niedrigste erreichte Punktzahl in Optimierung ist 1,3 / 5
-
+-   überwiegend ist Performance des Gaußschen Prozessmodells besser
+-   höchste erreichte Punktzahl in Optimierung ist 3,6 / 5
+-   niedrigste erreichte Punktzahl in Optimierung ist 1,3 / 5
 
 ## Ist der Einsatz von RNN geeignet?
 
-- [4\|5] Difficulty (Mehrdimensionalität 2+3, F1 wird gut nachgebildet, F24 ist zu komplex) 
-- [5\|5] Diversity () 
-- [3\|5] Flexibility () 
-- [1\|5] Relevance () 
-- [1\|5] Evaluation cost () 
-- [1\|5] Non-Smoothing (nein, 2 RNNs hintereinander verworfen, Simulaton nicht
-erstellt)
+-   [4\|5] Difficulty (Mehrdimensionalität 2+3, F1 wird gut
+    nachgebildet, F24 ist zu komplex)
+-   [5\|5] Diversity ()
+-   [3\|5] Flexibility ()
+-   [1\|5] Relevance ()
+-   [1\|5] Evaluation cost ()
+-   [1\|5] Non-Smoothing (nein, 2 RNNs hintereinander verworfen,
+    Simulaton nicht erstellt)
 
-im vorliegenden Fall: erreichte Punktzahl der Testfunktionen des RNN ist 2,5 / 5
-
-
+im vorliegenden Fall: erreichte Punktzahl der Testfunktionen des RNN ist
+2,5 / 5
 
 # Schlussbetrachtung
 
+Isabel Janez
+
 ## Fazit
 
-- Graußsche Prozessmodelle im vorliegenden Anwendungsfall besser geeignet
-- Anmerkung: es wurde nur die Estimation verglichen; kein Vergleich von Simulation
-
-
+-   Graußsche Prozessmodelle im vorliegenden Anwendungsfall besser
+    geeignet
+-   Anmerkung: es wurde nur die Estimation verglichen; kein Vergleich
+    von Simulation
+-   Tradeoff zwischen Rechenleistung und Komplexität des RNN
 
 ## Verworfene Ansätze
 
--   VAE für Regression
+-   VAE als Regressionsmodell
 -   VAE wegen Dimensionsreduktion nicht für Datenerhebung geeignet
 -   Loss Function selber schreiben
--   L-BFGS-B als Optimierer
--   2 RNNs hintereinander
+-   L-BFGS-B als Optimierer: Abbruchkriterium funktioniert nicht korrekt
+-   2 RNNs hintereinander für Abbildung der lokalen Struktur
+
+## 2 RNN
+
+<center>
+
+<x>![](images/2RNN_Netz1){width="42%"}
+
+<x>![](images/2RNN_Negativ){width="42%"}![](images/2RNN_Netz2){width="42%"}
+
+</center>
 
 ## Ausblick
 
@@ -354,4 +400,15 @@ im vorliegenden Fall: erreichte Punktzahl der Testfunktionen des RNN ist 2,5 / 5
 -   Abbildung der lokalen Struktur mit dem neuronalen Netz durch
     Erstellung neuer Loss-Funktion, die nicht nur einzelne Punkte
     optimiert, sondern mehrere Punkte betrachtet
-- Vergleich von Graußscher Prozessmodell Simulation anstelle von Estimation
+-   Vergleich von Graußscher Prozessmodell Simulation anstelle von
+    Estimation
+
+# Vielen Dank für die Aufmerksamkeit! Noch Fragen?
+
+## Prüfungsleistung Aufteilung
+
+-   Hanna Steinwender: Folie 1 bis Folie 8
+-   Lena Hammerer: Folie 9 bis Folie 14
+-   Luisa Ibele: Folie 15 bis Folie 23
+-   Judith Romer: Folie 24 bis Folie 41
+-   Isabel Janez: Folie 42 bis 54
