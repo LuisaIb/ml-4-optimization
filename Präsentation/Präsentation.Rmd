@@ -61,7 +61,8 @@ Lena Hammerer
 
 ## Groundtruths
 
-<br> <br> ![](images/GroundtruthF1){width="47%"}![](images/GroundtruthF24){width="47%"}
+<br> <br>
+![](images/GroundtruthF1){width="47%"}![](images/GroundtruthF24){width="47%"}
 
 ## Variable Parameter
 
@@ -313,27 +314,19 @@ Isabel Janez
 für das vorliegende Problem konnte der VAE nicht zur Datenerhebung
 eingesetzt werden
 
-weiteres Vorgehen: 
+weiteres Vorgehen:
 
-- Modellarchitektur überarbeiten 
-- GAN 
-- CVAE
-
-## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
-
-<center>
-
-<x> ![](images/Experiment1Result.png){width="77%"}
-
-</center>
+-   Modellarchitektur überarbeiten
+-   GAN
+-   CVAE
 
 ## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
 
-<center>
+<center><x> ![](images/Experiment1Result.png){width="77%"}</center>
 
-<x> ![](images/Experiment3Result.png){width="77%"}
+## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
 
-</center>
+<center><x> ![](images/Experiment3Result.png){width="77%"}</center>
 
 ## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
 
