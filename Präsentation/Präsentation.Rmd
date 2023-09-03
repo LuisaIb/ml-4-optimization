@@ -32,11 +32,21 @@ Hanna Steinwender
 
 ## Motivation
 
-... muss noch erarbeitet werden
+-   Entwicklung und Bewertung von Optimierungsalgorithmen in realen Anwendungen
+-   Herausforderung traditioneller Bewertung mit statischen Testdatensätzen
+-   Notwendigkeit von Testfunktionen für Algorithmen
+-   Schwierigkeit bei der Suche nach passenden Testfunktionen
+-   Begrenzte Verfügbarkeit von Ground-Truth-Funktionen
+-   Modelle mit realen Daten als Ersatz für Ground-Truth-Funktionen erstellen
 
 ## Zielsetzung
 
-... muss noch erarbeitet werden
+-   Entwicklung von Testfunktionen
+-   Approximation von Ground-Truth-Funktionen
+-   Erfüllung von Anforderungen: Schwierigkeit, Vielfalt, Kosten, Flexibilität, Transparenz
+-   Validierung durch Vergleich mit BBOB Function Suite
+-   Beitrag zur Optimierungsalgorithmen-Forschung
+-   Anwendbarkeit in realen Optimierungsaufgaben
 
 ## Forschungsfragen
 
@@ -52,8 +62,15 @@ Hanna Steinwender
 
 ## Vorgehen und Methodik
 
-... muss noch erarbeitet werden - Empirisch - Experimente - eigene
-Bewertungsmatrix
+-   Empirischer Ansatz: Durchführung von Modellbewertungsexperimenten.
+-   Datensammlung
+-   Modelltraining
+-   Funktionsgenerierung
+-   Optimierungsevaluation
+-   Erstellung einer Bewertungsmatrix
+-   Vergleichsanalyse
+-   Generalisierungstests
+-   Interpretation und Diskussion
 
 # Versuchsaufbau
 
