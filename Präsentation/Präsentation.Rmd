@@ -144,20 +144,20 @@ Luisa Ibele
 
 ## Grundlegendes Bewertungsschema
 
--   Grundlegende Parameter der einzelnen Testdurchläufe: 
-  - Anzahl Datenpunkte 
-  - Datenerhebungsstrategie 
-  - Funktion 
-  - Dimensionen
+-   Grundlegende Parameter der einzelnen Versuchsdurchläufe: 
+    -   Anzahl Datenpunkte 
+    -   Datenerhebungsstrategie 
+    -   Funktion 
+    -   Dimensionen
 
 
 -   Bewertung der Modelle und Optimierung anhand verschiedener Kriterien
--   Werteskala von 1-5 Punkte mit:
+-   Bewertungsskala von 1 bis 5 Punkten mit:
     -   1: sehr schlecht, schwach
     -   2: schlecht, unterhalb des Erwarteten
     -   3: durschnittlich, akzeptabel
-    -   4: gut, überhalb des Erwarteten
-    -   5: sehr gut, stark
+    -   4: gut, über dem Erwarteten
+    -   5: sehr gut, ausgezeichnet
 
 ## Modellbewertung
 
@@ -187,23 +187,27 @@ Luisa Ibele
 
 ## Gesamtbewertung
 
--   systematische Analyse und Bewertung der Experimente im Rahmen der
+-   Systematische Analyse und Bewertung der Versuche im Rahmen der
     Modell- und Optimierungsbewertung
--   fundierte Beurteilung der Modell-Leistung, Optimierungsalgorithmen
+-   Fundierte Beurteilung der Modellleistung, Optimierungsalgorithmen
     und Versuche anhand der gewählten Bewertungskriterien
--   Berücksichtigung von qualitativer und quantitativer Aspekte
--   Gewichtung: Modellbewertung - 30%; Optimierungsbewertung - 70%
+-   Berücksichtigung qualitativer und quantitativer Aspekte
+-   Gewichtung: 
+    -   Modellbewertung - 30%
+    -   Optimierungsbewertung - 70%
 -   Bewertung des gesamten Versuchs möglich
 
 ## Versuchsbewertung
 
 Bewertung der einzelnen Versuche anhand von: 
-- Difficulty 
-- Diversity 
-- Flexibility 
-- Relevance 
-- Evaluation cost 
-- Non-Smoothing
+-   Difficulty 
+-   Diversity 
+-   Flexibility 
+-   Relevance 
+-   Evaluation cost 
+-   Non-Smoothing
+
+Zaefferer, M., Fischbach, A., Naujoks, B. and Bartz-Beielstein, T., 2017, July. Simulation-based test functions for optimization algorithms. In Proceedings of the genetic and evolutionary computation conference (pp. 905-912).
 
 # Umsetzung und Auswertung
 
