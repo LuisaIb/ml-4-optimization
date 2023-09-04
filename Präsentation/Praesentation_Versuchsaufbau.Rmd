@@ -1,0 +1,464 @@
+---
+title: "Machine Learning Project"
+author: "Hammerer Lena, Ibele Luisa, Janez Isabel, Romer Judith, Steinwender Hanna"
+date: "2023-08-09"
+output:
+  ioslides_presentation:
+    widescreen: true
+    transition: faster
+    highlight: espresso
+    css: styles.css
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Gliederung
+
+-   Motivation und Zielsetzung
+-   Vorgehen und Methodik
+-   Versuchsaufbau
+-   Bewertungsmatrix
+-   Umsetzung und Auswertung
+-   Schlussbetrachtung
+
+# Motivation und Zielsetzung
+
+Hanna Steinwender
+
+## Motivation
+
+... muss noch erarbeitet werden
+
+## Zielsetzung
+
+... muss noch erarbeitet werden
+
+## Forschungsfragen
+
+1.  Ist der Einsatz eines Variational Autoencoder als
+    Datenerhebungstrategie sinnvoll?
+2.  Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein
+    Gaußsches Prozessmodell?
+3.  Ist der Einsatz von RNN geeignet?
+
+# Vorgehen und Methodik
+
+Hanna Steinwender
+
+## Vorgehen und Methodik
+
+... muss noch erarbeitet werden - Empirisch - Experimente - eigene
+Bewertungsmatrix
+
+# Versuchsaufbau
+
+Lena Hammerer
+
+## Groundtruths
+
+- *wahre* / *korrekte* Vorhersage für ein gegebenes Problem
+- Referenzpunkt, um die Leistung von ML-Modellen zu bewerten und ihre Qualität sicherzustellen
+- Probleme in der Praxis:
+  - (noch) nicht verfügbar
+  - teuer in der Auswertung, eingeschränkte Experimentiermöglichkeiten
+  - vertraulich (Veröffentlichung nicht möglich)
+
+<span style="font-size: 14px">Hansen, N., A. Auger, R. Ros, O. Mersmann, T. Tušar, and D. Brockhoff. “COCO: A Platform for Comparing Continuous Optimizers in a Black-Box Setting.” Optimization Methods and Software 36, no. 1 (2021): 114–44. https://doi.org/10.1080/10556788.2020.1808977.</span>
+
+
+## Groundtruths
+
+**f1 - Sphere Function**
+
+- einfachstes kontinuierliches Domänensuchproblem (wenn Volumen von gesuchter Lösung klein)
+- unimodal und hochsymmetrisch (rotationsinvariant, skaleninvariant)
+- Informationsgewinn: Was ist die optimale Konvergenzrate eines Algorithmus?
+
+![](images/GroundtruthF1){width="47%"}!
+
+
+## Groundtruths
+
+**f24 - Lunacek bi-Rastrigin Function**
+
+- Hoch multimodal
+- trügerisch für evolutionäre Algorithmen mit großer Populationsgröße
+- Informationsgewinn: Kann das Suchverhalten auf globaler Ebene lokal, auf lokaler Ebene jedoch global sein?
+
+![](images/GroundtruthF24){width="47%"}
+
+## Variable Parameter
+Ground-Truth-Funktion f1 und f24 mit jeweils 2 oder 3 Dimensionen
+
+```R:
+numBbobf <- 1/24
+dim <- 2/3
+```
+
+25 oder 600 Datenpunkten mit Random/Grid Sampling oder LHS
+```R:
+dataGenerationMethod <- "lhs", "random", "grid"
+numDataPoints <- 25/600
+```
+
+Split von Trainings- und Evaluationsdaten für die Modellierung
+```R:
+trainTestSplit <- 0.8
+```
+
+Funktion 200 oder 400 mal evaluieren
+```R:
+funEval <- 200/400
+```
+
+## Datenerhebungstrategie
+
+**Random Sampling**
+
+- zufällige werte für `x` und `y` generieren
+- Reproduzierbar durch Random Seed
+- Verteilung entspricht ggf. nicht den tatsächlichen Daten
+- Erzeugung innerhalb von fixen Grenzen
+
+**Grid Sampling**
+
+- vordefinierte Menge von Parameterkombinationen
+- Reproduzierbar, da jeder Punkt im Parameterraum einmal besucht
+- Fluch der Dimensionen
+- besser geeignet für diskrete Parameter
+
+## Datenerhebungstrategie
+
+**Latin Hypercube Sampling**
+
+- Kombination der RS und GS Ansätze
+- Parameterraum in gleich wahrscheinliche Intervalle oder Bins entlang jeder Dimension unterteilt
+- Aus jedem Bin wird ein Zufallswert ausgewählt
+- Gleichmäßige Verteilung von Stichprobenpunkte über den Parameterraum 
+- Repräsentativität wird erhöht
+
+<span style="font-size: 14px">Mckay, M. D., R. J. Beckman, and W. J. Conover. “A Comparison of Three Methods for Selecting Values of Input Variables in the Analysis of Output From a Computer Code.” Technometrics 42, no. 1 (February 2000): 55–61. https://doi.org/10.1080/00401706.2000.10485979.</span>
+
+
+## Modellaufbau RNN
+
+(Theorie: (RNN und Gauss und Loss Function (Mean Squared Logarithmic
+Error)))
+
+-   Eingangsschicht: layer_dense(units=128, input_shape=2) mit
+    aktivierender "Leaky ReLU"-Funktion.
+-   Verborgene Schicht: layer_dense(units=32) mit aktivierender "Leaky
+    ReLU"-Funktion.
+-   Verborgene Schicht: layer_dense(units=128) mit aktivierender "Leaky
+    ReLU"-Funktion.
+-   Dropout-Schicht: layer_dropout(rate=0.001) mit einer Auslassrate von
+    0.001.
+-   Verborgene Schicht: layer_dense(units=64) mit aktivierender "Leaky
+    ReLU"-Funktion.
+-   Ausgangsschicht: layer_dense(units=1, activation="linear") für die
+    lineare Ausgabe.
+
+Das Modell verwendet den Mean Squared Logarithmic Error als
+Verlustfunktion und den Adam-Optimizer für das Training.
+
+## Optimierung mit Differential Evolution
+
+(Theorie: (Differential Evolution und Popsize))
+
+-   popSize = 4
+-   popSize = 10\*dim
+-   popSize = 20\*dim
+
+# Bewertungsmatrix
+
+Luisa Ibele
+
+## 
+
+Grundparameter: Anzahl Datenpunkte Datenerhebungsstrategie Funktion
+Dimensionen Modelle und die Optimierung werden im Bezug auf die
+Grundparameter bewertet
+
+## Modellbewertung
+
+<x> ![](images/modelMatrix.PNG){width="100%"}
+
+## 
+
+-   durchschnittlicher Trainingsloss (0,1) Diese Metriken können durch
+    das Berechnen des durchschnittlichen Fehlers zwischen den
+    tatsächlichen und vorhergesagten Werten während des Trainings und
+    Tests erfasst werden.
+-   (Visual) Loss Function Verlauf (0,3) Die Veränderung der
+    Loss-Funktion über die Trainingsiterationen hinweg kann grafisch
+    dargestellt werden, um den Konvergenzverlauf des Modells zu
+    visualisieren.
+-   (Visual) Generated Funciton vs. Original Function (0,4) Visuelle
+    Darstellungen, wie Plots oder Diagramme, können verwendet werden, um
+    den Unterschied zwischen der vom Modell generierten Funktion und der
+    Originalfunktion zu verdeutlichen.
+-   Performance (0,2) Hierbei wird die Trainingsdauer betrachtet.
+
+## Optimierungsbewertung
+
+<x> ![](images/optimizationMatrix.PNG){width="80%"}
+
+## 
+
+-   Wert des Optimums (0,3) Der Wert der Zielfunktion am erreichten
+    Optimum kann quantifiziert werden.
+-   Performance (0,2) Hierbei wird die Trainingsdauer betrachtet.
+-   Error/ Evaluations (0,2) Dies kann die quantitative Analyse der
+    Abweichung zwischen den optimalen Werten und den tatsächlichen
+    Zielen beinhalten und wie viele Evaluations benötigt werden.
+-   Y/ Evaluations (0,3) Quantitative Vergleiche zwischen den
+    optimierten Werten und den erwarteten Simulationsergebnissen können
+    durchgeführt und wie viele Evaluations benötigt werden.
+
+## Finale Bewertungsmatrix
+
+<x> ![](images/generalMatrix.PNG){width="80%"}
+
+## 
+
+Diese wissenschaftlich ausgerichtete Bewertungsmatrix erlaubt eine
+systematische Analyse und Bewertung von Experimenten im Rahmen der
+Modell- und Optimierungsbewertung. Die gewählten Bewertungskriterien
+ermöglichen eine fundierte Beurteilung der Leistung von Modellen,
+Optimierungsalgorithmen und Versuchen, wobei sowohl qualitative als auch
+quantitative Aspekte berücksichtigt werden. Hierbei wird eine Gewichtung
+gesetzt Modell (0,3) Optimierung (0,7) um den Versuch zu bewerten.
+
+Jedes Kriterium kriegt einen Wert zwischen 1-5 bei der Bewertung
+zugeilt. Danach ich es möglich für die Modellbewertung, Optimierung und
+Versuchsbewertung einen Wert zu ermitteln und den Versuch gesamthaft
+bewerten zu können.
+
+1: Sehr schlecht / Niedrig / Schwach / Gering 2: Schlecht / Unterhalb
+des Erwarteten 3: Durchschnittlich / Akzeptabel 4: Gut / Über dem
+Erwarteten 5: Sehr gut / Hoch / Stark / Hervorragend
+
+## Versuchsbewertung
+
+(Theorie: (Simulation-based Test Function for Optimization Algorithms
+(Paper von ihm kurz die Begriffe erklären)))
+
+-   Difficulty
+-   Diversity
+-   Flexibility
+-   Relevance
+-   Evaluation cost
+-   Non-Smoothing
+
+RNN Modell wird danach bewertet
+
+# Umsetzung und Auswertung
+
+Judith Romer
+
+## Übersicht 1. Experiment
+
+<x> ![](images/Experiment1.png){width="100%"}
+
+## Übersicht 2. Experiment
+
+<x> ![](images/Experiment2.png){width="100%"}
+
+## Übersicht 3. Experiment
+
+<x> ![](images/Experiment3.png){width="100%"}
+
+# Eperiment 1
+
+Judith Romer
+
+## Versuch 1.1.1.2 - Bildvergleich
+
+<center>
+
+<x>![](images/GroundtruthF1){width="42%"}
+
+<x>![](images/Versuch1.1.1.2RNNFunction){width="42%"}![](images/Versuch1.1.1.2GaussFunction){width="42%"}
+
+</center>
+
+## Versuch 1.1.1.2 - Y Wert / Evaluation
+
+<br> <br>
+![](images/Versuch1.1.1.2DE4YAllThree){width="47%"}![](images/Versuch1.1.1.2DEDimx10YAllThree){width="47%"}
+
+## Versuch 1.1.1.2 - Fehler / Evaluation
+
+<br> <br>
+![](images/Versuch1.1.1.2DE4Error){width="47%"}![](images/Versuch1.1.1.2DEDimx10Error){width="47%"}
+
+# Experiment 2
+
+Judith Romer
+
+## Versuch 2.2.1.1 - Bildvergleich 2D
+
+<center>
+
+<x>![](images/GroundtruthF24){width="42%"}
+
+<x>![](images/Versuch2.2.1.1RNNFunctionRandom){width="42%"}![](images/Versuch2.2.1.1GaussFunctionRandom){width="42%"}
+
+</center>
+
+## Versuch 2.2.2.1 - Bildvergleich 3D
+
+<br> <br>
+![](images/GIFF24.gif){width="47%"}![](images/GIFRNN.gif){width="47%"}
+
+## Versuch 2.2.1.1 & 2.2.2.1 - Y Wert / Evaluation
+
+<br> <br>
+![](images/Versuch2.2.1.1DE4YAllThree){width="47%"}![](images/Versuch2.2.2.1DE4YAllThree){width="47%"}
+
+## Versuch 2.2.1.1 & 2.2.2.1 - Fehler / Evaluation
+
+<br> <br>
+![](images/Versuch2.2.1.1DE4Error){width="47%"}![](images/Versuch2.2.2.1DE4Error){width="47%"}
+
+# Experiment 3
+
+Judith Romer
+
+## VAE mit 50 Datenpunkten Funktion 1
+
+<br> <br>
+![](images/DataGenerationRandomTrainF1MinimalData){width="47%"}![](images/VAEDataF1MinimalData){width="47%"}
+
+## VAE mit 1000 Datenpunkten Funktion 1
+
+<br> <br>
+![](images/DataGenerationRandomTrainF24MinimalData){width="47%"}![](images/VAEDataF24MinimalData){width="47%"}
+
+## VAE mit 50 Datenpunkten Funktion 24
+
+<br> <br>
+![](images/DataGenerationRandomTrainF1MaximalData){width="47%"}![](images/VAEDataF1MaximalData){width="47%"}
+
+## VAE mit 1000 Datenpunkten Funktion 24
+
+<br> <br>
+![](images/DataGenerationRandomTrainF24MaximalData){width="47%"}![](images/VAEDataF24MaximalData){width="47%"}
+
+# Beantwortung der Forschungsfragen
+
+Isabel Janez
+
+## Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll?
+
+-   Versuch wurde abgebrochen → sehr schlechte Ergebnisse vor allem bei
+    50 Datenpunkten
+-   nicht in der Lage die Verteilung über gesamten Raum zu lernen
+-   Datenpunkteskala passt nur bedingt
+-   representiert die 'Realität' nicht ausreichend
+-   Dimensionsreduktion führt zu Problemen, dadurch verzerrte /
+    gestauchte Darstellung
+-   (Annahme) lokale Struktur wird erkannt und repräsentiert die
+    Funktion
+
+## 
+
+für das vorliegende Problem konnte der VAE nicht zur Datenerhebung
+eingesetzt werden
+
+weiteres Vorgehen:
+
+-   Modellarchitektur überarbeiten
+-   GAN
+-   CVAE
+
+## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
+
+<center><x> ![](images/Experiment1Result.png){width="77%"}</center>
+
+## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
+
+<center><x> ![](images/Experiment3Result.png){width="77%"}</center>
+
+## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
+
+<br> <br> ![](images/3DimResults.PNG){width="100%"}
+
+## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
+
+Im vorliegenden Fall: nein, ein RNN ist nicht besser geeignet zur
+Erzeugung der Testfunktion.
+
+-   überwiegend ist Performance des Gaußschen Prozessmodells besser
+-   höchste erreichte Punktzahl in Optimierung ist 3,6 / 5
+-   niedrigste erreichte Punktzahl in Optimierung ist 1,3 / 5
+
+## Ist der Einsatz von RNN geeignet?
+
+-   [4\|5] Difficulty (Mehrdimensionalität 2+3, F1 wird gut
+    nachgebildet, F24 ist zu komplex)
+-   [5\|5] Diversity ()
+-   [3\|5] Flexibility ()
+-   [1\|5] Relevance ()
+-   [1\|5] Evaluation cost ()
+-   [1\|5] Non-Smoothing (nein, 2 RNNs hintereinander verworfen,
+    Simulaton nicht erstellt)
+
+im vorliegenden Fall: erreichte Punktzahl der Testfunktionen des RNN ist
+2,5 / 5
+
+# Schlussbetrachtung
+
+Isabel Janez
+
+## Fazit
+
+-   Graußsche Prozessmodelle im vorliegenden Anwendungsfall besser
+    geeignet
+-   Anmerkung: es wurde nur die Estimation verglichen; kein Vergleich
+    von Simulation
+-   Tradeoff zwischen Rechenleistung und Komplexität des RNN
+
+## Verworfene Ansätze
+
+-   VAE als Regressionsmodell
+-   VAE wegen Dimensionsreduktion nicht für Datenerhebung geeignet
+-   Loss Function selber schreiben
+-   L-BFGS-B als Optimierer: Abbruchkriterium funktioniert nicht korrekt
+-   2 RNNs hintereinander für Abbildung der lokalen Struktur
+
+## 2 RNN
+
+<center>
+
+<x>![](images/2RNN_Netz1){width="42%"}
+
+<x>![](images/2RNN_Negativ){width="42%"}![](images/2RNN_Netz2){width="42%"}
+
+</center>
+
+## Ausblick
+
+-   mehr Datenpunkte
+-   mehr Dimensionen
+-   andere Optimierer
+-   Abbildung der lokalen Struktur mit dem neuronalen Netz durch
+    Erstellung neuer Loss-Funktion, die nicht nur einzelne Punkte
+    optimiert, sondern mehrere Punkte betrachtet
+-   Vergleich von Graußscher Prozessmodell Simulation anstelle von
+    Estimation
+
+# Vielen Dank für die Aufmerksamkeit! Noch Fragen?
+
+## Prüfungsleistung Aufteilung
+
+-   Hanna Steinwender: Folie 1 bis Folie 8
+-   Lena Hammerer: Folie 9 bis Folie 14
+-   Luisa Ibele: Folie 15 bis Folie 23
+-   Judith Romer: Folie 24 bis Folie 41
+-   Isabel Janez: Folie 42 bis 54
