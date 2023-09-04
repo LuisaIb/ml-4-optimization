@@ -66,8 +66,8 @@ Hanna Steinwender
 
 ## Vorgehen und Methodik
 
--   Empirischer Ansatz: Durchführung von Modellbewertungsexperimenten.
--   Datensammlung
+-   Empirischer Ansatz: Durchführung von Experimenten.
+-   Datenerhebung
 -   Modelltraining
 -   Funktionsgenerierung
 -   Optimierungsevaluation
@@ -144,8 +144,13 @@ Luisa Ibele
 
 ## Grundlegendes Bewertungsschema
 
--   Grundlegende Parameter der einzelnen Testdurchläufe: - Anzahl
-    Datenpunkte - Datenerhebungsstrategie - Funktion - Dimensionen
+-   Grundlegende Parameter der einzelnen Testdurchläufe: 
+  - Anzahl Datenpunkte 
+  - Datenerhebungsstrategie 
+  - Funktion 
+  - Dimensionen
+
+
 -   Bewertung der Modelle und Optimierung anhand verschiedener Kriterien
 -   Werteskala von 1-5 Punkte mit:
     -   1: sehr schlecht, schwach
@@ -192,8 +197,13 @@ Luisa Ibele
 
 ## Versuchsbewertung
 
-Bewertung der einzelnen Versuche anhand von: - Difficulty - Diversity -
-Flexibility - Relevance - Evaluation cost - Non-Smoothing
+Bewertung der einzelnen Versuche anhand von: 
+- Difficulty 
+- Diversity 
+- Flexibility 
+- Relevance 
+- Evaluation cost 
+- Non-Smoothing
 
 # Umsetzung und Auswertung
 
