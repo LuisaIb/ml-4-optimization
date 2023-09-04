@@ -1,7 +1,7 @@
 ---
 title: "Machine Learning Project"
 author: "Hammerer Lena, Ibele Luisa, Janez Isabel, Romer Judith, Steinwender Hanna"
-date: "2023-09-08"
+date: "2023-08-09"
 output:
   ioslides_presentation:
     widescreen: true
@@ -32,25 +32,11 @@ Hanna Steinwender
 
 ## Motivation
 
--   Entwicklung und Bewertung von Optimierungsalgorithmen in realen
-    Anwendungen
--   Herausforderung traditioneller Bewertung mit statischen
-    Testdatensätzen
--   Notwendigkeit von Testfunktionen für Algorithmen
--   Schwierigkeit bei der Suche nach passenden Testfunktionen
--   Begrenzte Verfügbarkeit von Ground-Truth-Funktionen
--   Modelle mit realen Daten als Ersatz für Ground-Truth-Funktionen
-    erstellen
+... muss noch erarbeitet werden
 
 ## Zielsetzung
 
--   Entwicklung von Testfunktionen
--   Approximation von Ground-Truth-Funktionen
--   Erfüllung von Anforderungen: Schwierigkeit, Vielfalt, Kosten,
-    Flexibilität, Transparenz
--   Validierung durch Vergleich mit BBOB Function Suite
--   Beitrag zur Optimierungsalgorithmen-Forschung
--   Anwendbarkeit in realen Optimierungsaufgaben
+... muss noch erarbeitet werden
 
 ## Forschungsfragen
 
@@ -66,15 +52,8 @@ Hanna Steinwender
 
 ## Vorgehen und Methodik
 
--   Empirischer Ansatz: Durchführung von Modellbewertungsexperimenten.
--   Datensammlung
--   Modelltraining
--   Funktionsgenerierung
--   Optimierungsevaluation
--   Erstellung einer Bewertungsmatrix
--   Vergleichsanalyse
--   Generalisierungstests
--   Interpretation und Diskussion
+... muss noch erarbeitet werden - Empirisch - Experimente - eigene
+Bewertungsmatrix
 
 # Versuchsaufbau
 
@@ -82,32 +61,89 @@ Lena Hammerer
 
 ## Groundtruths
 
-<br> <br>
-![](images/GroundtruthF1){width="47%"}![](images/GroundtruthF24){width="47%"}
+- *wahre* / *korrekte* Vorhersage für ein gegebenes Problem
+- Referenzpunkt, um die Leistung von ML-Modellen zu bewerten und ihre Qualität sicherzustellen
+- Probleme in der Praxis:
+  - (noch) nicht verfügbar
+  - teuer in der Auswertung, eingeschränkte Experimentiermöglichkeiten
+  - vertraulich (Veröffentlichung nicht möglich)
+
+<span style="font-size: 14px">Hansen, N., A. Auger, R. Ros, O. Mersmann, T. Tušar, and D. Brockhoff. “COCO: A Platform for Comparing Continuous Optimizers in a Black-Box Setting.” Optimization Methods and Software 36, no. 1 (2021): 114–44. https://doi.org/10.1080/10556788.2020.1808977.</span>
+
+
+## Groundtruths
+
+**f1 - Sphere Function**
+
+- einfachstes kontinuierliches Domänensuchproblem (wenn Volumen von gesuchter Lösung klein)
+- unimodal und hochsymmetrisch (rotationsinvariant, skaleninvariant)
+- Informationsgewinn: Was ist die optimale Konvergenzrate eines Algorithmus?
+
+![](images/GroundtruthF1){width="47%"}!
+
+
+## Groundtruths
+
+**f24 - Lunacek bi-Rastrigin Function**
+
+- Hoch multimodal
+- trügerisch für evolutionäre Algorithmen mit großer Populationsgröße
+- Informationsgewinn: Kann das Suchverhalten auf globaler Ebene lokal, auf lokaler Ebene jedoch global sein?
+
+![](images/GroundtruthF24){width="47%"}
 
 ## Variable Parameter
+Ground-Truth-Funktion f1 und f24 mit jeweils 2 oder 3 Dimensionen
 
-(Theorie: (Groundtruth Function))
+```R:
+numBbobf <- 1/24
+dim <- 2/3
+```
 
--   numBbobf \<- 1/24
+25 oder 600 Datenpunkten mit Random/Grid Sampling oder LHS
+```R:
+dataGenerationMethod <- "lhs", "random", "grid"
+numDataPoints <- 25/600
+```
 
--   dim \<- 2/3
+Split von Trainings- und Evaluationsdaten für die Modellierung
+```R:
+trainTestSplit <- 0.8
+```
 
--   dataGenerationMethod \<- "lhs", "random", "grid"
-
--   numDataPoints \<- 25/600
-
--   trainTestSplit \<- 0.8
-
--   funEval \<- 200/400
+Funktion 200 oder 400 mal evaluieren
+```R:
+funEval <- 200/400
+```
 
 ## Datenerhebungstrategie
 
-(Theorie: (RS, GS, LHS)) im Versuchsaufbau steht was drin
+**Random Sampling**
 
--   Random Sampling
--   Grid Sampling
--   Latin Hypercube Sampling
+- zufällige werte für `x` und `y` generieren
+- Reproduzierbar durch Random Seed
+- Verteilung entspricht ggf. nicht den tatsächlichen Daten
+- Erzeugung innerhalb von fixen Grenzen
+
+**Grid Sampling**
+
+- vordefinierte Menge von Parameterkombinationen
+- Reproduzierbar, da jeder Punkt im Parameterraum einmal besucht
+- Fluch der Dimensionen
+- besser geeignet für diskrete Parameter
+
+## Datenerhebungstrategie
+
+**Latin Hypercube Sampling**
+
+- Kombination der RS und GS Ansätze
+- Parameterraum in gleich wahrscheinliche Intervalle oder Bins entlang jeder Dimension unterteilt
+- Aus jedem Bin wird ein Zufallswert ausgewählt
+- Gleichmäßige Verteilung von Stichprobenpunkte über den Parameterraum 
+- Repräsentativität wird erhöht
+
+<span style="font-size: 14px">Mckay, M. D., R. J. Beckman, and W. J. Conover. “A Comparison of Three Methods for Selecting Values of Input Variables in the Analysis of Output From a Computer Code.” Technometrics 42, no. 1 (February 2000): 55–61. https://doi.org/10.1080/00401706.2000.10485979.</span>
+
 
 ## Modellaufbau RNN
 
@@ -142,58 +178,84 @@ Verlustfunktion und den Adam-Optimizer für das Training.
 
 Luisa Ibele
 
-## Grundlegendes Bewertungsschema
+## 
 
--   Grundlegende Parameter der einzelnen Testdurchläufe: - Anzahl
-    Datenpunkte - Datenerhebungsstrategie - Funktion - Dimensionen
--   Bewertung der Modelle und Optimierung anhand verschiedener Kriterien
--   Werteskala von 1-5 Punkte mit:
-    -   1: sehr schlecht, schwach
-    -   2: schlecht, unterhalb des Erwarteten
-    -   3: durschnittlich, akzeptabel
-    -   4: gut, überhalb des Erwarteten
-    -   5: sehr gut, stark
+Grundparameter: Anzahl Datenpunkte Datenerhebungsstrategie Funktion
+Dimensionen Modelle und die Optimierung werden im Bezug auf die
+Grundparameter bewertet
 
 ## Modellbewertung
 
 <x> ![](images/modelMatrix.PNG){width="100%"}
 
-## Gewichtung
+## 
 
--   Durchschnittlicher Trainingsloss - 10%
--   (Visual) Loss Function Verlauf - 30%
--   (Visual) Generated Function vs. Original Function - 40%
--   Performance - 20%
+-   durchschnittlicher Trainingsloss (0,1) Diese Metriken können durch
+    das Berechnen des durchschnittlichen Fehlers zwischen den
+    tatsächlichen und vorhergesagten Werten während des Trainings und
+    Tests erfasst werden.
+-   (Visual) Loss Function Verlauf (0,3) Die Veränderung der
+    Loss-Funktion über die Trainingsiterationen hinweg kann grafisch
+    dargestellt werden, um den Konvergenzverlauf des Modells zu
+    visualisieren.
+-   (Visual) Generated Funciton vs. Original Function (0,4) Visuelle
+    Darstellungen, wie Plots oder Diagramme, können verwendet werden, um
+    den Unterschied zwischen der vom Modell generierten Funktion und der
+    Originalfunktion zu verdeutlichen.
+-   Performance (0,2) Hierbei wird die Trainingsdauer betrachtet.
 
 ## Optimierungsbewertung
 
 <x> ![](images/optimizationMatrix.PNG){width="80%"}
 
-## Gewichtung
+## 
 
--   Optimum Wert - 30%
--   Performance - 20%
--   Error / Evaluations - 20%
--   Y / Evaluations - 30%
+-   Wert des Optimums (0,3) Der Wert der Zielfunktion am erreichten
+    Optimum kann quantifiziert werden.
+-   Performance (0,2) Hierbei wird die Trainingsdauer betrachtet.
+-   Error/ Evaluations (0,2) Dies kann die quantitative Analyse der
+    Abweichung zwischen den optimalen Werten und den tatsächlichen
+    Zielen beinhalten und wie viele Evaluations benötigt werden.
+-   Y/ Evaluations (0,3) Quantitative Vergleiche zwischen den
+    optimierten Werten und den erwarteten Simulationsergebnissen können
+    durchgeführt und wie viele Evaluations benötigt werden.
 
 ## Finale Bewertungsmatrix
 
 <x> ![](images/generalMatrix.PNG){width="80%"}
 
-## Gesamtbewertung
+## 
 
--   systematische Analyse und Bewertung der Experimente im Rahmen der
-    Modell- und Optimierungsbewertung
--   fundierte Beurteilung der Modell-Leistung, Optimierungsalgorithmen
-    und Versuche anhand der gewählten Bewertungskriterien
--   Berücksichtigung von qualitativer und quantitativer Aspekte
--   Gewichtung: Modellbewertung - 30%; Optimierungsbewertung - 70%
--   Bewertung des gesamten Versuchs möglich
+Diese wissenschaftlich ausgerichtete Bewertungsmatrix erlaubt eine
+systematische Analyse und Bewertung von Experimenten im Rahmen der
+Modell- und Optimierungsbewertung. Die gewählten Bewertungskriterien
+ermöglichen eine fundierte Beurteilung der Leistung von Modellen,
+Optimierungsalgorithmen und Versuchen, wobei sowohl qualitative als auch
+quantitative Aspekte berücksichtigt werden. Hierbei wird eine Gewichtung
+gesetzt Modell (0,3) Optimierung (0,7) um den Versuch zu bewerten.
+
+Jedes Kriterium kriegt einen Wert zwischen 1-5 bei der Bewertung
+zugeilt. Danach ich es möglich für die Modellbewertung, Optimierung und
+Versuchsbewertung einen Wert zu ermitteln und den Versuch gesamthaft
+bewerten zu können.
+
+1: Sehr schlecht / Niedrig / Schwach / Gering 2: Schlecht / Unterhalb
+des Erwarteten 3: Durchschnittlich / Akzeptabel 4: Gut / Über dem
+Erwarteten 5: Sehr gut / Hoch / Stark / Hervorragend
 
 ## Versuchsbewertung
 
-Bewertung der einzelnen Versuche anhand von: - Difficulty - Diversity -
-Flexibility - Relevance - Evaluation cost - Non-Smoothing
+(Theorie: (Simulation-based Test Function for Optimization Algorithms
+(Paper von ihm kurz die Begriffe erklären)))
+
+-   Difficulty
+-   Diversity
+-   Flexibility
+-   Relevance
+-   Evaluation cost
+-   Non-Smoothing
+
+RNN Modell wird danach bewertet
 
 # Umsetzung und Auswertung
 
@@ -266,7 +328,7 @@ Judith Romer
 
 # Experiment 3
 
-Isabel Janez
+Judith Romer
 
 ## VAE mit 50 Datenpunkten Funktion 1
 
@@ -398,5 +460,5 @@ Isabel Janez
 -   Hanna Steinwender: Folie 1 bis Folie 8
 -   Lena Hammerer: Folie 9 bis Folie 14
 -   Luisa Ibele: Folie 15 bis Folie 23
--   Judith Romer: Folie 24 bis Folie 36
--   Isabel Janez: Folie 37 bis 54
+-   Judith Romer: Folie 24 bis Folie 41
+-   Isabel Janez: Folie 42 bis 54
