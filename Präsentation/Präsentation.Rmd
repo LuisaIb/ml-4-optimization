@@ -46,8 +46,8 @@ Hanna Steinwender
 
 -   Entwicklung von Testfunktionen
 -   Approximation von Ground-Truth-Funktionen
--   Erfüllung von Anforderungen: Schwierigkeit, Vielfalt, Kosten,
-    Flexibilität, Transparenz
+-   Erfüllung von Anforderungen: Difficulty, Diversity, Flexibility, Relevance,
+    Evaluation cost, Non-Smoothing
 -   Validierung durch Vergleich mit BBOB Function Suite
 -   Beitrag zur Optimierungsalgorithmen-Forschung
 -   Anwendbarkeit in realen Optimierungsaufgaben
@@ -238,6 +238,10 @@ Luisa Ibele
     -   Funktion
     -   Dimensionen
 -   Bewertung der Modelle und Optimierung anhand verschiedener Kriterien
+
+
+## Grundlegendes Bewertungsschema
+
 -   Bewertungsskala von 1 bis 5 Punkten mit:
     -   1: sehr schlecht, schwach
     -   2: schlecht, unterhalb des Erwarteten
@@ -442,14 +446,12 @@ Erzeugung der Testfunktion.
 
 ## Ist der Einsatz von DNN geeignet?
 
--   [4\|5] Difficulty (Mehrdimensionalität 2+3, F1 wird gut
-    nachgebildet, F24 ist zu komplex)
--   [5\|5] Diversity ()
--   [3\|5] Flexibility ()
--   [1\|5] Relevance ()
--   [1\|5] Evaluation cost ()
--   [1\|5] Non-Smoothing (nein, 2 DNNs hintereinander verworfen,
-    Simulaton nicht erstellt)
+-   [4\|5] Difficulty 
+-   [5\|5] Diversity
+-   [3\|5] Flexibility
+-   [1\|5] Relevance
+-   [1\|5] Evaluation cost
+-   [1\|5] Non-Smoothing
 
 im vorliegenden Fall: erreichte Punktzahl der Testfunktionen des DNN ist
 2,5 / 5
