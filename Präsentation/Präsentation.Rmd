@@ -91,10 +91,7 @@ Lena Hammerer
         Experimentiermöglichkeiten
     -   vertraulich (Veröffentlichung nicht möglich)
 
-[Hansen, N., A. Auger, R. Ros, O. Mersmann, T. Tušar, and D. Brockhoff.
-"COCO: A Platform for Comparing Continuous Optimizers in a Black-Box
-Setting." Optimization Methods and Software 36, no. 1 (2021): 114--44.
-<https://doi.org/10.1080/10556788.2020.1808977>.]{style="font-size: 14px"}
+[Hansen, N., Auger, A., Mersmann, O., Tušar, T. and Brockhoff, D., 2016. COCO: A platform for comparing continuous optimizers in a black-box setting. ArXiv e-prints. arXiv preprint arXiv:1603.08785, 172.]{style="font-size: 14px"}
 
 ## Groundtruths
 
@@ -162,11 +159,7 @@ funEval <- 200/400
 -   Gleichmäßige Verteilung von Stichprobenpunkte über den Parameterraum
 -   Repräsentativität wird erhöht
 
-[Mckay, M. D., R. J. Beckman, and W. J. Conover. "A Comparison of Three
-Methods for Selecting Values of Input Variables in the Analysis of
-Output From a Computer Code." Technometrics 42, no. 1 (February 2000):
-55--61.
-<https://doi.org/10.1080/00401706.2000.10485979>.]{style="font-size: 14px"}
+[McKay, M.D., Beckman, R.J. and Conover, W.J., 2000. A Comparison of Three Methods for Selecting Values of Input Variables in the Analysis of Output From a Computer Code. Technometrics, 42(1), pp.55-61.]{style="font-size: 14px"}
 
 ## Modellaufbau DNN
 
@@ -201,9 +194,7 @@ $$
     zweiter Ordnung beruht
 -   gut geeignet für Probleme mit großer Anzahl von Daten/Parametern
 
-[Kingma, Diederik P., and Jimmy Ba. "Adam: A Method for Stochastic
-Optimization." arXiv, January 29, 2017.
-<http://arxiv.org/abs/1412.6980>.]{style="font-size: 14px"}
+[Kingma, D.P. and Ba, J., 2014. Adam: A Method for Stochastic Optimization. arXiv preprint arXiv:1412.6980.]{style="font-size: 14px"}
 
 **Gaussian Process Model** --\> Vergleichsgröße für Ergebnisse
 
@@ -298,10 +289,7 @@ Bewertung der einzelnen Versuche anhand von:
 -   Evaluation cost
 -   Non-Smoothing
 
-[Zaefferer, M., Fischbach, A., Naujoks, B. and Bartz-Beielstein, T.,
-2017, July. Simulation-based test functions for optimization algorithms.
-In Proceedings of the genetic and evolutionary computation conference
-(pp. 905-912).]{style="font-size: 14px"}
+[Zaefferer, M., Fischbach, A., Naujoks, B. and Bartz-Beielstein, T., 2017, July. Simulation-based Test Functions for Optimization Algorithms. In Proceedings of the genetic and evolutionary computation conference (pp. 905-912).]{style="font-size: 14px"}
 
 # Umsetzung und Auswertung
 
