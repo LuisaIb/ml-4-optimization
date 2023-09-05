@@ -56,9 +56,9 @@ Hanna Steinwender
 
 1.  Ist der Einsatz eines Variational Autoencoder als
     Datenerhebungstrategie sinnvoll?
-2.  Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein
+2.  Ist ein DNN besser geeignet zur Erzeugung der Testfunktion als ein
     Gaußsches Prozessmodell?
-3.  Ist der Einsatz von RNN geeignet?
+3.  Ist der Einsatz von DNN geeignet?
 
 # Vorgehen und Methodik
 
@@ -168,7 +168,7 @@ Output From a Computer Code." Technometrics 42, no. 1 (February 2000):
 55--61.
 <https://doi.org/10.1080/00401706.2000.10485979>.]{style="font-size: 14px"}
 
-## Modellaufbau RNN
+## Modellaufbau DNN
 
 **Recurrent Neural Network**: NN + Rückkopplungsschleife
 
@@ -185,7 +185,7 @@ Output From a Computer Code." Technometrics 42, no. 1 (February 2000):
 | Verborgene-Schicht | layer_dense(units=64)                 | Leaky ReLU        |
 | Ausgangsschicht    | layer_dense(units=1)                  | Linear Activation |
 
-## Modellaufbau RNN
+## Modellaufbau DNN
 
 **Mean Squared Logarithmic Error**
 
@@ -325,7 +325,7 @@ Judith Romer
 
 <x>![](images/GroundtruthF1){width="42%"}
 
-<x>![](images/Versuch1.1.1.2RNNFunction){width="42%"}![](images/Versuch1.1.1.2GaussFunction){width="42%"}
+<x>![](images/Versuch1.1.1.2DNNFunction){width="42%"}![](images/Versuch1.1.1.2GaussFunction){width="42%"}
 
 </center>
 
@@ -349,14 +349,14 @@ Judith Romer
 
 <x>![](images/GroundtruthF24){width="42%"}
 
-<x>![](images/Versuch2.2.1.1RNNFunctionRandom){width="42%"}![](images/Versuch2.2.1.1GaussFunctionRandom){width="42%"}
+<x>![](images/Versuch2.2.1.1DNNFunctionRandom){width="42%"}![](images/Versuch2.2.1.1GaussFunctionRandom){width="42%"}
 
 </center>
 
 ## Versuch 2.2.2.1 - Bildvergleich 3D
 
 <br> <br>
-![](images/GIFF24.gif){width="47%"}![](images/GIFRNN.gif){width="47%"}
+![](images/GIFF24.gif){width="47%"}![](images/GIFDNN.gif){width="47%"}
 
 ## Versuch 2.2.1.1 & 2.2.2.1 - Y Wert / Evaluation
 
@@ -419,28 +419,28 @@ weiteres Vorgehen:
 -   GAN
 -   CVAE
 
-## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
+## Ist ein DNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
 
 <center><x> ![](images/Experiment1Result.png){width="77%"}</center>
 
-## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
+## Ist ein DNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
 
 <center><x> ![](images/Experiment3Result.png){width="77%"}</center>
 
-## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
+## Ist ein DNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
 
 <br> <br> ![](images/3DimResults.PNG){width="100%"}
 
-## Ist ein RNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
+## Ist ein DNN besser geeignet zur Erzeugung der Testfunktion als ein Gaußsches Prozessmodell?
 
-Im vorliegenden Fall: nein, ein RNN ist nicht besser geeignet zur
+Im vorliegenden Fall: nein, ein DNN ist nicht besser geeignet zur
 Erzeugung der Testfunktion.
 
 -   überwiegend ist Performance des Gaußschen Prozessmodells besser
 -   höchste erreichte Punktzahl in Optimierung ist 3,6 / 5
 -   niedrigste erreichte Punktzahl in Optimierung ist 1,3 / 5
 
-## Ist der Einsatz von RNN geeignet?
+## Ist der Einsatz von DNN geeignet?
 
 -   [4\|5] Difficulty (Mehrdimensionalität 2+3, F1 wird gut
     nachgebildet, F24 ist zu komplex)
@@ -448,10 +448,10 @@ Erzeugung der Testfunktion.
 -   [3\|5] Flexibility ()
 -   [1\|5] Relevance ()
 -   [1\|5] Evaluation cost ()
--   [1\|5] Non-Smoothing (nein, 2 RNNs hintereinander verworfen,
+-   [1\|5] Non-Smoothing (nein, 2 DNNs hintereinander verworfen,
     Simulaton nicht erstellt)
 
-im vorliegenden Fall: erreichte Punktzahl der Testfunktionen des RNN ist
+im vorliegenden Fall: erreichte Punktzahl der Testfunktionen des DNN ist
 2,5 / 5
 
 # Schlussbetrachtung
@@ -464,7 +464,7 @@ Isabel Janez
     geeignet
 -   Anmerkung: es wurde nur die Estimation verglichen; kein Vergleich
     von Simulation
--   Tradeoff zwischen Rechenleistung und Komplexität des RNN
+-   Tradeoff zwischen Rechenleistung und Komplexität des DNN
 
 ## Verworfene Ansätze
 
@@ -472,15 +472,15 @@ Isabel Janez
 -   VAE wegen Dimensionsreduktion nicht für Datenerhebung geeignet
 -   Loss Function selber schreiben
 -   L-BFGS-B als Optimierer: Abbruchkriterium funktioniert nicht korrekt
--   2 RNNs hintereinander für Abbildung der lokalen Struktur
+-   2 DNNs hintereinander für Abbildung der lokalen Struktur
 
-## 2 RNN
+## 2 DNN
 
 <center>
 
-<x>![](images/2RNN_Netz1){width="42%"}
+<x>![](images/2DNN_Netz1){width="42%"}
 
-<x>![](images/2RNN_Negativ){width="42%"}![](images/2RNN_Netz2){width="42%"}
+<x>![](images/2DNN_Negativ){width="42%"}![](images/2DNN_Netz2){width="42%"}
 
 </center>
 
