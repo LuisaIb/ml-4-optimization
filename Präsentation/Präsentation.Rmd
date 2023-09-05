@@ -82,45 +82,56 @@ Lena Hammerer
 
 ## Groundtruths
 
-- *wahre* / *korrekte* Vorhersage für ein gegebenes Problem
-- Referenzpunkt, um die Leistung von ML-Modellen zu bewerten und ihre Qualität sicherzustellen
-- Probleme in der Praxis:
-  - (noch) nicht verfügbar
-  - teuer in der Auswertung, eingeschränkte Experimentiermöglichkeiten
-  - vertraulich (Veröffentlichung nicht möglich)
+-   *wahre* / *korrekte* Vorhersage für ein gegebenes Problem
+-   Referenzpunkt, um die Leistung von ML-Modellen zu bewerten und ihre
+    Qualität sicherzustellen
+-   Probleme in der Praxis:
+    -   (noch) nicht verfügbar
+    -   teuer in der Auswertung, eingeschränkte
+        Experimentiermöglichkeiten
+    -   vertraulich (Veröffentlichung nicht möglich)
 
-<span style="font-size: 14px">Hansen, N., A. Auger, R. Ros, O. Mersmann, T. Tušar, and D. Brockhoff. “COCO: A Platform for Comparing Continuous Optimizers in a Black-Box Setting.” Optimization Methods and Software 36, no. 1 (2021): 114–44. https://doi.org/10.1080/10556788.2020.1808977.</span>
+[Hansen, N., A. Auger, R. Ros, O. Mersmann, T. Tušar, and D. Brockhoff.
+"COCO: A Platform for Comparing Continuous Optimizers in a Black-Box
+Setting." Optimization Methods and Software 36, no. 1 (2021): 114--44.
+<https://doi.org/10.1080/10556788.2020.1808977>.]{style="font-size: 14px"}
 
 ## Groundtruths
 
-- **f1 Sphere Function**
-  - einfachstes kontinuierliches Domänensuchproblem, da unimodal und hochsymmetrisch
-- **f24 Lunacek bi-Rastrigin Function**
-  - Hoch multimodal und trügerisch für evolutionäre Algorithmen mit großer Populationsgröße
+-   **f1 Sphere Function**
+    -   einfachstes kontinuierliches Domänensuchproblem, da unimodal und
+        hochsymmetrisch
+-   **f24 Lunacek bi-Rastrigin Function**
+    -   Hoch multimodal und trügerisch für evolutionäre Algorithmen mit
+        großer Populationsgröße
 
 ![](images/GroundtruthF1){width="47%"}![](images/GroundtruthF24){width="47%"}
 
 ## Variable Parameter
+
 Ground-Truth-Funktion f1 und f24 mit jeweils 2 oder 3 Dimensionen
 
-```R:
+``` r:
 numBbobf <- 1/24
 dim <- 2/3
 ```
 
 25 oder 600 Datenpunkten mit Random/Grid Sampling oder LHS
-```R:
+
+``` r:
 dataGenerationMethod <- "lhs", "random", "grid"
 numDataPoints <- 25/600
 ```
 
 Split von Trainings- und Evaluationsdaten für die Modellierung
-```R:
+
+``` r:
 trainTestSplit <- 0.8
 ```
 
 Funktion 200 oder 400 mal evaluieren
-```R:
+
+``` r:
 funEval <- 200/400
 ```
 
@@ -128,40 +139,45 @@ funEval <- 200/400
 
 **Random Sampling**
 
-- zufällige werte für `x` und `y` generieren
-- Reproduzierbar durch Random Seed
-- Verteilung entspricht ggf. nicht den tatsächlichen Daten
-- Erzeugung innerhalb von fixen Grenzen
+-   zufällige werte für `x` und `y` generieren
+-   Reproduzierbar durch Random Seed
+-   Verteilung entspricht ggf. nicht den tatsächlichen Daten
+-   Erzeugung innerhalb von fixen Grenzen
 
 **Grid Sampling**
 
-- vordefinierte Menge von Parameterkombinationen
-- Reproduzierbar, da jeder Punkt im Parameterraum einmal besucht
-- Fluch der Dimensionen
-- besser geeignet für diskrete Parameter
+-   vordefinierte Menge von Parameterkombinationen
+-   Reproduzierbar, da jeder Punkt im Parameterraum einmal besucht
+-   Fluch der Dimensionen
+-   besser geeignet für diskrete Parameter
 
 ## Datenerhebungstrategie
 
 **Latin Hypercube Sampling**
 
-- Kombination der RS und GS Ansätze
-- Parameterraum in gleich wahrscheinliche Intervalle oder Bins entlang jeder Dimension unterteilt
-- Aus jedem Bin wird ein Zufallswert ausgewählt
-- Gleichmäßige Verteilung von Stichprobenpunkte über den Parameterraum 
-- Repräsentativität wird erhöht
+-   Kombination der RS und GS Ansätze
+-   Parameterraum in gleich wahrscheinliche Intervalle oder Bins entlang
+    jeder Dimension unterteilt
+-   Aus jedem Bin wird ein Zufallswert ausgewählt
+-   Gleichmäßige Verteilung von Stichprobenpunkte über den Parameterraum
+-   Repräsentativität wird erhöht
 
-<span style="font-size: 14px">Mckay, M. D., R. J. Beckman, and W. J. Conover. “A Comparison of Three Methods for Selecting Values of Input Variables in the Analysis of Output From a Computer Code.” Technometrics 42, no. 1 (February 2000): 55–61. https://doi.org/10.1080/00401706.2000.10485979.</span>
-
+[Mckay, M. D., R. J. Beckman, and W. J. Conover. "A Comparison of Three
+Methods for Selecting Values of Input Variables in the Analysis of
+Output From a Computer Code." Technometrics 42, no. 1 (February 2000):
+55--61.
+<https://doi.org/10.1080/00401706.2000.10485979>.]{style="font-size: 14px"}
 
 ## Modellaufbau RNN
 
-**Recurrent Neural Network**: NN + Rückkopplungsschleife 
+**Recurrent Neural Network**: NN + Rückkopplungsschleife
 
-- Informationen vergangener Zustände speichern für Berechnung neuer Zustände nutzen (Ausgabe eines Schritts als Eingabe für nächsten Schritt)
+-   Informationen vergangener Zustände speichern für Berechnung neuer
+    Zustände nutzen (Ausgabe eines Schritts als Eingabe für nächsten
+    Schritt)
 
-
-|  | | |
-| ------------------ | ------------------------------------- | ----------------- |
+|                    |                                       |                   |
+|------------------|------------------------------------|------------------|
 | Eingangsschicht    | layer_dense(units=128, input_shape=2) | Leaky ReLU        |
 | Verborgene-Schicht | layer_dense(units=32)                 | Leaky ReLU        |
 | Verborgene-Schicht | layer_dense(units=128)                | Leaky ReLU        |
@@ -169,12 +185,11 @@ funEval <- 200/400
 | Verborgene-Schicht | layer_dense(units=64)                 | Leaky ReLU        |
 | Ausgangsschicht    | layer_dense(units=1)                  | Linear Activation |
 
-
 ## Modellaufbau RNN
 
 **Mean Squared Logarithmic Error**
 
-- besonders nützlich wenn Zielgrößen stark variieren.
+-   besonders nützlich wenn Zielgrößen stark variieren.
 
 $$
 \text{MSE Log Error} = \frac{1}{N} \sum_{i=1}^{N} (\log(y_i + 1) - \log(\hat{y}_i + 1))^2
@@ -182,26 +197,30 @@ $$
 
 **Adam Optimizer**
 
-- SGD-Methode, die auf der adaptiven Schätzung von Momenten erster und zweiter Ordnung beruht
-- gut geeignet für Probleme mit großer Anzahl von Daten/Parametern
+-   SGD-Methode, die auf der adaptiven Schätzung von Momenten erster und
+    zweiter Ordnung beruht
+-   gut geeignet für Probleme mit großer Anzahl von Daten/Parametern
 
-<span style="font-size: 14px">Kingma, Diederik P., and Jimmy Ba. “Adam: A Method for Stochastic Optimization.” arXiv, January 29, 2017. http://arxiv.org/abs/1412.6980.</span>
+[Kingma, Diederik P., and Jimmy Ba. "Adam: A Method for Stochastic
+Optimization." arXiv, January 29, 2017.
+<http://arxiv.org/abs/1412.6980>.]{style="font-size: 14px"}
 
-**Gaussian Process Model** --> Vergleichsgröße für Ergebnisse
+**Gaussian Process Model** --\> Vergleichsgröße für Ergebnisse
 
 ## Optimierung mit Differential Evolution
 
-- Metaheuristik zur globalen Optimierung von Problemen
-- Population von Kandidatenlösungen, Mutation, Rekombination und Selektion, um schrittweise bessere Lösungen zu finden
-- besonders für nichtdifferenzierbare Zielfunktionen und Probleme ohne spezielle Struktur geeignet
-
+-   Metaheuristik zur globalen Optimierung von Problemen
+-   Population von Kandidatenlösungen, Mutation, Rekombination und
+    Selektion, um schrittweise bessere Lösungen zu finden
+-   besonders für nichtdifferenzierbare Zielfunktionen und Probleme ohne
+    spezielle Struktur geeignet
 
 **Populationsgröße**: Anzahl gleichzeitig betrachteter Lösungen
 
-- klein => schnell, aber ggf. vorzeitige Kovergenz zu lokalen Optima
-- groß => ggf. bessere Lösungen, aber mehr Rechenleistung
+-   klein =\> schnell, aber ggf. vorzeitige Kovergenz zu lokalen Optima
+-   groß =\> ggf. bessere Lösungen, aber mehr Rechenleistung
 
-```R:
+``` r:
 popSize = 4
 popSize = 10\*dim
 popSize = 20\*dim
@@ -213,13 +232,11 @@ Luisa Ibele
 
 ## Grundlegendes Bewertungsschema
 
--   Grundlegende Parameter der einzelnen Versuchsdurchläufe: 
-    -   Anzahl Datenpunkte 
-    -   Datenerhebungsstrategie 
-    -   Funktion 
+-   Grundlegende Parameter der einzelnen Versuchsdurchläufe:
+    -   Anzahl Datenpunkte
+    -   Datenerhebungsstrategie
+    -   Funktion
     -   Dimensionen
-
-
 -   Bewertung der Modelle und Optimierung anhand verschiedener Kriterien
 -   Bewertungsskala von 1 bis 5 Punkten mit:
     -   1: sehr schlecht, schwach
@@ -261,24 +278,26 @@ Luisa Ibele
 -   Fundierte Beurteilung der Modellleistung, Optimierungsalgorithmen
     und Versuche anhand der gewählten Bewertungskriterien
 -   Berücksichtigung qualitativer und quantitativer Aspekte
--   Gewichtung: 
+-   Gewichtung:
     -   Modellbewertung - 30%
     -   Optimierungsbewertung - 70%
 -   Bewertung des gesamten Versuchs möglich
 
 ## Versuchsbewertung
 
-Bewertung der einzelnen Versuche anhand von: 
+Bewertung der einzelnen Versuche anhand von:
 
--   Difficulty 
--   Diversity 
--   Flexibility 
--   Relevance 
--   Evaluation cost 
+-   Difficulty
+-   Diversity
+-   Flexibility
+-   Relevance
+-   Evaluation cost
 -   Non-Smoothing
 
-<span style="font-size: 14px">Zaefferer, M., Fischbach, A., Naujoks, B. and Bartz-Beielstein, T., 2017, July. Simulation-based test functions for optimization algorithms. In Proceedings of the genetic and evolutionary computation conference (pp. 905-912).</span>
-
+[Zaefferer, M., Fischbach, A., Naujoks, B. and Bartz-Beielstein, T.,
+2017, July. Simulation-based test functions for optimization algorithms.
+In Proceedings of the genetic and evolutionary computation conference
+(pp. 905-912).]{style="font-size: 14px"}
 
 # Umsetzung und Auswertung
 
@@ -361,12 +380,12 @@ Isabel Janez
 ## VAE mit 1000 Datenpunkten Funktion 1
 
 <br> <br>
-![](images/DataGenerationRandomTrainF24MinimalData){width="47%"}![](images/VAEDataF24MinimalData){width="47%"}
+![](images/DataGenerationRandomTrainF1MaximalData){width="47%"}![](images/VAEDataF1MaximalData){width="47%"}
 
 ## VAE mit 50 Datenpunkten Funktion 24
 
 <br> <br>
-![](images/DataGenerationRandomTrainF1MaximalData){width="47%"}![](images/VAEDataF1MaximalData){width="47%"}
+![](images/DataGenerationRandomTrainF24MinimalData){width="47%"}![](images/VAEDataF24MinimalData){width="47%"}
 
 ## VAE mit 1000 Datenpunkten Funktion 24
 
