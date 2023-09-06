@@ -171,14 +171,28 @@ pp.55-61.]{style="font-size: 14px"}
 
 **Deep Neural Network for Regression**:
 
-|                    |                                       |                   |
-|--------------------|---------------------------------------|-------------------|
-| Eingangsschicht    | layer_dense(units=128, input_shape=2) | Leaky ReLU        |
-| Verborgene-Schicht | layer_dense(units=32)                 | Leaky ReLU        |
-| Verborgene-Schicht | layer_dense(units=128)                | Leaky ReLU        |
-| Dropout-Schicht    | layer_dropout(rate=0.001)             | \-                |
-| Verborgene-Schicht | layer_dense(units=64)                 | Leaky ReLU        |
-| Ausgangsschicht    | layer_dense(units=1)                  | Linear Activation |
++----------------+-------------------------------+----------------+
+| E              | layer_dense(units=128,        | Leaky ReLU     |
+| ingangsschicht | input_shape=2)                |                |
++----------------+-------------------------------+----------------+
+| Ver            | layer_dense(units=32)         | Leaky ReLU     |
+| b              |                               |                |
+| orgene-Schicht |                               |                |
++----------------+-------------------------------+----------------+
+| Ver            | layer_dense(units=128)        | Leaky ReLU     |
+| b              |                               |                |
+| orgene-Schicht |                               |                |
++----------------+-------------------------------+----------------+
+| D              | layer_dropout(rate=0.001)     | \-             |
+| ropout-Schicht |                               |                |
++----------------+-------------------------------+----------------+
+| Ver            | layer_dense(units=64)         | Leaky ReLU     |
+| b              |                               |                |
+| orgene-Schicht |                               |                |
++----------------+-------------------------------+----------------+
+| A              | layer_dense(units=1)          | Linear         |
+| usgangsschicht |                               | Activation     |
++----------------+-------------------------------+----------------+
 
 ## Modellaufbau DNN
 
@@ -339,15 +353,32 @@ Judith Romer
 
 ![](images/Versuch1.1.1.2DE4YAllThree){width="47%"}![](images/Versuch1.1.1.2DEDimx10YAllThree){width="47%"}
 
-|                     |                                       |
-|---------------------|---------------------------------------|
-| Population Size = 4 | **Population Size = 10 \* Dimension** |
-| Verborgene-Schicht  | **layer_dense(units=32)**             |
-| Verborgene-Schicht  | **layer_dense(units=128)**            |
++---------------------------------+---------------------------------+
+| Population Size = 4             | **Population Size = 10 \*       |
+|                                 | Dimension**                     |
++---------------------------------+---------------------------------+
+| -   Groundtruth (GT) und        | -   **GT und GPM: im Median     |
+|     Gaußsche Prozessmodelle     |     gut**                       |
+|     (GPM): gute Optimierung     |                                 |
+|                                 | -   **DNN: Optimierung deutlich |
+| -   DNN: mehr Evaluationen      |     schlechter**                |
++---------------------------------+---------------------------------+
 
 ## Versuch 1.1.1.2 - Fehler / Evaluation
 
 ![](images/Versuch1.1.1.2DE4Error){width="47%"}![](images/Versuch1.1.1.2DEDimx10Error){width="47%"}
+
++---------------------------------+---------------------------------+
+| Population Size = 4             | **Population Size = 10 \*       |
+|                                 | Dimension**                     |
++---------------------------------+---------------------------------+
+| -   GT und GPM: Fehler von      | -   **GT und GPM: Fehler von    |
+|     Anfang an sehr niedrig      |     Anfang an sehr niedrig**    |
+|                                 |                                 |
+| -   DNN: Fehler am Anfang sehr  | -   **DNN: selbst nach 200      |
+|     hoch, jedoch zuverlässige   |     Evaluationen noch           |
+|     Verringerung                |     schlechter als GPM**        |
++---------------------------------+---------------------------------+
 
 # Experiment 2
 
@@ -370,13 +401,32 @@ Judith Romer
 
 ## Versuch 2.2.1.1 & 2.2.2.1 - Y Wert / Evaluation
 
-<br> <br>
 ![](images/Versuch2.2.1.1DE4YAllThree){width="47%"}![](images/Versuch2.2.2.1DE4YAllThree){width="47%"}
+
++---------------------------------+---------------------------------+
+| 2 Dimensionen                   | **3 Dimensionen**               |
++---------------------------------+---------------------------------+
+| -   GT und GP: Minimum nach 400 | -   **GT: Minimum nach 400      |
+|     Evalutationen nicht         |     Evaluationen nicht          |
+|     gefunden                    |     gefunden**                  |
+|                                 |                                 |
+| -   DNN: im Median in Ordnung,  | -   **GPM und DNN: ähnlich      |
+|     aber Durchläufe in denen    |     gut**                       |
+|     nicht optimiert wird        |                                 |
++---------------------------------+---------------------------------+
 
 ## Versuch 2.2.1.1 & 2.2.2.1 - Fehler / Evaluation
 
-<br> <br>
 ![](images/Versuch2.2.1.1DE4Error){width="47%"}![](images/Versuch2.2.2.1DE4Error){width="47%"}
+
++-----------------------------------+-----------------------------------+
+| 2 Dimensionen                     | **3 Dimensionen**                 |
++-----------------------------------+-----------------------------------+
+| -   GPM: in manchen Durchläufen   | -   **GPM und DNN: deutlich       |
+|     teils nache 0                 |     höherer Fehler**              |
+|                                   |                                   |
+| -   DNN: deutlich höherer Fehler  |                                   |
++-----------------------------------+-----------------------------------+
 
 # Experiment 3
 
