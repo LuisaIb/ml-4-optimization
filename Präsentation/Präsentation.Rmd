@@ -48,11 +48,8 @@ Hanna Steinwender
 -   Approximation von Ground-Truth-Funktionen
 -   Erfüllung von Anforderungen: Difficulty, Diversity, Flexibility,
     Relevance, Evaluation cost, Non-Smoothing
--   Validierung durch Vergleich mit BBOB Function Suite
--   Beitrag zur Optimierungsalgorithmen-Forschung
--   Anwendbarkeit in realen Optimierungsaufgaben
 
-## Forschungsfragen
+**Forschungsfragen**
 
 1.  Ist der Einsatz eines Variational Autoencoder (VAE) als
     Datenerhebungstrategie sinnvoll?
@@ -67,9 +64,11 @@ Hanna Steinwender
 
 ## Vorgehen und Methodik
 
+-   Empirische Untersuchung mit Experimenten
+
 <br><br>
 
-<center><x>![](images/method.png){width="90%"}</center>
+<center><x>![](images/method.png){width="100%"}</center>
 
 # Versuchsaufbau
 
@@ -101,6 +100,12 @@ setting. ArXiv e-prints. arXiv preprint arXiv:1603.08785,
         großer Populationsgröße
 
 ![](images/GroundtruthF1){width="47%"}![](images/GroundtruthF24){width="47%"}
+
+## Rechenressourcen
+
+-   CPU: Intel(R) Core(TM) i5-10300H CPU \@ 2.5 GHz
+-   Memory: 16,0 GB RAM
+-   Storage: 0.5 TB SSD
 
 ## Variable Parameter
 
@@ -164,10 +169,10 @@ pp.55-61.]{style="font-size: 14px"}
 
 ## Modellaufbau DNN
 
-**Depp Neural Network for Regression**:
+**Deep Neural Network for Regression**:
 
 |                    |                                       |                   |
-|--------------------|---------------------------------------|-------------------|
+|-------------------|----------------------------------|-------------------|
 | Eingangsschicht    | layer_dense(units=128, input_shape=2) | Leaky ReLU        |
 | Verborgene-Schicht | layer_dense(units=32)                 | Leaky ReLU        |
 | Verborgene-Schicht | layer_dense(units=128)                | Leaky ReLU        |
@@ -220,10 +225,14 @@ Luisa Ibele
 ## Grundlegendes Bewertungsschema
 
 -   Grundlegende Parameter der einzelnen Versuchsdurchläufe:
-    -   Anzahl Datenpunkte
-    -   Datenerhebungsstrategie
-    -   Funktion
-    -   Dimensionen
+
+``` r:
+numDataPoints <- 25/600
+dataGenerationMethod <- "lhs", "random", "grid"
+numBbobf <- 1/24
+dim <- 2/3
+```
+
 -   Bewertung der Modelle und Optimierung anhand verschiedener Kriterien
 
 ## Grundlegendes Bewertungsschema
@@ -236,6 +245,8 @@ Luisa Ibele
     -   5: sehr gut, ausgezeichnet
 
 ## Modellbewertung
+
+<br><br>
 
 <center><x> ![](images/modelMatrix.PNG){width="100%"}</center>
 
@@ -402,6 +413,8 @@ Isabel Janez
 -   Dimensionsreduktion führt zu Problemen, dadurch verzerrte /
     gestauchte Darstellung
 
+## Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll?
+
 für das vorliegende Problem konnte der VAE nicht zur Datenerhebung
 eingesetzt werden
 
@@ -414,13 +427,9 @@ weiteres Vorgehen:
 ## Ist ein Deep Neural Networks (DNN) basierend auf der erstellten Bewertungsmatrix geeignet zur Erzeugung der Testfunktion?
 
 -   Threshold: 4 / 5
-
 -   DNN = 4 → gleich gut wie GPM
-
--   DNN \> 4 → besser als GPM
-
+-   DNN \> 4 → besser als GPM <br>
 -   Experiment 1: 2,13 / 5
-
 -   Experiment 2: 3 / 5
 
 Im vorliegenden Fall: DNN liegt unter Threshold, somit nicht geeignet
@@ -429,17 +438,11 @@ Im vorliegenden Fall: DNN liegt unter Threshold, somit nicht geeignet
 
 -   Threshold: 3 / 5
 
--   [4\|5] Difficulty
-
--   [3\|5] Diversity
-
--   [3\|5] Flexibility
-
--   [1\|5] Relevance
-
--   [1\|5] Evaluation cost
-
--   [1\|5] Non-Smoothing
+|                   |                        |
+|-------------------|------------------------|
+| [4\|5] Difficulty | [1\|5] Relevance       |
+| [3\|5] Diversity  | [1\|5] Evaluation cost |
+| [3\|5] Flexibilty | [1\|5] Non-Smoothing   |
 
 -   DNN: 2,2 / 5
 
