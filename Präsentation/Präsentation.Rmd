@@ -172,7 +172,7 @@ pp.55-61.]{style="font-size: 14px"}
 **Deep Neural Network for Regression**:
 
 |                    |                                       |                   |
-|-------------------|----------------------------------|-------------------|
+|--------------------|---------------------------------------|-------------------|
 | Eingangsschicht    | layer_dense(units=128, input_shape=2) | Leaky ReLU        |
 | Verborgene-Schicht | layer_dense(units=32)                 | Leaky ReLU        |
 | Verborgene-Schicht | layer_dense(units=128)                | Leaky ReLU        |
@@ -439,15 +439,15 @@ Im vorliegenden Fall: DNN liegt unter Threshold, somit nicht geeignet
 
 ## Ist der Einsatz eines DNNs auf Basis der Kriterien aus der Zielsetzung geeignet?
 
--Threshold: 3 / 5
+Threshold: 3 / 5
 
 |                   |                        |
 |-------------------|------------------------|
 | [4\|5] Difficulty | [1\|5] Relevance       |
 | [3\|5] Diversity  | [1\|5] Evaluation cost |
 | [3\|5] Flexibilty | [1\|5] Non-Smoothing   |
-<br>
-→ DNN: 2,2 / 5
+
+<br><br> → DNN: 2,2 / 5
 
 im vorliegenden Fall: DNN liegt unter Threshold, somit nicht geeignet
 
