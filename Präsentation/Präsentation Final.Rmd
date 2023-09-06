@@ -40,7 +40,7 @@ Hanna Steinwender
 
 -   Entwicklung von Testfunktionen
 -   Approximation von Ground-Truth-Funktionen
--   Erfüllung von Anforderungen: Difficulty, Diversity, Flexibility, Relevance, Evaluation cost, Non-Smoothing
+-   Erfüllung von Anforderungen: Difficulty, Diversity, Flexibility, Relevance, Evaluation Cost, Non-Smoothing
 
 **Forschungsfragen**
 
@@ -110,7 +110,7 @@ trainTestSplit <- 0.8
 
 **Random Sampling**
 
--   Zufällige werte für `x` und `y` generieren
+-   Zufällige Werte für `x` und `y` generieren
 -   Reproduzierbar durch Random Seed
 -   Verteilung entspricht ggf. nicht den tatsächlichen Daten
 -   Erzeugung innerhalb von fixen Grenzen
@@ -165,7 +165,7 @@ trainTestSplit <- 0.8
 
 **Mean Squared Logarithmic Error**
 
--   Besonders nützlich wenn Zielgrößen stark variieren.
+-   Besonders nützlich wenn Zielgrößen stark variieren
 
 $$
 \text{MSE Log Error} = \frac{1}{N} \sum_{i=1}^{N} (\log(y_i + 1) - \log(\hat{y}_i + 1))^2
@@ -417,14 +417,14 @@ Isabel Janez
 -   Versuch wurde abgebrochen → sehr schlechte Ergebnisse vor allem bei 50 Datenpunkten
 -   Nicht in der Lage die Verteilung über gesamten Raum zu lernen
 -   Datenpunkteskala passt nur bedingt
--   Representiert die 'Realität' nicht ausreichend
+-   Repräsentiert die 'Realität' nicht ausreichend
 -   Dimensionsreduktion führt zu Problemen, dadurch verzerrte / gestauchte Darstellung
 
 ## Ist der Einsatz eines VAE als Datenerhebungstrategie sinnvoll?
 
-für das vorliegende Problem konnte der VAE nicht zur Datenerhebung eingesetzt werden
+Für das vorliegende Problem konnte der VAE nicht zur Datenerhebung eingesetzt werden
 
-weiteres Vorgehen:
+Weiteres Vorgehen:
 
 -   Modellarchitektur überarbeiten
 -   Generative Adversial Network (GAN)
@@ -458,7 +458,7 @@ Threshold: 3 / 5
 
 <br><br> → DNN: 2,2 / 5
 
-im vorliegenden Fall: DNN liegt unter Threshold, somit nicht geeignet
+Im vorliegenden Fall: DNN liegt unter Threshold, somit nicht geeignet
 
 # Schlussbetrachtung
 
