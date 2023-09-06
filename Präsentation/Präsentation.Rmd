@@ -74,26 +74,26 @@ Hanna Steinwender
 
 Lena Hammerer
 
-## Groundtruths
+## Ground-Truth
 
--   *wahre* / *korrekte* Vorhersage für ein gegebenes Problem
+-   *Wahre* / *korrekte* Vorhersage für ein gegebenes Problem
 -   Referenzpunkt, um die Leistung von ML-Modellen zu bewerten und ihre
     Qualität sicherzustellen
 -   Probleme in der Praxis:
-    -   (noch) nicht verfügbar
-    -   teuer in der Auswertung, eingeschränkte
+    -   (Noch) nicht verfügbar
+    -   Teuer in der Auswertung, eingeschränkte
         Experimentiermöglichkeiten
-    -   vertraulich (Veröffentlichung nicht möglich)
+    -   Vertraulich (Veröffentlichung nicht möglich)
 
 [Hansen, N., Auger, A., Mersmann, O., Tušar, T. and Brockhoff, D., 2016.
 COCO: A platform for comparing continuous optimizers in a black-box
 setting. ArXiv e-prints. arXiv preprint arXiv:1603.08785,
 172.]{style="font-size: 14px"}
 
-## Groundtruths
+## Ground-Truth
 
 -   **f1 Sphere Function**
-    -   einfachstes kontinuierliches Domänensuchproblem, da unimodal und
+    -   Einfachstes kontinuierliches Domänensuchproblem, da unimodal und
         hochsymmetrisch
 -   **f24 Lunacek bi-Rastrigin Function**
     -   Hoch multimodal und trügerisch für evolutionäre Algorithmen mit
@@ -101,13 +101,7 @@ setting. ArXiv e-prints. arXiv preprint arXiv:1603.08785,
 
 ![](images/GroundtruthF1){width="47%"}![](images/GroundtruthF24){width="47%"}
 
-## Rechenressourcen
-
--   CPU: Intel(R) Core(TM) i5-10300H CPU \@ 2.5 GHz
--   Memory: 16,0 GB RAM
--   Storage: 0.5 TB SSD
-
-## Variable Parameter
+## Parameter der Datenerhebung
 
 Ground-Truth-Funktion f1 und f24 mit jeweils 2 oder 3 Dimensionen
 
@@ -129,27 +123,21 @@ Split von Trainings- und Evaluationsdaten für die Modellierung
 trainTestSplit <- 0.8
 ```
 
-Funktion 200 oder 400 mal evaluieren
-
-``` r:
-funEval <- 200/400
-```
-
 ## Datenerhebungstrategie
 
 **Random Sampling**
 
--   zufällige werte für `x` und `y` generieren
+-   Zufällige werte für `x` und `y` generieren
 -   Reproduzierbar durch Random Seed
 -   Verteilung entspricht ggf. nicht den tatsächlichen Daten
 -   Erzeugung innerhalb von fixen Grenzen
 
 **Grid Sampling**
 
--   vordefinierte Menge von Parameterkombinationen
+-   Vordefinierte Menge von Parameterkombinationen
 -   Reproduzierbar, da jeder Punkt im Parameterraum einmal besucht
 -   Fluch der Dimensionen
--   besser geeignet für diskrete Parameter
+-   Besser geeignet für diskrete Parameter
 
 ## Datenerhebungstrategie
 
@@ -167,38 +155,33 @@ Three Methods for Selecting Values of Input Variables in the Analysis of
 Output From a Computer Code. Technometrics, 42(1),
 pp.55-61.]{style="font-size: 14px"}
 
+## Rechenressourcen
+
+-   CPU: Intel(R) Core(TM) i5-10300H CPU \@ 2.5 GHz
+-   GPU: _nicht verfügbar_
+-   Memory: 16,0 GB RAM
+-   Storage: 0.5 TB SSD
+
 ## Modellaufbau DNN
 
-**Deep Neural Network for Regression**:
+**Deep Neural Network für Regression**
 
-+----------------+-------------------------------+----------------+
-| E              | layer_dense(units=128,        | Leaky ReLU     |
-| ingangsschicht | input_shape=2)                |                |
-+----------------+-------------------------------+----------------+
-| Ver            | layer_dense(units=32)         | Leaky ReLU     |
-| b              |                               |                |
-| orgene-Schicht |                               |                |
-+----------------+-------------------------------+----------------+
-| Ver            | layer_dense(units=128)        | Leaky ReLU     |
-| b              |                               |                |
-| orgene-Schicht |                               |                |
-+----------------+-------------------------------+----------------+
-| D              | layer_dropout(rate=0.001)     | \-             |
-| ropout-Schicht |                               |                |
-+----------------+-------------------------------+----------------+
-| Ver            | layer_dense(units=64)         | Leaky ReLU     |
-| b              |                               |                |
-| orgene-Schicht |                               |                |
-+----------------+-------------------------------+----------------+
-| A              | layer_dense(units=1)          | Linear         |
-| usgangsschicht |                               | Activation     |
-+----------------+-------------------------------+----------------+
+- Manuelle Architektursuche unter Berücksichtigung limitierter Rechenressourcen
+
+|  | | |
+| ------------------ | ------------------------------------- | ----------------- |
+| Eingangsschicht    | layer_dense(units=128, input_shape=2) | Leaky ReLU        |
+| Verborgene-Schicht | layer_dense(units=32)                 | Leaky ReLU        |
+| Verborgene-Schicht | layer_dense(units=128)                | Leaky ReLU        |
+| Dropout-Schicht    | layer_dropout(rate=0.001)             | \-                |
+| Verborgene-Schicht | layer_dense(units=64)                 | Leaky ReLU        |
+| Ausgangsschicht    | layer_dense(units=1)                  | Linear Activation |
 
 ## Modellaufbau DNN
 
 **Mean Squared Logarithmic Error**
 
--   besonders nützlich wenn Zielgrößen stark variieren.
+-   Besonders nützlich wenn Zielgrößen stark variieren.
 
 $$
 \text{MSE Log Error} = \frac{1}{N} \sum_{i=1}^{N} (\log(y_i + 1) - \log(\hat{y}_i + 1))^2
@@ -208,7 +191,7 @@ $$
 
 -   SGD-Methode, die auf der adaptiven Schätzung von Momenten erster und
     zweiter Ordnung beruht
--   gut geeignet für Probleme mit großer Anzahl von Daten/Parametern
+-   Gut geeignet für Probleme mit großer Anzahl von Daten/Parametern
 
 [Kingma, D.P. and Ba, J., 2014. Adam: A Method for Stochastic
 Optimization. arXiv preprint arXiv:1412.6980.]{style="font-size: 14px"}
@@ -216,21 +199,25 @@ Optimization. arXiv preprint arXiv:1412.6980.]{style="font-size: 14px"}
 ## Optimierung mit Differential Evolution
 
 -   Metaheuristik zur globalen Optimierung von Problemen
--   Population von Kandidatenlösungen, Mutation, Rekombination und
+-   Nutzt Population von Kandidatenlösungen, Mutation, Rekombination und
     Selektion, um schrittweise bessere Lösungen zu finden
--   besonders für nichtdifferenzierbare Zielfunktionen und Probleme ohne
-    spezielle Struktur geeignet
 
 **Populationsgröße**: Anzahl gleichzeitig betrachteter Lösungen
 
--   klein =\> schnell, aber ggf. vorzeitige Kovergenz zu lokalen Optima
--   groß =\> ggf. bessere Lösungen, aber mehr Rechenleistung
+-   Klein =\> schnell, aber ggf. vorzeitige Kovergenz zu lokalen Optima
+-   Groß =\> ggf. bessere Lösungen, aber mehr Rechenleistung
 
 ``` r:
-popSize = 4
-popSize = 10\*dim
+popSize = 4         # Vergleich zu gradientenbasierten Verfahren
+popSize = 10\*dim   # Default
 popSize = 20\*dim
+
+funEval <- 200/400
 ```
+
+[Storn, R. and Price, K., 1997. Differential evolution – a simple and efficient 
+heuristic for global optimization over continuous spaces. Journal of global 
+optimization, 11, pp.341-359.]{style="font-size: 14px"}
 
 # Bewertungsmatrix
 
