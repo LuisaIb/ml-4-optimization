@@ -53,7 +53,7 @@ Hanna Steinwender
 
 1.  Ist der Einsatz eines Variational Autoencoder (VAE) als
     Datenerhebungstrategie sinnvoll?
-2.  Ist ein Deep Neural Networks (DNN) basierend auf der erstellten
+2.  Ist ein Deep Neural Network (DNN) basierend auf der erstellten
     Bewertungsmatrix geeignet zur Erzeugung der Testfunktion?
 3.  Ist der Einsatz eines DNNs auf Basis der Kriterien aus der
     Zielsetzung geeignet?
@@ -64,7 +64,7 @@ Hanna Steinwender
 
 ## Vorgehen und Methodik
 
--   Empirische Untersuchung mit Experimenten
+-   Methodik: Empirische Untersuchung mit Experimenten
 
 <br><br>
 
@@ -277,6 +277,9 @@ dim <- 2/3
 -   Gewichtung:
     -   Modellbewertung - 30%
     -   Optimierungsbewertung - 70%
+
+<br>
+
 -   Systematische Analyse und Bewertung der Versuche im Rahmen der
     Modell- und Optimierungsbewertung
 -   Fundierte Beurteilung der Modellleistung, Optimierungsalgorithmen
@@ -403,7 +406,7 @@ Isabel Janez
 
 Isabel Janez
 
-## Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll?
+## Ist der Einsatz eines VAE als Datenerhebungstrategie sinnvoll?
 
 -   Versuch wurde abgebrochen → sehr schlechte Ergebnisse vor allem bei
     50 Datenpunkten
@@ -413,7 +416,7 @@ Isabel Janez
 -   Dimensionsreduktion führt zu Problemen, dadurch verzerrte /
     gestauchte Darstellung
 
-## Ist der Einsatz eines Variational Autoencoder als Datenerhebungstrategie sinnvoll?
+## Ist der Einsatz eines VAE als Datenerhebungstrategie sinnvoll?
 
 für das vorliegende Problem konnte der VAE nicht zur Datenerhebung
 eingesetzt werden
@@ -424,11 +427,11 @@ weiteres Vorgehen:
 -   Generative Adversial Network (GAN)
 -   Conditional Variational Autoencoder (CVAE)
 
-## Ist ein Deep Neural Networks (DNN) basierend auf der erstellten Bewertungsmatrix geeignet zur Erzeugung der Testfunktion?
+## Ist ein DNN basierend auf der erstellten Bewertungsmatrix geeignet zur Erzeugung der Testfunktion?
 
 -   Threshold: 4 / 5
 -   DNN = 4 → gleich gut wie GPM
--   DNN \> 4 → besser als GPM <br>
+-   DNN \> 4 → besser als GPM <br><br>
 -   Experiment 1: 2,13 / 5
 -   Experiment 2: 3 / 5
 
@@ -436,17 +439,17 @@ Im vorliegenden Fall: DNN liegt unter Threshold, somit nicht geeignet
 
 ## Ist der Einsatz eines DNNs auf Basis der Kriterien aus der Zielsetzung geeignet?
 
--   Threshold: 3 / 5
+-Threshold: 3 / 5
 
 |                   |                        |
 |-------------------|------------------------|
 | [4\|5] Difficulty | [1\|5] Relevance       |
 | [3\|5] Diversity  | [1\|5] Evaluation cost |
 | [3\|5] Flexibilty | [1\|5] Non-Smoothing   |
+<br>
+→ DNN: 2,2 / 5
 
--   DNN: 2,2 / 5
-
-im vorliegenden Fall: DNNs liegt unter Threshold, somit nicht geeignet
+im vorliegenden Fall: DNN liegt unter Threshold, somit nicht geeignet
 
 # Schlussbetrachtung
 
