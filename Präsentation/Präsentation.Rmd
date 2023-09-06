@@ -314,32 +314,25 @@ Judith Romer
 
 ![](images/Versuch1.1.1.2DE4YAllThree){width="47%"}![](images/Versuch1.1.1.2DEDimx10YAllThree){width="47%"}
 
-+---------------------------------+---------------------------------+
-| Population Size = 4             | **Population Size = 10 \*       |
-|                                 | Dimension**                     |
-+---------------------------------+---------------------------------+
-| -   Groundtruth (GT) und        | -   **GT und GPM: im Median     |
-|     Gaußsche Prozessmodelle     |     gut**                       |
-|     (GPM): gute Optimierung     |                                 |
-|                                 | -   **DNN: Optimierung deutlich |
-| -   DNN: mehr Evaluationen      |     schlechter**                |
-+---------------------------------+---------------------------------+
++--------------------------------------------------------------------------+----------------------------------------------+
+| Population Size = 4                                                      | **Population Size = 10 \* Dimension**        |
++--------------------------------------------------------------------------+----------------------------------------------+
+| -   Groundtruth (GT) und Gaußsche Prozessmodelle (GPM): gute Optimierung | -   **GT und GPM: im Median gut**            |
+|                                                                          |                                              |
+| -   DNN: mehr Evaluationen                                               | -   **DNN: Optimierung deutlich schlechter** |
++--------------------------------------------------------------------------+----------------------------------------------+
 
 ## Versuch 1.1.1.2 - Fehler / Evaluation
 
 ![](images/Versuch1.1.1.2DE4Error){width="47%"}![](images/Versuch1.1.1.2DEDimx10Error){width="47%"}
 
-+---------------------------------+---------------------------------+
-| Population Size = 4             | **Population Size = 10 \*       |
-|                                 | Dimension**                     |
-+---------------------------------+---------------------------------+
-| -   GT und GPM: Fehler von      | -   **GT und GPM: Fehler von    |
-|     Anfang an sehr niedrig      |     Anfang an sehr niedrig**    |
-|                                 |                                 |
-| -   DNN: Fehler am Anfang sehr  | -   **DNN: selbst nach 200      |
-|     hoch, jedoch zuverlässige   |     Evaluationen noch           |
-|     Verringerung                |     schlechter als GPM**        |
-+---------------------------------+---------------------------------+
++-----------------------------------------------------------------------+-------------------------------------------------------------------+
+| Population Size = 4                                                   | **Population Size = 10 \* Dimension**                             |
++-----------------------------------------------------------------------+-------------------------------------------------------------------+
+| -   GT und GPM: Fehler von Anfang an sehr niedrig                     | -   **GT und GPM: Fehler von Anfang an sehr niedrig**             |
+|                                                                       |                                                                   |
+| -   DNN: Fehler am Anfang sehr hoch, jedoch zuverlässige Verringerung | -   **DNN: selbst nach 200 Evaluationen noch schlechter als GPM** |
++-----------------------------------------------------------------------+-------------------------------------------------------------------+
 
 # Experiment 2
 
@@ -363,30 +356,25 @@ Judith Romer
 
 ![](images/Versuch2.2.1.1DE4YAllThree){width="47%"}![](images/Versuch2.2.2.1DE4YAllThree){width="47%"}
 
-+---------------------------------+---------------------------------+
-| 2 Dimensionen                   | **3 Dimensionen**               |
-+---------------------------------+---------------------------------+
-| -   GT und GP: Minimum nach 400 | -   **GT: Minimum nach 400      |
-|     Evalutationen nicht         |     Evaluationen nicht          |
-|     gefunden                    |     gefunden**                  |
-|                                 |                                 |
-| -   DNN: im Median in Ordnung,  | -   **GPM und DNN: ähnlich      |
-|     aber Durchläufe in denen    |     gut**                       |
-|     nicht optimiert wird        |                                 |
-+---------------------------------+---------------------------------+
++------------------------------------------------------------------------------+----------------------------------------------------------+
+| 2 Dimensionen                                                                | **3 Dimensionen**                                        |
++------------------------------------------------------------------------------+----------------------------------------------------------+
+| -   GT und GP: Minimum nach 400 Evalutationen nicht gefunden                 | -   **GT: Minimum nach 400 Evaluationen nicht gefunden** |
+|                                                                              |                                                          |
+| -   DNN: im Median in Ordnung, aber Durchläufe in denen nicht optimiert wird | -   **GPM und DNN: ähnlich gut**                         |
++------------------------------------------------------------------------------+----------------------------------------------------------+
 
 ## Versuch 2.2.1.1 & 2.2.2.1 - Fehler / Evaluation
 
 ![](images/Versuch2.2.1.1DE4Error){width="47%"}![](images/Versuch2.2.2.1DE4Error){width="47%"}
 
-+-----------------------------------+-----------------------------------+
-| 2 Dimensionen                     | **3 Dimensionen**                 |
-+-----------------------------------+-----------------------------------+
-| -   GPM: in manchen Durchläufen   | -   **GPM und DNN: deutlich       |
-|     teils nache 0                 |     höherer Fehler**              |
-|                                   |                                   |
-| -   DNN: deutlich höherer Fehler  |                                   |
-+-----------------------------------+-----------------------------------+
++-----------------------------------------------+----------------------------------------------+
+| 2 Dimensionen                                 | **3 Dimensionen**                            |
++-----------------------------------------------+----------------------------------------------+
+| -   GPM: in manchen Durchläufen teils nache 0 | -   **GPM und DNN: deutlich höherer Fehler** |
+|                                               |                                              |
+| -   DNN: deutlich höherer Fehler              |                                              |
++-----------------------------------------------+----------------------------------------------+
 
 # Experiment 3
 
@@ -415,9 +403,9 @@ Isabel Janez
 ## Ist der Einsatz eines VAE als Datenerhebungstrategie sinnvoll?
 
 -   Versuch wurde abgebrochen → sehr schlechte Ergebnisse vor allem bei 50 Datenpunkten
--   nicht in der Lage die Verteilung über gesamten Raum zu lernen
+-   Nicht in der Lage die Verteilung über gesamten Raum zu lernen
 -   Datenpunkteskala passt nur bedingt
--   representiert die 'Realität' nicht ausreichend
+-   Repräsentiert die 'Realität' nicht ausreichend
 -   Dimensionsreduktion führt zu Problemen, dadurch verzerrte / gestauchte Darstellung
 
 ## Ist der Einsatz eines VAE als Datenerhebungstrategie sinnvoll?
@@ -446,13 +434,13 @@ Threshold: 3 / 5
 
 <center>
 
-+------------------------------+------------------------------+
-| [4\|5] Difficulty            | **[1\|5] Relevance**         |
-|                              |                              |
-| [3\|5] Diversity             | **[1\|5] Evaluation cost**   |
-|                              |                              |
-| [3\|5] Flexibilty            | **[1\|5] Non-Smoothing**     |
-+------------------------------+------------------------------+
++-----------------------------+-----------------------------+
+| [4\|5] Difficulty           | **[1\|5] Relevance**        |
+|                             |                             |
+| [3\|5] Diversity            | **[1\|5] Evaluation cost**  |
+|                             |                             |
+| [3\|5] Flexibilty           | **[1\|5] Non-Smoothing**    |
++-----------------------------+-----------------------------+
 
 </center>
 
