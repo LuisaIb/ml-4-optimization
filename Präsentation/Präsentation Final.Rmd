@@ -8,6 +8,9 @@ output:
     transition: faster
     highlight: espresso
     css: styles.css
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
@@ -29,24 +32,31 @@ Hanna Steinwender
 
 ## Motivation
 
--   Entwicklung und Bewertung von Optimierungsalgorithmen in realen Anwendungen
--   Herausforderung traditioneller Bewertung mit statischen Testdatensätzen
+-   Entwicklung und Bewertung von Optimierungsalgorithmen in realen
+    Anwendungen
+-   Herausforderung traditioneller Bewertung mit statischen
+    Testdatensätzen
 -   Notwendigkeit von Testfunktionen für Algorithmen
 -   Schwierigkeit bei der Suche nach passenden Testfunktionen
 -   Begrenzte Verfügbarkeit von Ground-Truth-Funktionen
--   Modelle mit realen Daten als Ersatz für Ground-Truth-Funktionen erstellen
+-   Modelle mit realen Daten als Ersatz für Ground-Truth-Funktionen
+    erstellen
 
 ## Zielsetzung
 
 -   Entwicklung von Testfunktionen
 -   Approximation von Ground-Truth-Funktionen
--   Erfüllung von Anforderungen: Difficulty, Diversity, Flexibility, Relevance, Evaluation Cost, Non-Smoothing
+-   Erfüllung von Anforderungen: Difficulty, Diversity, Flexibility,
+    Relevance, Evaluation Cost, Non-Smoothing
 
 **Forschungsfragen**
 
-1.  Ist der Einsatz eines Variational Autoencoder (VAE) als Datenerhebungstrategie sinnvoll?
-2.  Ist ein Deep Neural Network (DNN) basierend auf der erstellten Bewertungsmatrix geeignet zur Erzeugung der Testfunktion?
-3.  Ist der Einsatz eines DNNs auf Basis der Kriterien aus der Zielsetzung geeignet?
+1.  Ist der Einsatz eines Variational Autoencoder (VAE) als
+    Datenerhebungstrategie sinnvoll?
+2.  Ist ein Deep Neural Network (DNN) basierend auf der erstellten
+    Bewertungsmatrix geeignet zur Erzeugung der Testfunktion?
+3.  Ist der Einsatz eines DNNs auf Basis der Kriterien aus der
+    Zielsetzung geeignet?
 
 # Vorgehen und Methodik
 
@@ -67,20 +77,27 @@ Lena Hammerer
 ## Ground-Truth
 
 -   *Wahre* / *korrekte* Vorhersage für ein gegebenes Problem
--   Referenzpunkt, um die Leistung von ML-Modellen zu bewerten und ihre Qualität sicherzustellen
+-   Referenzpunkt, um die Leistung von ML-Modellen zu bewerten und ihre
+    Qualität sicherzustellen
 -   Probleme in der Praxis:
     -   (Noch) nicht verfügbar
-    -   Teuer in der Auswertung, eingeschränkte Experimentiermöglichkeiten
+    -   Teuer in der Auswertung, eingeschränkte
+        Experimentiermöglichkeiten
     -   Vertraulich (Veröffentlichung nicht möglich)
 
-[Hansen, N., Auger, A., Mersmann, O., Tušar, T. and Brockhoff, D., 2016. COCO: A platform for comparing continuous optimizers in a black-box setting. ArXiv e-prints. arXiv preprint arXiv:1603.08785, 172.]{style="font-size: 14px"}
+[Hansen, N., Auger, A., Mersmann, O., Tušar, T. and Brockhoff, D., 2016.
+COCO: A platform for comparing continuous optimizers in a black-box
+setting. ArXiv e-prints. arXiv preprint arXiv:1603.08785,
+172.]{style="font-size: 14px"}
 
 ## Ground-Truth
 
 -   **f1 Sphere Function**
-    -   Einfachstes kontinuierliches Domänensuchproblem, da unimodal und hochsymmetrisch
+    -   Einfachstes kontinuierliches Domänensuchproblem, da unimodal und
+        hochsymmetrisch
 -   **f24 Lunacek bi-Rastrigin Function**
-    -   Hoch multimodal und trügerisch für evolutionäre Algorithmen mit großer Populationsgröße
+    -   Hoch multimodal und trügerisch für evolutionäre Algorithmen mit
+        großer Populationsgröße
 
 ![](images/GroundtruthF1){width="47%"}![](images/GroundtruthF24){width="47%"}
 
@@ -127,12 +144,16 @@ trainTestSplit <- 0.8
 **Latin Hypercube Sampling**
 
 -   Kombination der RS und GS Ansätze
--   Parameterraum in gleich wahrscheinliche Intervalle oder Bins entlang jeder Dimension unterteilt
+-   Parameterraum in gleich wahrscheinliche Intervalle oder Bins entlang
+    jeder Dimension unterteilt
 -   Aus jedem Bin wird ein Zufallswert ausgewählt
 -   Gleichmäßige Verteilung von Stichprobenpunkte über den Parameterraum
 -   Repräsentativität wird erhöht
 
-[McKay, M.D., Beckman, R.J. and Conover, W.J., 2000. A Comparison of Three Methods for Selecting Values of Input Variables in the Analysis of Output From a Computer Code. Technometrics, 42(1), pp.55-61.]{style="font-size: 14px"}
+[McKay, M.D., Beckman, R.J. and Conover, W.J., 2000. A Comparison of
+Three Methods for Selecting Values of Input Variables in the Analysis of
+Output From a Computer Code. Technometrics, 42(1),
+pp.55-61.]{style="font-size: 14px"}
 
 ## Rechenressourcen
 
@@ -145,21 +166,23 @@ trainTestSplit <- 0.8
 
 **Deep Neural Network für Regression**
 
--   Manuelle Architektursuche unter Berücksichtigung limitierter Rechenressourcen
+-   Manuelle Architektursuche unter Berücksichtigung limitierter
+    Rechenressourcen
 
-+---------------+---------------------------------------+---------------+
-| Input Layer   | layer_dense(units=128, input_shape=2) | Leaky ReLU    |
-+---------------+---------------------------------------+---------------+
-| Hidden Layer  | layer_dense(units=32)                 | Leaky ReLU    |
-+---------------+---------------------------------------+---------------+
-| Hidden Layer  | layer_dense(units=128)                | Leaky ReLU    |
-+---------------+---------------------------------------+---------------+
-| Dropout       | layer_dropout(rate=0.001)             | \-            |
-+---------------+---------------------------------------+---------------+
-| Hidden Layer  | layer_dense(units=64)                 | Leaky ReLU    |
-+---------------+---------------------------------------+---------------+
-| Output Layer  | layer_dense(units=1)                  | Linear        |
-+---------------+---------------------------------------+---------------+
++---------------+----------------------------------+---------------+
+| Input Layer   | layer_dense(units=128,           | Leaky ReLU    |
+|               | input_shape=2)                   |               |
++---------------+----------------------------------+---------------+
+| Hidden Layer  | layer_dense(units=32)            | Leaky ReLU    |
++---------------+----------------------------------+---------------+
+| Hidden Layer  | layer_dense(units=128)           | Leaky ReLU    |
++---------------+----------------------------------+---------------+
+| Dropout       | layer_dropout(rate=0.001)        | \-            |
++---------------+----------------------------------+---------------+
+| Hidden Layer  | layer_dense(units=64)            | Leaky ReLU    |
++---------------+----------------------------------+---------------+
+| Output Layer  | layer_dense(units=1)             | Linear        |
++---------------+----------------------------------+---------------+
 
 ## Modellaufbau DNN
 
@@ -173,15 +196,18 @@ $$
 
 **Adam Optimizer**
 
--   SGD-Methode, die auf der adaptiven Schätzung von Momenten erster und zweiter Ordnung beruht
+-   SGD-Methode, die auf der adaptiven Schätzung von Momenten erster und
+    zweiter Ordnung beruht
 -   Gut geeignet für Probleme mit großer Anzahl von Daten/Parametern
 
-[Kingma, D.P. and Ba, J., 2014. Adam: A Method for Stochastic Optimization. arXiv preprint arXiv:1412.6980.]{style="font-size: 14px"}
+[Kingma, D.P. and Ba, J., 2014. Adam: A Method for Stochastic
+Optimization. arXiv preprint arXiv:1412.6980.]{style="font-size: 14px"}
 
 ## Optimierung mit Differential Evolution
 
 -   Metaheuristik zur globalen Optimierung von Problemen
--   Nutzt Population von Kandidatenlösungen, Mutation, Rekombination und Selektion, um schrittweise bessere Lösungen zu finden
+-   Nutzt Population von Kandidatenlösungen, Mutation, Rekombination und
+    Selektion, um schrittweise bessere Lösungen zu finden
 
 **Populationsgröße**: Anzahl gleichzeitig betrachteter Lösungen
 
@@ -196,7 +222,10 @@ popSize = 20\*dim
 funEval <- 200/400
 ```
 
-[Storn, R. and Price, K., 1997. Differential evolution -- a simple and efficient heuristic for global optimization over continuous spaces. Journal of global optimization, 11, pp.341-359.]{style="font-size: 14px"}
+[Storn, R. and Price, K., 1997. Differential evolution -- a simple and
+efficient heuristic for global optimization over continuous spaces.
+Journal of global optimization, 11,
+pp.341-359.]{style="font-size: 14px"}
 
 # Bewertungsmatrix
 
@@ -260,8 +289,10 @@ dim <- 2/3
 
 <br>
 
--   Systematische Analyse und Bewertung der Versuche im Rahmen der Modell- und Optimierungsbewertung
--   Fundierte Beurteilung der Modellleistung, Optimierungsalgorithmen und Versuche anhand der gewählten Bewertungskriterien
+-   Systematische Analyse und Bewertung der Versuche im Rahmen der
+    Modell- und Optimierungsbewertung
+-   Fundierte Beurteilung der Modellleistung, Optimierungsalgorithmen
+    und Versuche anhand der gewählten Bewertungskriterien
 -   Berücksichtigung qualitativer und quantitativer Aspekte
 -   Bewertung des gesamten Versuchs möglich
 
@@ -276,7 +307,10 @@ Bewertung der einzelnen Versuche anhand von:
 -   Evaluation cost
 -   Non-Smoothing
 
-[Zaefferer, M., Fischbach, A., Naujoks, B. and Bartz-Beielstein, T., 2017, July. Simulation-based Test Functions for Optimization Algorithms. In Proceedings of the genetic and evolutionary computation conference (pp. 905-912).]{style="font-size: 14px"}
+[Zaefferer, M., Fischbach, A., Naujoks, B. and Bartz-Beielstein, T.,
+2017, July. Simulation-based Test Functions for Optimization Algorithms.
+In Proceedings of the genetic and evolutionary computation conference
+(pp. 905-912).]{style="font-size: 14px"}
 
 # Umsetzung
 
@@ -314,32 +348,32 @@ Judith Romer
 
 ![](images/Versuch1.1.1.2DE4YAllThree){width="47%"}![](images/Versuch1.1.1.2DEDimx10YAllThree){width="47%"}
 
-+---------------------------------+---------------------------------+
-| Population Size = 4             | **Population Size = 10 \*       |
-|                                 | Dimension**                     |
-+---------------------------------+---------------------------------+
-| -   Groundtruth (GT) und        | -   **GT und GPM: im Median     |
-|     Gaußsche Prozessmodelle     |     gut**                       |
-|     (GPM): gute Optimierung     |                                 |
-|                                 | -   **DNN: Optimierung deutlich |
-| -   DNN: mehr Evaluationen      |     schlechter**                |
-+---------------------------------+---------------------------------+
++-------------------------------+-------------------------------+
+| Population Size = 4           | **Population Size = 10 \*     |
+|                               | Dimension**                   |
++-------------------------------+-------------------------------+
+| -   Groundtruth (GT) und      | -   **GT und GPM: im Median   |
+|     Gaußsche Prozessmodelle   |     gut**                     |
+|     (GPM): gute Optimierung   |                               |
+|                               | -   **DNN: Optimierung        |
+| -   DNN: mehr Evaluationen    |     deutlich schlechter**     |
++-------------------------------+-------------------------------+
 
 ## Versuch 1.1.1.2 - Fehler / Evaluation
 
 ![](images/Versuch1.1.1.2DE4Error){width="47%"}![](images/Versuch1.1.1.2DEDimx10Error){width="47%"}
 
-+---------------------------------+---------------------------------+
-| Population Size = 4             | **Population Size = 10 \*       |
-|                                 | Dimension**                     |
-+---------------------------------+---------------------------------+
-| -   GT und GPM: Fehler von      | -   **GT und GPM: Fehler von    |
-|     Anfang an sehr niedrig      |     Anfang an sehr niedrig**    |
-|                                 |                                 |
-| -   DNN: Fehler am Anfang sehr  | -   **DNN: selbst nach 200      |
-|     hoch, jedoch zuverlässige   |     Evaluationen noch           |
-|     Verringerung                |     schlechter als GPM**        |
-+---------------------------------+---------------------------------+
++-------------------------------+-------------------------------+
+| Population Size = 4           | **Population Size = 10 \*     |
+|                               | Dimension**                   |
++-------------------------------+-------------------------------+
+| -   GT und GPM: Fehler von    | -   **GT und GPM: Fehler von  |
+|     Anfang an sehr niedrig    |     Anfang an sehr niedrig**  |
+|                               |                               |
+| -   DNN: Fehler am Anfang     | -   **DNN: selbst nach 200    |
+|     sehr hoch, jedoch         |     Evaluationen noch         |
+|     zuverlässige Verringerung |     schlechter als GPM**      |
++-------------------------------+-------------------------------+
 
 # Experiment 2
 
@@ -357,36 +391,39 @@ Judith Romer
 
 ## Versuch 2.2.2.1 - Bildvergleich 3D
 
-<br> <br> ![](images/GIFF24.gif){width="47%"}![](images/GIFDNN.gif){width="47%"}
+<br> <br>
+![](images/GIFF24.gif){width="47%"}![](images/GIFDNN.gif){width="47%"}
 
 ## Versuch 2.2.1.1 & 2.2.2.1 - Y Wert / Evaluation
 
 ![](images/Versuch2.2.1.1DE4YAllThree){width="47%"}![](images/Versuch2.2.2.1DE4YAllThree){width="47%"}
 
-+---------------------------------+---------------------------------+
-| 2 Dimensionen                   | **3 Dimensionen**               |
-+---------------------------------+---------------------------------+
-| -   GT und GP: Minimum nach 400 | -   **GT: Minimum nach 400      |
-|     Evalutationen nicht         |     Evaluationen nicht          |
-|     gefunden                    |     gefunden**                  |
-|                                 |                                 |
-| -   DNN: im Median in Ordnung,  | -   **GPM und DNN: ähnlich      |
-|     aber Durchläufe in denen    |     gut**                       |
-|     nicht optimiert wird        |                                 |
-+---------------------------------+---------------------------------+
++-------------------------------+-------------------------------+
+| 2 Dimensionen                 | **3 Dimensionen**             |
++-------------------------------+-------------------------------+
+| -   GT und GP: Minimum nach   | -   **GT: Minimum nach 400    |
+|     400 Evalutationen nicht   |     Evaluationen nicht        |
+|     gefunden                  |     gefunden**                |
+|                               |                               |
+| -   DNN: im Median in         | -   **GPM und DNN: ähnlich    |
+|     Ordnung, aber Durchläufe  |     gut**                     |
+|     in denen nicht optimiert  |                               |
+|     wird                      |                               |
++-------------------------------+-------------------------------+
 
 ## Versuch 2.2.1.1 & 2.2.2.1 - Fehler / Evaluation
 
 ![](images/Versuch2.2.1.1DE4Error){width="47%"}![](images/Versuch2.2.2.1DE4Error){width="47%"}
 
-+-----------------------------------+-----------------------------------+
-| 2 Dimensionen                     | **3 Dimensionen**                 |
-+-----------------------------------+-----------------------------------+
-| -   GPM: in manchen Durchläufen   | -   **GPM und DNN: deutlich       |
-|     teils nache 0                 |     höherer Fehler**              |
-|                                   |                                   |
-| -   DNN: deutlich höherer Fehler  |                                   |
-+-----------------------------------+-----------------------------------+
++---------------------------------+---------------------------------+
+| 2 Dimensionen                   | **3 Dimensionen**               |
++---------------------------------+---------------------------------+
+| -   GPM: in manchen Durchläufen | -   **GPM und DNN: deutlich     |
+|     teils nache 0               |     höherer Fehler**            |
+|                                 |                                 |
+| -   DNN: deutlich höherer       |                                 |
+|     Fehler                      |                                 |
++---------------------------------+---------------------------------+
 
 # Experiment 3
 
@@ -394,19 +431,23 @@ Isabel Janez
 
 ## VAE mit 50 Datenpunkten Funktion 1
 
-<br> <br> ![](images/DataGenerationRandomTrainF1MinimalData){width="47%"}![](images/VAEDataF1MinimalData){width="47%"}
+<br> <br>
+![](images/DataGenerationRandomTrainF1MinimalData){width="47%"}![](images/VAEDataF1MinimalData){width="47%"}
 
 ## VAE mit 1000 Datenpunkten Funktion 1
 
-<br> <br> ![](images/DataGenerationRandomTrainF1MaximalData){width="47%"}![](images/VAEDataF1MaximalData){width="47%"}
+<br> <br>
+![](images/DataGenerationRandomTrainF1MaximalData){width="47%"}![](images/VAEDataF1MaximalData){width="47%"}
 
 ## VAE mit 50 Datenpunkten Funktion 24
 
-<br> <br> ![](images/DataGenerationRandomTrainF24MinimalData){width="47%"}![](images/VAEDataF24MinimalData){width="47%"}
+<br> <br>
+![](images/DataGenerationRandomTrainF24MinimalData){width="47%"}![](images/VAEDataF24MinimalData){width="47%"}
 
 ## VAE mit 1000 Datenpunkten Funktion 24
 
-<br> <br> ![](images/DataGenerationRandomTrainF24MaximalData){width="47%"}![](images/VAEDataF24MaximalData){width="47%"}
+<br> <br>
+![](images/DataGenerationRandomTrainF24MaximalData){width="47%"}![](images/VAEDataF24MaximalData){width="47%"}
 
 # Beantwortung der Forschungsfragen
 
@@ -414,15 +455,18 @@ Isabel Janez
 
 ## Ist der Einsatz eines VAE als Datenerhebungstrategie sinnvoll?
 
--   Versuch wurde abgebrochen → sehr schlechte Ergebnisse vor allem bei 50 Datenpunkten
+-   Versuch wurde abgebrochen → sehr schlechte Ergebnisse vor allem bei
+    50 Datenpunkten
 -   Nicht in der Lage die Verteilung über gesamten Raum zu lernen
 -   Datenpunkteskala passt nur bedingt
 -   Repräsentiert die 'Realität' nicht ausreichend
--   Dimensionsreduktion führt zu Problemen, dadurch verzerrte / gestauchte Darstellung
+-   Dimensionsreduktion führt zu Problemen, dadurch verzerrte /
+    gestauchte Darstellung
 
 ## Ist der Einsatz eines VAE als Datenerhebungstrategie sinnvoll?
 
-Für das vorliegende Problem konnte der VAE nicht zur Datenerhebung eingesetzt werden
+Für das vorliegende Problem konnte der VAE nicht zur Datenerhebung
+eingesetzt werden
 
 Weiteres Vorgehen:
 
@@ -446,13 +490,13 @@ Threshold: 3 / 5
 
 <center>
 
-+------------------------------+------------------------------+
-| [4\|5] Difficulty            | **[1\|5] Relevance**         |
-|                              |                              |
-| [3\|5] Diversity             | **[1\|5] Evaluation cost**   |
-|                              |                              |
-| [3\|5] Flexibilty            | **[1\|5] Non-Smoothing**     |
-+------------------------------+------------------------------+
++----------------------------+----------------------------+
+| [4\|5] Difficulty          | **[1\|5] Relevance**       |
+|                            |                            |
+| [3\|5] Diversity           | **[1\|5] Evaluation cost** |
+|                            |                            |
+| [3\|5] Flexibilty          | **[1\|5] Non-Smoothing**   |
++----------------------------+----------------------------+
 
 </center>
 
@@ -466,14 +510,19 @@ Isabel Janez
 
 ## Fazit
 
--   Graußsche Prozessmodelle im vorliegenden Anwendungsfall besser geeignet
--   Anmerkung: es wurde nur die Estimation verglichen; kein Vergleich von Simulation
+-   Gaußsche Prozessmodelle im vorliegenden Anwendungsfall besser
+    geeignet
+-   Anmerkung: es wurde nur die Estimation verglichen; kein Vergleich
+    von Simulation
 -   Tradeoff zwischen Rechenleistung und Komplexität des DNN
 
 ## Ausblick
 
--   Abbildung der lokalen Struktur mit dem neuronalen Netz durch Erstellung neuer Loss-Funktion, die nicht nur einzelne Punkte optimiert, sondern mehrere Punkte betrachtet
--   Vergleich von Graußscher Prozessmodell Simulation anstelle von Estimation
+-   Abbildung der lokalen Struktur mit dem neuronalen Netz durch
+    Erstellung neuer Loss-Funktion, die nicht nur einzelne Punkte
+    optimiert, sondern mehrere Punkte betrachtet
+-   Vergleich von Gaußscher Prozessmodell Simulation anstelle von
+    Estimation
 
 # Vielen Dank für die Aufmerksamkeit! Noch Fragen?
 
