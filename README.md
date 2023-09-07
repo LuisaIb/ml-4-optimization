@@ -1,14 +1,17 @@
 # ml-project
-**Aufgabenstellung:**<br>
+<h2>Examination of the Lecture <i>Advanced Applied Machine Learning</i> @DHBW Ravensburg.</h2>
+
+---
+Algorithms and models for AI-driven test function generation and optimization, using BBOB synthetic benchmarks (f1, f24) for empirical evaluation.
+
+---
+**Task Description:**<br>
+The task entails the generation of test functions for optimization algorithms using artificial intelligence or machine learning models. Emphasis is placed on the informed selection of an appropriate approach or model, followed by practical implementation and investigation.<br>
+In an empirical experiment, an assessment should be made of how effectively the chosen models solve the problem. Synthetic ground-truth functions from the BBOB function suite should be utilized for this purpose.<br>
+Various resources are available for implementation:
 <ul>
-  <li>Versuchen Sie mit Algorithmen / Modellen der künstlichen Intelligenz bzw. Machine Learning Testfunktionen für Optimierungsalgorithmen zu erzeugen.</li>
-  <li>Schwerpunkt ist die begründete Wahl eines geeigneten Vorgehens / Modells und darauf folgend die praktische Umsetzung / Untersuchung</li>
-  <li>Prüfen Sie in einem empirischen Versuch, wie gut die gewählten Modelle die Problemstellung lösen</li>
-  <li>Verwenden Sie als synthetische Ground-Truth-Funktion die BBOB function suite.</li>
-  <ul>
-    <li>Siehe auch COCO: http://numbbo.github.io/coco/shortintro</li>
-    <li>R code: https://cran.r-project.org/package=smoof</li>
-    <li>Python code: https://pypi.org/project/BBOBtorch/ (oder https://github.com/numbbo/coco)</li>
-  </ul>
-  <li>Sie müssen nicht alle BBOB functions nutzen, z.B. reicht eine Einschränkung auf die unten gezeigten Funktionen f1, f2, und f4 (BBOB-instances 1, 3 und 24)</li>
+  <li>COCO: http://numbbo.github.io/coco/shortintro</li>
+  <li>R Code: https://cran.r-project.org/package=smoof</li>
+  <li>Python Code: https://pypi.org/project/BBOBtorch/ (or https://github.com/numbbo/coco)</li>
 </ul>
+It is not necessary to utilize all BBOB functions; instead, a focus on functions such as f1, f2, and f4 (BBOB-instances 1, 3, and 24) will suffice.
