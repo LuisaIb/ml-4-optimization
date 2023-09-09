@@ -1,5 +1,5 @@
 # ml-project
-<h2>Examination of the Lecture <i>Advanced Applied Machine Learning</i> @DHBW Ravensburg.</h2>
+<h2>Examination of the lecture <i>Advanced Applied Machine Learning</i> @DHBW Ravensburg.</h2>
 
 ---
 Algorithms and models for AI-driven test function generation and optimization, using BBOB synthetic benchmarks (f1, f24) for empirical evaluation.
