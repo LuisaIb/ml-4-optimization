@@ -1,4 +1,4 @@
-# ml-project
+# ml-4-optimization
 <h2>Examination of the lecture <i>Advanced Applied Machine Learning</i> @DHBW Ravensburg.</h2>
 
 ---
