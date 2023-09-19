@@ -183,7 +183,7 @@ if(dim==2){
 ```{r}
 
 
-createRNNModel <- function(epochs = 150, train_data, train_labels, test_data, test_labels){
+createDNNModel <- function(epochs = 150, train_data, train_labels, test_data, test_labels){
   model = keras_model_sequential() %>% 
    layer_dense(units=128, input_shape=2) %>% 
    layer_activation_leaky_relu() %>% 
@@ -208,7 +208,7 @@ createRNNModel <- function(epochs = 150, train_data, train_labels, test_data, te
   
   model %>% summary()
   
-  startTrainRNN <- Sys.time()
+  startTrainDNN <- Sys.time()
   history <- model %>% fit(
   x = train_data,
   y = train_labels,
@@ -216,14 +216,14 @@ createRNNModel <- function(epochs = 150, train_data, train_labels, test_data, te
   validation_data = list(test_data, test_labels),
   verbose = 1
   )
-  timeTrainRNN <- Sys.time() - startTrainRNN
+  timeTrainDNN <- Sys.time() - startTrainDNN
   
 
   # Plot the training and validation loss
   plot(history)
 
   
-  list(model = model, timeTrainRNN = timeTrainRNN)
+  list(model = model, timeTrainDNN = timeTrainDNN)
 }
 
 
@@ -257,14 +257,14 @@ y_test <- data$y_test
 
 ```{r}
 
-trainedModel <- createRNNModel(epochs = 150, X_train, y_train, X_test, y_test)
+trainedModel <- createDNNModel(epochs = 150, X_train, y_train, X_test, y_test)
 
-model_rnn <- trainedModel$model
-trainingTimeRNN <- trainedModel$timeTrainRNN
+model_DNN <- trainedModel$model
+trainingTimeDNN <- trainedModel$timeTrainDNN
 
-#model_rnn_random %>% fit(X_train, y_train, verbose = 0)
+#model_DNN_random %>% fit(X_train, y_train, verbose = 0)
 
-y_pred = model_rnn %>% predict(X_test)
+y_pred = model_DNN %>% predict(X_test)
 
 
 
@@ -288,8 +288,8 @@ plotModel <- function(model, lower, upper){
 }
 
 
-plotModel(model_rnn, lower, upper)
-print(trainingTimeRNN)
+plotModel(model_DNN, lower, upper)
+print(trainingTimeDNN)
 
 
 ```
@@ -405,7 +405,7 @@ groundtruth <- createGroundtruth(bbobf, X_train)
 ```{r include=FALSE}
 
 
-logExperiment <- function( groundtruth, rnn, gauss){
+logExperiment <- function( groundtruth, DNN, gauss){
   expr <- expression(
     res <- DEinterface(fun=fnlog,
                       lower=lower,
@@ -417,29 +417,29 @@ logExperiment <- function( groundtruth, rnn, gauss){
   resGT <- loggedExperiment(expr, groundtruth, 1:10,10)
   timeGT <- Sys.time() - startGT
   
-  startRNN <- Sys.time()
-  resRNN <- loggedExperiment(expr, rnn, 1:10,10)
-  timeRNN <- Sys.time() - startRNN
+  startDNN <- Sys.time()
+  resDNN <- loggedExperiment(expr, DNN, 1:10,10)
+  timeDNN <- Sys.time() - startDNN
   
   startGauss <- Sys.time()
   resGauss <- loggedExperiment(expr, gauss, 1:10,10)
   timeGauss <- Sys.time() - startGauss
   
-  list(resGT = resGT, resRNN = resRNN, resGauss = resGauss, timeGT = timeGT, timeRNN = timeRNN, timeGauss = timeGauss)
+  list(resGT = resGT, resDNN = resDNN, resGauss = resGauss, timeGT = timeGT, timeDNN = timeDNN, timeGauss = timeGauss)
 }
 
 
-plotBenchmark <- function(resGT, resRNN, resGauss){
-  print(plotBenchmarkPerformance(list(resGT,resGauss,resRNN),
+plotBenchmark <- function(resGT, resDNN, resGauss){
+  print(plotBenchmarkPerformance(list(resGT,resGauss,resDNN),
                       c("groundtruth","gaussestimation","nnreg")))
   
-  print(plotBenchmarkPerformance(list(resRNN, resGauss),
+  print(plotBenchmarkPerformance(list(resDNN, resGauss),
                       c("nnreg","gaussestimation")))
   
-  print(plotBenchmarkPerformance(list(resRNN,resGT),
+  print(plotBenchmarkPerformance(list(resDNN,resGT),
                       c("nnreg","groundtruth")))
   
-  print(plotBenchmarkValidation(resGT,list(resGauss,resRNN),
+  print(plotBenchmarkValidation(resGT,list(resGauss,resDNN),
                       c("gaussestimation","nnreg")))
   
 }
@@ -453,13 +453,13 @@ if(numBbobf == 1){
 
 
 popSize <-  4  #, dim*10, dim*20)
-log1 <- logExperiment(groundtruth, model_rnn$predict, cobbsResult$estimation)
+log1 <- logExperiment(groundtruth, model_DNN$predict, cobbsResult$estimation)
 
 popSize <-  dim*10 #, dim*20)
-log2 <- logExperiment(groundtruth, model_rnn$predict, cobbsResult$estimation)
+log2 <- logExperiment(groundtruth, model_DNN$predict, cobbsResult$estimation)
 
 popSize <-  dim*20
-log3 <- logExperiment(groundtruth, model_rnn$predict, cobbsResult$estimation)
+log3 <- logExperiment(groundtruth, model_DNN$predict, cobbsResult$estimation)
 
 
 ```
@@ -479,13 +479,13 @@ log1
 ```{r}
 
 
-plotBenchmark(log1$resGT, log1$resRNN, log1$resGauss)
+plotBenchmark(log1$resGT, log1$resDNN, log1$resGauss)
 print("----Evaluation Time----")
 print("Groundtruth:")
 print(log1$timeGT)
 print("")
-print("RNN:")
-print(log1$timeRNN)
+print("DNN:")
+print(log1$timeDNN)
 print("")
 print("GaussEstimation:")
 print(log1$timeGauss)
@@ -507,13 +507,13 @@ log2
 
 ```{r}
 
-plotBenchmark(log2$resGT, log2$resRNN, log2$resGauss)
+plotBenchmark(log2$resGT, log2$resDNN, log2$resGauss)
 print("----Evaluation Time----")
 print("Groundtruth:")
 print(log2$timeGT)
 print("")
-print("RNN:")
-print(log2$timeRNN)
+print("DNN:")
+print(log2$timeDNN)
 print("")
 print("GaussEstimation:")
 print(log2$timeGauss)
@@ -533,13 +533,13 @@ log3
 
 ```{r}
 
-plotBenchmark(log3$resGT, log3$resRNN, log3$resGauss)
+plotBenchmark(log3$resGT, log3$resDNN, log3$resGauss)
 print("----Evaluation Time----")
 print("Groundtruth:")
 print(log3$timeGT)
 print("")
-print("RNN:")
-print(log3$timeRNN)
+print("DNN:")
+print(log3$timeDNN)
 print("")
 print("GaussEstimation:")
 print(log3$timeGauss)
